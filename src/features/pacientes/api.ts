@@ -1,6 +1,7 @@
 import type { Paciente, NuevoPacienteInput } from "./types";
 import type { HistoriaClinica } from "./types";
 import { historiaClinicaVacia } from "./types";
+import type { RegistroClinico, NuevoRegistroClinicoInput } from "./types";
 
 
 // Cuando exista el comando de Rust (#[tauri::command] fn listar_pacientes),
@@ -115,5 +116,86 @@ export async function guardarHistoriaClinica(
     return;
   }
   // return invoke("guardar_historia_clinica", { pacienteId, datos });
+  throw new Error("Backend real aún no conectado");
+}
+
+
+const MOCK_REGISTROS: RegistroClinico[] = [
+  {
+    id: 1,
+    paciente_id: 1,
+    fecha: "2026-02-27",
+    titulo: "Gingivitis",
+    descripcion: "Inflamación leve observada en cuadrante inferior",
+  },
+];
+
+export async function listarRegistrosClinicos(pacienteId: number): Promise<RegistroClinico[]> {
+  if (USE_MOCK) {
+    await new Promise((r) => setTimeout(r, 200));
+    return MOCK_REGISTROS
+      .filter((r) => r.paciente_id === pacienteId)
+      .sort((a, b) => (a.fecha < b.fecha ? 1 : -1)); // más reciente primero
+  }
+  // return invoke<RegistroClinico[]>("listar_registros_clinicos", { pacienteId });
+  throw new Error("Backend real aún no conectado");
+}
+
+export async function crearRegistroClinico(
+  pacienteId: number,
+  data: NuevoRegistroClinicoInput
+): Promise<RegistroClinico> {
+  if (USE_MOCK) {
+    await new Promise((r) => setTimeout(r, 250));
+    const nuevo: RegistroClinico = {
+      id: Math.max(0, ...MOCK_REGISTROS.map((r) => r.id)) + 1,
+      paciente_id: pacienteId,
+      ...data,
+    };
+    MOCK_REGISTROS.unshift(nuevo);
+    return nuevo;
+  }
+  // return invoke<RegistroClinico>("crear_registro_clinico", { pacienteId, data });
+  throw new Error("Backend real aún no conectado");
+}
+
+import type { OdontogramaCompleto, ModoOdontograma, DienteData } from "./types";
+import { crearOdontogramaVacio, NUMEROS_ADULTO, NUMEROS_INFANTIL } from "./odontogramaConstants";
+
+const MOCK_ODONTOGRAMAS: Record<number, OdontogramaCompleto> = {};
+
+function odontogramaVacioCompleto(): OdontogramaCompleto {
+  return {
+    adulto: crearOdontogramaVacio(NUMEROS_ADULTO),
+    infantil: crearOdontogramaVacio(NUMEROS_INFANTIL),
+  };
+}
+
+export async function obtenerOdontograma(pacienteId: number): Promise<OdontogramaCompleto> {
+  if (USE_MOCK) {
+    await new Promise((r) => setTimeout(r, 200));
+    if (!MOCK_ODONTOGRAMAS[pacienteId]) {
+      MOCK_ODONTOGRAMAS[pacienteId] = odontogramaVacioCompleto();
+    }
+    return MOCK_ODONTOGRAMAS[pacienteId];
+  }
+  // return invoke<OdontogramaCompleto>("obtener_odontograma", { pacienteId });
+  throw new Error("Backend real aún no conectado");
+}
+
+export async function guardarOdontograma(
+  pacienteId: number,
+  modo: ModoOdontograma,
+  dientes: Record<string, DienteData>
+): Promise<void> {
+  if (USE_MOCK) {
+    await new Promise((r) => setTimeout(r, 250));
+    if (!MOCK_ODONTOGRAMAS[pacienteId]) {
+      MOCK_ODONTOGRAMAS[pacienteId] = odontogramaVacioCompleto();
+    }
+    MOCK_ODONTOGRAMAS[pacienteId][modo] = dientes;
+    return;
+  }
+  // return invoke("guardar_odontograma", { pacienteId, modo, dientes });
   throw new Error("Backend real aún no conectado");
 }

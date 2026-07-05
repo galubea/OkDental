@@ -1,0 +1,141 @@
+.rc-card {
+  background: var(--od-white);
+  border-radius: var(--od-radius);
+  box-shadow: var(--od-shadow);
+  padding: 32px 40px;
+}
+
+.rc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.rc-titulo {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--od-text);
+  margin: 0;
+}
+
+.rc-btn-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #e8f0fe;
+  color: var(--od-primary);
+  border: none;
+  border-radius: var(--od-radius-sm);
+  padding: 9px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.rc-btn-add:hover {
+  background: #d7e6fd;
+}
+
+.rc-timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.rc-item {
+  display: flex;
+  gap: 20px;
+}
+
+.rc-punto-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 12px;
+}
+
+.rc-punto {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--od-primary);
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.rc-linea {
+  flex: 1;
+  width: 1.5px;
+  background: var(--od-border);
+  margin-top: 4px;
+}
+
+.rc-item:last-child .rc-linea {
+  display: none;
+}
+
+.rc-contenido {
+  flex: 1;
+  background: var(--od-input-bg);
+  border-radius: var(--od-radius-sm);
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rc-fecha {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--od-primary);
+}
+
+.rc-item-titulo {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--od-text);
+}
+
+.rc-item-desc {
+  margin: 2px 0 0 0;
+  font-size: 13.5px;
+  color: var(--od-subtext);
+  line-height: 1.5;
+}
+
+.rc-vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  color: var(--od-subtext);
+  padding: 50px 0;
+  font-size: 14px;
+}
+.rc-vacio svg {
+  color: var(--od-border);
+}
+.rc-vacio p {
+  margin: 0;
+}
+
+.rc-textarea {
+  min-height: 72px;
+  border: 1.5px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+  background: var(--od-input-bg);
+  padding: 10px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--od-text);
+  resize: vertical;
+}
+.rc-textarea:focus {
+  outline: none;
+  border-color: var(--od-primary);
+  background: var(--od-white);
+}

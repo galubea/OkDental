@@ -88,3 +88,44 @@ export function historiaClinicaVacia(): HistoriaClinica {
     observaciones: "",
   };
 }
+
+// ---------- Resumen Clínico (bitácora de visitas) ----------
+export interface RegistroClinico {
+  id: number;
+  paciente_id: number;
+  fecha: string;     // ISO, ej: "2026-02-27"
+  titulo: string;     // ej: "Gingivitis"
+  descripcion: string; // ej: "Inflamación leve en cuadrante inferior"
+}
+
+export interface NuevoRegistroClinicoInput {
+  fecha: string;
+  titulo: string;
+  descripcion: string;
+}
+
+// ---------- Odontograma ----------
+export type SuperficieDental = "vestibular" | "lingual" | "mesial" | "distal" | "oclusal";
+
+export type EstadoDental =
+  | "sano"
+  | "caries"
+  | "obturado"
+  | "corona"
+  | "sellante"
+  | "fracturado"
+  | "extraccion_indicada"
+  | "ausente";
+
+export interface DienteData {
+  numero: string;
+  ausente: boolean;
+  superficies: Record<SuperficieDental, EstadoDental>;
+}
+
+export interface OdontogramaCompleto {
+  adulto: Record<string, DienteData>;
+  infantil: Record<string, DienteData>;
+}
+
+export type ModoOdontograma = "adulto" | "infantil";

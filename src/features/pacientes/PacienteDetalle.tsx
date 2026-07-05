@@ -2,6 +2,7 @@ import { useState } from "react";
 import { usePacienteDetalle } from "./hooks/usePacienteDetalle";
 import { PacienteDetalleBanner, InfoPersonalTab } from "./components";
 import HistoriaClinicaTab from "./HistoriaClinicaTab";
+import ResumenClinicoTab from "./ResumenClinicoTab";
 import "./pacientes.css";
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
   onVolver: () => void;
 }
 
-type TabDetalle = "info" | "historia";
+type TabDetalle = "info" | "historia" | "resumen";
 
 export default function PacienteDetalle({ pacienteId, onVolver }: Props) {
   const { paciente, cargando, error, guardando, guardar } = usePacienteDetalle(pacienteId);
@@ -44,7 +45,12 @@ export default function PacienteDetalle({ pacienteId, onVolver }: Props) {
         >
           Historia Clínica
         </span>
-        {/* Próximas pestañas: Resumen, Citas, Fotos, Odontograma */}
+        <span
+          className={`od-detalle-tab ${tab === "resumen" ? "activo" : ""}`}
+          onClick={() => setTab("resumen")}
+        >
+          Resumen Clínico
+        </span>
       </div>
 
       {tab === "info" && (
@@ -59,6 +65,7 @@ export default function PacienteDetalle({ pacienteId, onVolver }: Props) {
       )}
 
       {tab === "historia" && <HistoriaClinicaTab pacienteId={pacienteId} />}
+      {tab === "resumen" && <ResumenClinicoTab pacienteId={pacienteId} />}
     </div>
   );
 }
