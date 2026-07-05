@@ -1,0 +1,155 @@
+/* ---------- Detalle: Historia Clínica ---------- */
+.hc-card {
+  background: var(--od-white);
+  border-radius: var(--od-radius);
+  box-shadow: var(--od-shadow);
+  padding: 32px 40px 28px;
+}
+
+.hc-titulo {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--od-text);
+  margin: 0 0 24px 0;
+}
+
+.hc-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--od-subtext);
+  margin: 0 0 14px 0;
+}
+
+.hc-fila {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 20px;
+}
+
+.hc-campo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hc-campo label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--od-label);
+}
+
+.hc-valor {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--od-text);
+  line-height: 1.5;
+}
+
+.hc-campo textarea {
+  min-height: 72px;
+  border: 1.5px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+  background: var(--od-input-bg);
+  padding: 10px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--od-text);
+  resize: vertical;
+}
+.hc-campo textarea:focus {
+  outline: none;
+  border-color: var(--od-primary);
+  background: var(--od-white);
+}
+
+.hc-radio-group {
+  display: flex;
+  gap: 20px;
+}
+.hc-radio {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--od-text);
+  cursor: pointer;
+}
+.hc-radio input {
+  accent-color: var(--od-primary);
+  width: 16px;
+  height: 16px;
+}
+
+.hc-checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px 16px;
+}
+.hc-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--od-text);
+  cursor: pointer;
+}
+.hc-checkbox input {
+  accent-color: var(--od-primary);
+  width: 16px;
+  height: 16px;
+}
+
+.hc-divider {
+  border: none;
+  border-top: 1px solid var(--od-border);
+  margin: 4px 0 24px 0;
+}
+
+.hc-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--od-border);
+}
+
+.hc-footer-botones {
+  display: flex;
+  gap: 12px;
+}
+
+.hc-mensaje {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.hc-mensaje-ok { color: var(--od-success-text); }
+.hc-mensaje-error { color: var(--od-required); }
+.hc-mensaje-info { color: #b7791f; }
+
+.hc-estado {
+  padding: 60px 0;
+  text-align: center;
+  color: var(--od-subtext);
+  font-size: 14px;
+}
+
+.hc-campo input[type="text"] {
+  height: 42px;
+  border: 1.5px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+  background: var(--od-input-bg);
+  padding: 0 14px;
+  font-size: 14px;
+  color: var(--od-text);
+}
+.hc-campo input[type="text"]:focus {
+  outline: none;
+  border-color: var(--od-primary);
+  background: var(--od-white);
+}

@@ -6,3 +6,6 @@ export { PacienteTabla } from "./PacienteTabla";
 export { Paginacion } from "./Paginacion";
 export { PacienteDetalleBanner } from "./PacienteDetalleBanner";
 export { InfoPersonalTab } from "./InfoPersonalTab";
+export { CampoFila } from "./CampoFila";
+export { RadioGroup } from "./RadioGroup";
+export { CheckboxGroup } from "./CheckboxGroup";

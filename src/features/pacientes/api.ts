@@ -1,4 +1,7 @@
 import type { Paciente, NuevoPacienteInput } from "./types";
+import type { HistoriaClinica } from "./types";
+import { historiaClinicaVacia } from "./types";
+
 
 // Cuando exista el comando de Rust (#[tauri::command] fn listar_pacientes),
 // descomenta esta línea y borra el bloque MOCK de abajo.
@@ -88,5 +91,29 @@ export async function eliminarPaciente(id: number): Promise<void> {
     return;
   }
   // return invoke("eliminar_paciente", { id });
+  throw new Error("Backend real aún no conectado");
+}
+
+const MOCK_HISTORIAS: Record<number, HistoriaClinica> = {};
+
+export async function obtenerHistoriaClinica(pacienteId: number): Promise<HistoriaClinica> {
+  if (USE_MOCK) {
+    await new Promise((r) => setTimeout(r, 200));
+    return MOCK_HISTORIAS[pacienteId] ?? historiaClinicaVacia();
+  }
+  // return invoke<HistoriaClinica>("obtener_historia_clinica", { pacienteId });
+  throw new Error("Backend real aún no conectado");
+}
+
+export async function guardarHistoriaClinica(
+  pacienteId: number,
+  datos: HistoriaClinica
+): Promise<void> {
+  if (USE_MOCK) {
+    await new Promise((r) => setTimeout(r, 250));
+    MOCK_HISTORIAS[pacienteId] = datos;
+    return;
+  }
+  // return invoke("guardar_historia_clinica", { pacienteId, datos });
   throw new Error("Backend real aún no conectado");
 }

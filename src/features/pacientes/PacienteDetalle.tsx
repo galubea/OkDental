@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { usePacienteDetalle } from "./hooks/usePacienteDetalle";
 import { PacienteDetalleBanner, InfoPersonalTab } from "./components";
+import HistoriaClinicaTab from "./HistoriaClinicaTab";
 import "./pacientes.css";
 
 interface Props {
@@ -8,9 +9,12 @@ interface Props {
   onVolver: () => void;
 }
 
+type TabDetalle = "info" | "historia";
+
 export default function PacienteDetalle({ pacienteId, onVolver }: Props) {
   const { paciente, cargando, error, guardando, guardar } = usePacienteDetalle(pacienteId);
   const [editando, setEditando] = useState(false);
+  const [tab, setTab] = useState<TabDetalle>("info");
 
   async function handleGuardar(cambios: Parameters<typeof guardar>[0]) {
     const ok = await guardar(cambios as any);
@@ -28,18 +32,33 @@ export default function PacienteDetalle({ pacienteId, onVolver }: Props) {
       <PacienteDetalleBanner paciente={paciente} onVolver={onVolver} />
 
       <div className="od-detalle-tabs">
-        <span className="od-detalle-tab activo">Info Personal</span>
-        {/* Próximas pestañas: Resumen, Historial Médico, Citas, Fotos, Odontograma */}
+        <span
+          className={`od-detalle-tab ${tab === "info" ? "activo" : ""}`}
+          onClick={() => setTab("info")}
+        >
+          Info Personal
+        </span>
+        <span
+          className={`od-detalle-tab ${tab === "historia" ? "activo" : ""}`}
+          onClick={() => setTab("historia")}
+        >
+          Historia Clínica
+        </span>
+        {/* Próximas pestañas: Resumen, Citas, Fotos, Odontograma */}
       </div>
 
-      <InfoPersonalTab
-        paciente={paciente}
-        editando={editando}
-        guardando={guardando}
-        onGuardar={handleGuardar}
-        onEditar={() => setEditando(true)}
-        onCancelar={() => setEditando(false)}
-      />
+      {tab === "info" && (
+        <InfoPersonalTab
+          paciente={paciente}
+          editando={editando}
+          guardando={guardando}
+          onGuardar={handleGuardar}
+          onEditar={() => setEditando(true)}
+          onCancelar={() => setEditando(false)}
+        />
+      )}
+
+      {tab === "historia" && <HistoriaClinicaTab pacienteId={pacienteId} />}
     </div>
   );
 }
