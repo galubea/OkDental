@@ -1,12 +1,6 @@
-import { Phone, Mail, IdCard, ChevronRight } from "lucide-react";
+import { Phone, Clock, ChevronRight } from "lucide-react";
 import type { Paciente } from "../types";
-
-function iniciales(nombre: string): string {
-  const partes = nombre.trim().split(/\s+/);
-  const first = partes[0]?.[0] ?? "";
-  const last = partes.length > 1 ? partes[partes.length - 1][0] : "";
-  return (first + last).toUpperCase();
-}
+import { iniciales, formatFecha } from "../utils/utils";
 
 interface Props {
   paciente: Paciente;
@@ -29,12 +23,8 @@ export function PacienteCard({ paciente, onClick }: Props) {
         <span>{paciente.telefono || "Sin teléfono registrado"}</span>
       </div>
       <div className="od-info-row">
-        <Mail size={15} strokeWidth={2} className="od-icon" />
-        <span>{paciente.email || "Sin correo registrado"}</span>
-      </div>
-      <div className="od-info-row">
-        <IdCard size={15} strokeWidth={2} className="od-icon" />
-        <span>CI {paciente.ci}</span>
+        <Clock size={15} strokeWidth={2} className="od-icon" />
+        <span>Última visita: {formatFecha(paciente.fecha_ultima_visita)}</span>
       </div>
 
       <div className="od-card-footer">
