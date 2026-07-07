@@ -3,7 +3,7 @@ import { Plus, FileClock } from "lucide-react";
 import { useRegistrosClinicos } from "./hooks/useRegistrosClinicos";
 import { NuevoRegistroModal } from "./components/NuevoRegistroModal";
 import { formatFecha } from "./utils/utils";
-import "./resumenClinico.css";
+import "./styles/resumenClinico.css";
 
 interface Props {
   pacienteId: number;

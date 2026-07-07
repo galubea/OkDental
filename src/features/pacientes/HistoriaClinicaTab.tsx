@@ -1,7 +1,7 @@
 import { Pencil, X, Save } from "lucide-react";
 import { useHistoriaClinica } from "./hooks/useHistoriaClinica";
 import { CampoFila, RadioGroup, CheckboxGroup } from "./components";
-import "./historiaClinica.css";
+import "./styles/historiaClinica.css";
 
 const ANTECEDENTES_PERSONALES = [
   "Anemia", "Cardiopatías", "Chagas",

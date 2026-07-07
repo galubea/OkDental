@@ -1,4 +1,4 @@
-import type { EstadoDental, DienteData } from "./types";
+import type { EstadoDental, DienteData } from "../types";
 
 export const NUMEROS_ADULTO = {
   superiorDerecho: ["18", "17", "16", "15", "14", "13", "12", "11"],

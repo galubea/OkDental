@@ -160,7 +160,7 @@ export async function crearRegistroClinico(
 }
 
 import type { OdontogramaCompleto, ModoOdontograma, DienteData } from "./types";
-import { crearOdontogramaVacio, NUMEROS_ADULTO, NUMEROS_INFANTIL } from "./odontogramaConstants";
+import { crearOdontogramaVacio, NUMEROS_ADULTO, NUMEROS_INFANTIL } from "./utils/odontogramaConstants";
 
 const MOCK_ODONTOGRAMAS: Record<number, OdontogramaCompleto> = {};
 

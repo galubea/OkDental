@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Avance, DienteData, EstadoDental, ModoOdontograma, SuperficieDental } from "../types";
 import { obtenerOdontograma, guardarOdontograma } from "../api";
-import { ESTADOS_DENTALES } from "../odontogramaConstants";
+import { ESTADOS_DENTALES } from "../utils/odontogramaConstants";
 
 export function useOdontograma(pacienteId: number) {
   const [modo, setModo] = useState<ModoOdontograma>("adulto");

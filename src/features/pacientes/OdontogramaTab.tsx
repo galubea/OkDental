@@ -3,9 +3,9 @@ import { useOdontograma } from "./hooks/useOdontograma";
 import { DienteSVG } from "./components/DienteSVG";
 import { PanelDiente } from "./components/PanelDiente";
 import { PaletaPintura } from "./components/PaletaPintura";
-import { NUMEROS_ADULTO, NUMEROS_INFANTIL } from "./odontogramaConstants";
+import { NUMEROS_ADULTO, NUMEROS_INFANTIL } from "./utils/odontogramaConstants";
 import { useState } from "react";
-import "./odontograma.css";
+import "./styles/odontograma.css";
 
 interface Props {
   pacienteId: number;

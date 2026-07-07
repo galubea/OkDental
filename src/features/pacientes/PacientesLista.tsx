@@ -11,7 +11,7 @@ import {
 } from "./components";
 
 type VistaPacientes = "cards" | "tabla";
-import "./pacientes.css";
+import "./styles/Pacientes.css";
 
 interface Props {
   onAbrirPaciente: (id: number) => void;

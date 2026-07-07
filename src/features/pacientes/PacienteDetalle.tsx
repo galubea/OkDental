@@ -4,7 +4,7 @@ import { PacienteDetalleBanner, InfoPersonalTab } from "./components";
 import HistoriaClinicaTab from "./HistoriaClinicaTab";
 import ResumenClinicoTab from "./ResumenClinicoTab";
 import OdontogramaTab from "./OdontogramaTab";
-import "./pacientes.css";
+import "./styles/Pacientes.css";
 
 interface Props {
   pacienteId: number;

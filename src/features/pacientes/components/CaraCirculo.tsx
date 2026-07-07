@@ -1,5 +1,5 @@
 import type { DienteData, SuperficieDental } from "../types";
-import { ESTADOS_DENTALES } from "../odontogramaConstants";
+import { ESTADOS_DENTALES } from "../utils/odontogramaConstants";
 
 interface Props {
   diente: DienteData;

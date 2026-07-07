@@ -1,4 +1,4 @@
-import type { SuperficieDental } from "./types";
+import type { SuperficieDental } from "../types";
 
 export type TipoDiente = "incisivo" | "canino" | "premolar" | "molar";
 

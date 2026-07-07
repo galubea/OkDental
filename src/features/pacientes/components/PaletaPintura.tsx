@@ -1,5 +1,5 @@
 import type { EstadoDental } from "../types";
-import { ESTADOS_DENTALES } from "../odontogramaConstants";
+import { ESTADOS_DENTALES } from "../utils/odontogramaConstants";
 
 interface Props {
   pincelActivo: EstadoDental | null;
