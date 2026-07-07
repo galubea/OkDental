@@ -15,14 +15,14 @@ export const NUMEROS_INFANTIL = {
 };
 
 export const ESTADOS_DENTALES: { key: EstadoDental; label: string; color: string }[] = [
-  { key: "sano", label: "Sano", color: "#ffffff" },
-  { key: "caries", label: "Caries", color: "#e53e3e" },
-  { key: "obturado", label: "Obturado", color: "#1a73e8" },
-  { key: "corona", label: "Corona", color: "#d69e2e" },
-  { key: "sellante", label: "Sellante", color: "#38a169" },
-  { key: "fracturado", label: "Fracturado", color: "#805ad5" },
-  { key: "extraccion_indicada", label: "Extracción indicada", color: "#dd6b20" },
-  { key: "ausente", label: "Ausente", color: "#a0aec0" },
+  { key: "sano",                 label: "Sano",                color: "transparent" },
+  { key: "caries",               label: "Caries",              color: "#F5B8B8" }, 
+  { key: "obturado",             label: "Obturado",            color: "#AECBF2" }, 
+  { key: "corona",               label: "Corona",              color: "#F3DBA3" }, 
+  { key: "sellante",             label: "Sellante",            color: "#B7E4C7" }, 
+  { key: "fracturado",           label: "Fracturado",          color: "#D6C2ED" }, 
+  { key: "extraccion_indicada",  label: "Extracción indicada", color: "#F3C9A8" }, 
+  { key: "ausente",              label: "Ausente",             color: "#CBD2D9" }, 
 ];
 
 function dienteVacio(numero: string): DienteData {
@@ -36,6 +36,8 @@ function dienteVacio(numero: string): DienteData {
       distal: "sano",
       oclusal: "sano",
     },
+    observacion: "",
+    avances: [],
   };
 }
 

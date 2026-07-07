@@ -1,0 +1,523 @@
+/* ===== Card contenedor ===== */
+
+/* ===== Header ===== */
+.odo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.odo-titulo {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--od-text);
+  margin: 0;
+}
+
+.odo-header-derecha {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.odo-modo-btn {
+  border: none;
+  background: transparent;
+  border-radius: 7px;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--od-subtext);
+  cursor: pointer;
+}
+.odo-modo-btn.activo {
+  background: var(--od-white);
+  color: var(--od-primary);
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.12);
+}
+
+/* ===== Resumen de hallazgos ===== */
+.odo-resumen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.odo-resumen-vacio {
+  font-size: 12.5px;
+  color: var(--od-subtext);
+}
+.odo-resumen-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f7fafc;
+  border: 1px solid var(--od-border);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--od-text);
+}
+.odo-resumen-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ===== Hint ===== */
+.odo-hint {
+  font-size: 12px;
+  color: var(--od-subtext);
+  margin: 0 0 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--od-border);
+}
+
+
+
+/* ===== Arcadas ===== */
+.odo-arcadas {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.odo-arcada:last-child {
+  margin-bottom: 8px;
+}
+/* ===== Modal ===== */
+.odo-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.odo-modal-contenido {
+  width: 100%;
+  max-width: 360px;
+  max-height: 85vh;
+  overflow-y: auto;
+  animation: odo-modal-in 0.15s ease-out;
+}
+
+@keyframes odo-modal-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.odo-fila {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.odo-linea-media {
+  width: 1.5px;
+  align-self: stretch;
+  background: var(--od-border);
+  margin: 0 6px;
+}
+
+/* ===== Diente individual ===== */
+.odo-diente {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 4px;
+  transition: background 0.12s ease;
+}
+.odo-diente:hover {
+  background: #f1f5fb;
+}
+.odo-diente-seleccionado {
+  background: #e8f0fe;
+  box-shadow: 0 0 0 2px var(--od-primary);
+}
+
+.odo-diente-svg {
+  width: 56px;
+  height: 56px;
+}
+
+.odo-cara-circulo {
+  width: 40px;
+  height: 40px;
+}
+.odo-cara-circulo.odo-ausente {
+  opacity: 0.6;
+}
+
+.odo-diente-numero {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--od-subtext);
+  user-select: none;
+}
+
+/* ===== Mensaje de guardado ===== */
+.odo-mensaje {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--od-success-text);
+  margin-top: 8px;
+}
+
+/* ===== Panel lateral del diente ===== */
+.odo-card {
+  position: relative; /* ancla del panel docked */
+  background: var(--od-white);
+  border-radius: var(--od-radius);
+  box-shadow: var(--od-shadow);
+  padding: 32px 40px;
+}
+
+/* ---------- Panel docked (esquina superior derecha) ---------- */
+.odo-panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 300px;
+  max-height: calc(100% - 40px);
+  overflow-y: auto;
+  background: var(--od-white);
+  border: 1px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+  box-shadow: var(--od-shadow-hover);
+  z-index: 10;
+}
+
+.odo-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--od-border);
+  position: sticky;
+  top: 0;
+  background: var(--od-white);
+  border-radius: var(--od-radius-sm) var(--od-radius-sm) 0 0;
+}
+
+.odo-panel-colapsado .odo-panel-header {
+  border-bottom: none;
+  border-radius: var(--od-radius-sm);
+}
+
+.odo-panel-titulo {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--od-text);
+}
+
+.odo-panel-header-acciones {
+  display: flex;
+  gap: 2px;
+}
+
+.odo-panel-icon-btn {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  color: var(--od-subtext);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.odo-panel-icon-btn:hover {
+  background: var(--od-input-bg);
+  color: var(--od-text);
+}
+
+.odo-panel-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.odo-panel-seccion {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.odo-panel-subtitulo {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--od-subtext);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.odo-panel-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.odo-panel-swatch {
+  border: 1.5px solid var(--od-border);
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--od-label);
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+.odo-panel-swatch:hover {
+  border-color: var(--od-primary);
+}
+
+.odo-panel-cara-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.odo-panel-cara-label {
+  font-size: 12.5px;
+  color: var(--od-text);
+}
+
+.odo-panel-swatches-mini {
+  display: flex;
+  gap: 4px;
+}
+
+.odo-panel-swatch-mini {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  border: 1.5px solid var(--od-border);
+  cursor: pointer;
+  padding: 0;
+}
+.odo-panel-swatch-mini.activo {
+  border-color: var(--od-primary);
+  outline: 2px solid var(--od-primary);
+  outline-offset: 1px;
+}
+
+.odo-panel-textarea {
+  min-height: 64px;
+  border: 1.5px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+  background: var(--od-input-bg);
+  padding: 8px 10px;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--od-text);
+  resize: vertical;
+}
+.odo-panel-textarea:focus {
+  outline: none;
+  border-color: var(--od-primary);
+  background: var(--od-white);
+}
+
+.odo-panel-ausente {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--od-subtext);
+}
+
+.odo-panel-reactivar,
+.odo-panel-resetear {
+  border: 1.5px solid var(--od-border);
+  background: transparent;
+  border-radius: var(--od-radius-sm);
+  padding: 8px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--od-label);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.odo-panel-reactivar:hover,
+.odo-panel-resetear:hover {
+  background: var(--od-input-bg);
+}
+
+/* ---------- Barra de pincel rápido ---------- */
+.odo-pincel-barra {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: var(--od-input-bg);
+  border: 1px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+  padding: 12px 16px;
+  margin-bottom: 20px;
+}
+
+.odo-pincel-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--od-label);
+  white-space: nowrap;
+}
+
+.odo-pincel-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.odo-pincel-swatch {
+  border: 1.5px solid var(--od-border);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--od-label);
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.odo-pincel-swatch:hover {
+  border-color: var(--od-primary);
+}
+.odo-pincel-swatch.activo {
+  border-color: var(--od-primary);
+  box-shadow: 0 0 0 2px #e8f0fe;
+}
+
+.odo-pincel-limpiar {
+  border: none;
+  background: transparent;
+  color: var(--od-required);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.odo-pincel-hint {
+  font-size: 12px;
+  color: var(--od-primary);
+  font-weight: 600;
+  width: 100%;
+}
+
+/* ---------- Avances en el panel ---------- */
+.odo-panel-avances-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+.odo-panel-avances-vacio {
+  font-size: 12.5px;
+  color: var(--od-subtext);
+  margin: 0;
+}
+
+.odo-panel-avance-item {
+  background: var(--od-input-bg);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.odo-panel-avance-fecha {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--od-primary);
+  text-transform: uppercase;
+}
+
+.odo-panel-avance-texto {
+  margin: 3px 0 0 0;
+  font-size: 12.5px;
+  color: var(--od-text);
+  line-height: 1.4;
+}
+
+.odo-panel-avance-nuevo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.odo-panel-agregar-avance {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  align-self: flex-end;
+  background: var(--od-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.odo-panel-agregar-avance:hover {
+  background: var(--od-primary-hover);
+}
+
+/* ---------- Vista previa del diente en el panel ---------- */
+.odo-panel-preview {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0 12px 0;
+}
+
+.odo-panel-preview-svg {
+  width: 90px;
+  height: 90px;
+}
+
+/* ---------- Resumen en el panel ---------- */
+.odo-panel-resumen-vacio {
+  font-size: 12.5px;
+  color: var(--od-subtext);
+  margin: 0;
+}
+
+.odo-panel-resumen-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.odo-panel-resumen-fila {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--od-text);
+}
+
+.odo-panel-resumen-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}

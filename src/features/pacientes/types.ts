@@ -121,6 +121,8 @@ export interface DienteData {
   numero: string;
   ausente: boolean;
   superficies: Record<SuperficieDental, EstadoDental>;
+  observacion: string;   
+  avances: Avance[];     
 }
 
 export interface OdontogramaCompleto {
@@ -129,3 +131,16 @@ export interface OdontogramaCompleto {
 }
 
 export type ModoOdontograma = "adulto" | "infantil";
+
+export interface Avance {
+  id: string;
+  fecha: string; 
+  texto: string;
+}
+
+export interface DienteData {
+  numero: string;
+  ausente: boolean;
+  superficies: Record<SuperficieDental, EstadoDental>;
+  avances: Avance[]; 
+}
