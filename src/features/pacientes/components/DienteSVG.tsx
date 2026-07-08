@@ -30,14 +30,10 @@ export function DienteSVG({ diente, indiceSvg, esSuperior, seleccionado, onClick
   );
 
   return (
-    <div
-      className={`odo-diente ${seleccionado ? "odo-diente-seleccionado" : ""}`}
-      onClick={onClick}
-    >
-      {esSuperior && <CaraCirculo diente={diente} onCaraClick={onCaraClick} />}
-      {dienteSvg}
-      <span className="odo-diente-numero">{numero}</span>
-      {!esSuperior && <CaraCirculo diente={diente} onCaraClick={onCaraClick} />}
-    </div>
-  );
+  <div className={`odo-diente ${seleccionado ? "odo-diente-seleccionado" : ""}`} onClick={onClick}>
+    <CaraCirculo diente={diente} onCaraClick={onCaraClick} />
+    {dienteSvg}
+    <span className="odo-diente-numero">{numero}</span>
+  </div>
+);
 }

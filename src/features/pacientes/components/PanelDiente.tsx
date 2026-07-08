@@ -86,7 +86,7 @@ function calcularResumen(diente: DienteData) {
 
 export function PanelDiente({
   numero, diente, colapsado, onToggleColapsar,
-  onEstadoGeneral, onEstadoCara, onReactivar, onResetear,
+  onReactivar, onResetear,
   onObservacionChange, onAgregarAvance, onCerrar,
   esInfantil
 }: Props) {
@@ -151,42 +151,6 @@ export function PanelDiente({
             </div>
           ) : (
             <>
-              <div className="odo-panel-seccion">
-                <span className="odo-panel-subtitulo">Estado general</span>
-                <div className="odo-panel-swatches">
-                  {ESTADOS_DENTALES.map((e) => (
-                    <button
-                      key={e.key}
-                      className="odo-panel-swatch"
-                      style={{ background: e.color === "transparent" ? "#fff" : e.color }}
-                      onClick={() => onEstadoGeneral(e.key)}
-                      title={e.label}
-                    >
-                      {e.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="odo-panel-seccion">
-                <span className="odo-panel-subtitulo">Por superficie</span>
-                {CARAS.map((c) => (
-                  <div key={c.key} className="odo-panel-cara-row">
-                    <span className="odo-panel-cara-label">{c.label}</span>
-                    <div className="odo-panel-swatches-mini">
-                      {ESTADOS_DENTALES.map((e) => (
-                        <button
-                          key={e.key}
-                          className={`odo-panel-swatch-mini ${diente.superficies[c.key] === e.key ? "activo" : ""}`}
-                          style={{ background: e.color === "transparent" ? "#fff" : e.color }}
-                          onClick={() => onEstadoCara(c.key, e.key)}
-                          title={e.label}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
             </>
           )}
 

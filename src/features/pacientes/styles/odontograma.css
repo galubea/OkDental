@@ -1,4 +1,33 @@
-/* ===== Card contenedor ===== */
+/* ===== Layout de 2 tarjetas hermanas ===== */
+.odo-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+}
+
+/* ===== Tarjeta del odontograma ===== */
+.odo-card {
+  flex: 1;
+  min-width: 0; /* permite que .odo-arcadas siga haciendo scroll-x sin desbordar */
+  background: var(--od-white);
+  border-radius: var(--od-radius);
+  box-shadow: var(--od-shadow);
+  padding: 32px 40px;
+  transition: margin-right 0.25s ease;
+}
+
+/* ---------- Slot del panel: tarjeta aparte, empuja sin superponerse ---------- */
+.odo-panel-slot {
+  width: 0;
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: width 0.25s ease;
+}
+
+.odo-panel-slot-abierto {
+  width: 300px;
+  margin-left: 20px;
+}
 
 /* ===== Header ===== */
 .odo-header {
@@ -78,18 +107,39 @@
   border-bottom: 1px solid var(--od-border);
 }
 
-
-
+/* ===== Arcadas ===== */
 /* ===== Arcadas ===== */
 .odo-arcadas {
   width: 100%;
   overflow-x: auto;
   padding-bottom: 4px;
 }
+
+.odo-arcada {
+  margin-bottom: 28px;
+}
 .odo-arcada:last-child {
   margin-bottom: 8px;
 }
-/* ===== Modal ===== */
+
+.odo-arcada-titulo {
+  text-align: center;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--od-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 14px 0;
+}
+
+.odo-fila {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* ===== Modal (si aún lo usas en otra parte) ===== */
 .odo-modal-overlay {
   position: fixed;
   inset: 0;
@@ -175,28 +225,15 @@
   margin-top: 8px;
 }
 
-/* ===== Panel lateral del diente ===== */
-.odo-card {
-  position: relative; /* ancla del panel docked */
+/* ---------- Panel: tarjeta independiente ---------- */
+.odo-panel {
+  width: 300px;
+  max-height: 100%;
+  overflow-y: auto;
   background: var(--od-white);
   border-radius: var(--od-radius);
   box-shadow: var(--od-shadow);
-  padding: 32px 40px;
-}
-
-/* ---------- Panel docked (esquina superior derecha) ---------- */
-.odo-panel {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 300px;
-  max-height: calc(100% - 40px);
-  overflow-y: auto;
-  background: var(--od-white);
   border: 1px solid var(--od-border);
-  border-radius: var(--od-radius-sm);
-  box-shadow: var(--od-shadow-hover);
-  z-index: 10;
 }
 
 .odo-panel-header {
@@ -208,12 +245,12 @@
   position: sticky;
   top: 0;
   background: var(--od-white);
-  border-radius: var(--od-radius-sm) var(--od-radius-sm) 0 0;
+  border-radius: var(--od-radius) var(--od-radius) 0 0;
 }
 
 .odo-panel-colapsado .odo-panel-header {
   border-bottom: none;
-  border-radius: var(--od-radius-sm);
+  border-radius: var(--od-radius);
 }
 
 .odo-panel-titulo {
@@ -520,4 +557,36 @@
   border-radius: 50%;
   border: 1px solid rgba(0, 0, 0, 0.1);
   flex-shrink: 0;
+}
+
+/* ---------- Responsive: dientes más chicos cuando el panel está abierto ---------- */
+.odo-layout-panel-abierto .odo-fila {
+  gap: 3px;
+}
+
+.odo-layout-panel-abierto .odo-diente-svg {
+  width: 40px;
+  height: 40px;
+}
+
+.odo-layout-panel-abierto .odo-cara-circulo {
+  width: 30px;
+  height: 30px;
+}
+
+.odo-layout-panel-abierto .odo-diente {
+  padding: 2px;
+}
+
+.odo-layout-panel-abierto .odo-diente-numero {
+  font-size: 9.5px;
+}
+
+@media (max-width: 900px) {
+  .odo-fila {
+    flex-wrap: wrap;
+  }
+  .odo-linea-media {
+    display: none;
+  }
 }
