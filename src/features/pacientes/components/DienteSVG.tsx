@@ -1,17 +1,20 @@
 import type { DienteData, SuperficieDental } from "../types";
 import { getDienteSvgUrl } from "../utils/dientesAssets";
-import { CaraCirculo } from "./CaraCirculo";
+import { DienteFigura } from "./DienteFigura";
 
 interface Props {
   diente: DienteData;
   indiceSvg: number;
   esSuperior: boolean;
+  esInfantil?: boolean;
   seleccionado: boolean;
   onClick: () => void;
   onCaraClick?: (cara: SuperficieDental) => void;
 }
 
-export function DienteSVG({ diente, indiceSvg, esSuperior, seleccionado, onClick, onCaraClick }: Props) {
+export function DienteSVG({
+  diente, indiceSvg, esSuperior, esInfantil, seleccionado, onClick, onCaraClick,
+}: Props) {
   const { ausente, numero } = diente;
   const svgHref = getDienteSvgUrl(indiceSvg, esSuperior);
 
@@ -30,10 +33,15 @@ export function DienteSVG({ diente, indiceSvg, esSuperior, seleccionado, onClick
   );
 
   return (
-  <div className={`odo-diente ${seleccionado ? "odo-diente-seleccionado" : ""}`} onClick={onClick}>
-    <CaraCirculo diente={diente} onCaraClick={onCaraClick} />
-    {dienteSvg}
-    <span className="odo-diente-numero">{numero}</span>
-  </div>
-);
+    <div className={`odo-diente ${seleccionado ? "odo-diente-seleccionado" : ""}`} onClick={onClick}>
+      <DienteFigura
+        diente={diente}
+        esInfantil={esInfantil}
+        onCaraClick={onCaraClick}
+        className="odo-diente-figura-mini"
+      />
+      {dienteSvg}
+      <span className="odo-diente-numero">{numero}</span>
+    </div>
+  );
 }

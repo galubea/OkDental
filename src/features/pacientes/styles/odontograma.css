@@ -559,34 +559,24 @@
   flex-shrink: 0;
 }
 
-/* ---------- Responsive: dientes más chicos cuando el panel está abierto ---------- */
+/* ---------- Responsive: cuando el panel está abierto, la fila se envuelve
+   en 2 líneas en vez de encoger demasiado los dientes ---------- */
 .odo-layout-panel-abierto .odo-fila {
-  gap: 3px;
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 14px;
+}
+
+.odo-layout-panel-abierto .odo-diente-figura-mini {
+  width: 44px;
+  height: 44px;
 }
 
 .odo-layout-panel-abierto .odo-diente-svg {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
 }
 
-.odo-layout-panel-abierto .odo-cara-circulo {
-  width: 30px;
-  height: 30px;
-}
-
-.odo-layout-panel-abierto .odo-diente {
-  padding: 2px;
-}
-
-.odo-layout-panel-abierto .odo-diente-numero {
-  font-size: 9.5px;
-}
-
-@media (max-width: 900px) {
-  .odo-fila {
-    flex-wrap: wrap;
-  }
-  .odo-linea-media {
-    display: none;
-  }
+.odo-layout-panel-abierto .odo-linea-media {
+  display: none; 
 }
