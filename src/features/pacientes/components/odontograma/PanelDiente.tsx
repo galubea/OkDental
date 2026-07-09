@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp, X, Plus } from "lucide-react";
-import type { DienteData, EstadoDental, SuperficieDental } from "../types";
-import { ESTADOS_DENTALES } from "../utils/odontogramaConstants";
-import { FORMAS_DENTALES, tipoDeDiente, tipoDeDienteInfantil } from "../utils/formasDentales";
+import type { DienteData, EstadoDental, SuperficieDental } from "../../types";
+import { ESTADOS_DENTALES } from "../../utils/odontogramaConstants";
+import { FORMAS_DENTALES, tipoDeDiente, tipoDeDienteInfantil } from "../../utils/formasDentales";
 
 interface Props {
   numero: string;

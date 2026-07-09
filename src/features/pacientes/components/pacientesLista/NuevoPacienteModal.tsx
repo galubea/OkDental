@@ -1,5 +1,5 @@
 import { X, TriangleAlert } from "lucide-react";
-import { useCrearPaciente } from "../hooks/useCrearPaciente";
+import { useCrearPaciente } from "../../hooks/useCrearPaciente";
 
 interface Props {
   onClose: () => void;

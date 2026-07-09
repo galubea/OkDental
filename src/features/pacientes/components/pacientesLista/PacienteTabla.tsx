@@ -1,6 +1,6 @@
 import { ChevronRight } from "lucide-react";
-import type { Paciente } from "../types";
-import { iniciales, formatFecha } from "../utils/utils";
+import type { Paciente } from "../../types";
+import { iniciales, formatFecha } from "../../utils/utils";
 
 interface Props {
   pacientes: Paciente[];

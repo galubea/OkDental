@@ -1,5 +1,5 @@
-import type { DienteData, SuperficieDental } from "../types";
-import { getDienteSvgUrl } from "../utils/dientesAssets";
+import type { DienteData, SuperficieDental } from "../../types";
+import { getDienteSvgUrl } from "../../utils/dientesAssets";
 import { DienteFigura } from "./DienteFigura";
 
 interface Props {

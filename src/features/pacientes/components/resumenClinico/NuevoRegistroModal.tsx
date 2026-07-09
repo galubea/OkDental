@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { X, TriangleAlert } from "lucide-react";
-import type { NuevoRegistroClinicoInput } from "../types";
+import type { NuevoRegistroClinicoInput } from "../../types";
 
 interface Props {
   onClose: () => void;

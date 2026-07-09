@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Save, X, SquarePen } from "lucide-react";
-import type { Paciente } from "../types";
+import type { Paciente } from "../../types";
 
 interface Props {
   paciente: Paciente;

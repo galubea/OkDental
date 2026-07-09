@@ -1,8 +1,8 @@
 import { Save } from "lucide-react";
 import { useOdontograma } from "./hooks/useOdontograma";
-import { DienteSVG } from "./components/DienteSVG";
-import { PanelDiente } from "./components/PanelDiente";
-import { PaletaPintura } from "./components/PaletaPintura";
+import { DienteSVG } from "./components/odontograma/DienteSVG";
+import { PanelDiente } from "./components/odontograma/PanelDiente";
+import { PaletaPintura } from "./components/odontograma/PaletaPintura";
 import { NUMEROS_ADULTO, NUMEROS_INFANTIL } from "./utils/odontogramaConstants";
 import { useState } from "react";
 import "./styles/odontograma.css";

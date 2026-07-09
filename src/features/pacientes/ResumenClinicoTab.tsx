@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Plus, FileClock } from "lucide-react";
 import { useRegistrosClinicos } from "./hooks/useRegistrosClinicos";
-import { NuevoRegistroModal } from "./components/NuevoRegistroModal";
+import { NuevoRegistroModal } from "./components/resumenClinico/NuevoRegistroModal";
 import { formatFecha } from "./utils/utils";
 import "./styles/resumenClinico.css";
 
