@@ -4,6 +4,7 @@ import { PacienteDetalleBanner, InfoPersonalTab } from "./components";
 import HistoriaClinicaTab from "./HistoriaClinicaTab";
 import ResumenClinicoTab from "./ResumenClinicoTab";
 import OdontogramaTab from "./OdontogramaTab";
+import CitasTab from "./CitasTab"; 
 import "./styles/Pacientes.css";
 
 interface Props {
@@ -11,7 +12,7 @@ interface Props {
   onVolver: () => void;
 }
 
-type TabDetalle = "info" | "historia" | "resumen" | "odontograma";
+type TabDetalle = "info" | "historia" | "resumen" | "citas" | "odontograma"; 
 
 export default function PacienteDetalle({ pacienteId, onVolver }: Props) {
   const { paciente, cargando, error, guardando, guardar } = usePacienteDetalle(pacienteId);
@@ -53,6 +54,12 @@ export default function PacienteDetalle({ pacienteId, onVolver }: Props) {
           Resumen Clínico
         </span>
         <span
+          className={`od-detalle-tab ${tab === "citas" ? "activo" : ""}`}
+          onClick={() => setTab("citas")}
+        >
+          Citas
+        </span>
+        <span
           className={`od-detalle-tab ${tab === "odontograma" ? "activo" : ""}`}
           onClick={() => setTab("odontograma")}
         >
@@ -73,6 +80,7 @@ export default function PacienteDetalle({ pacienteId, onVolver }: Props) {
 
       {tab === "historia" && <HistoriaClinicaTab pacienteId={pacienteId} />}
       {tab === "resumen" && <ResumenClinicoTab pacienteId={pacienteId} />}
+      {tab === "citas" && <CitasTab pacienteId={pacienteId} pacienteNombre={paciente.nombre} />}
       {tab === "odontograma" && <OdontogramaTab pacienteId={pacienteId} />}
     </div>
   );

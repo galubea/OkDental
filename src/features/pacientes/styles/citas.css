@@ -1,0 +1,596 @@
+/* ===== Card contenedor ===== */
+.cit-card {
+  background: var(--od-white);
+  border-radius: var(--od-radius);
+  box-shadow: var(--od-shadow);
+  padding: 32px 40px;
+}
+
+/* ===== Header ===== */
+.cit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.cit-titulo {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--od-text);
+  margin: 0;
+}
+.cit-subtitulo {
+  font-size: 12.5px;
+  color: var(--od-subtext);
+  margin: 2px 0 0;
+}
+
+/* ===== Banner de saldo pendiente ===== */
+.cit-saldo-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fdecec;
+  border: 1px solid #f6c6c6;
+  border-radius: var(--od-radius-sm);
+  padding: 16px 20px;
+  margin-bottom: 20px;
+}
+.cit-saldo-label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #c0392b;
+}
+.cit-saldo-monto {
+  display: block;
+  font-size: 22px;
+  font-weight: 800;
+  color: #c0392b;
+  margin-top: 2px;
+}
+.cit-saldo-icono {
+  color: #e0665a;
+  flex-shrink: 0;
+}
+
+/* ===== Vacío ===== */
+.cit-vacio {
+  font-size: 13px;
+  color: var(--od-subtext);
+  text-align: center;
+  padding: 32px 0;
+}
+
+/* ===== Lista de citas ===== */
+.cit-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cit-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.cit-item:hover {
+  box-shadow: var(--od-shadow-hover);
+  border-color: #d7deea;
+}
+
+.cit-item-fecha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 48px;
+  flex-shrink: 0;
+}
+.cit-item-mes {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--od-subtext);
+  letter-spacing: 0.03em;
+}
+.cit-item-dia {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--od-text);
+  line-height: 1.1;
+}
+.cit-item-hora {
+  font-size: 10.5px;
+  color: var(--od-subtext);
+}
+
+.cit-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+.cit-item-motivo {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--od-text);
+}
+
+.cit-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.cit-badge-programada {
+  background: #e8f0fe;
+  color: var(--od-primary);
+}
+.cit-badge-atendida {
+  background: #e3f7ea;
+  color: #279653;
+}
+.cit-badge-cancelada {
+  background: #f1f2f4;
+  color: var(--od-subtext);
+}
+
+.cit-item-montos {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.cit-item-total {
+  font-size: 11.5px;
+  color: var(--od-subtext);
+}
+.cit-item-saldo {
+  font-size: 15px;
+  font-weight: 800;
+  color: #c0392b;
+}
+
+.cit-item-chevron {
+  color: var(--od-subtext);
+  flex-shrink: 0;
+}
+
+/* ===== Modal Nueva Cita ===== */
+.cit-modal {
+  background: var(--od-white);
+  border-radius: var(--od-radius);
+  padding: 24px 28px;
+  max-width: 380px;
+}
+.cit-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.cit-modal-titulo {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--od-text);
+  margin: 0;
+}
+.cit-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.cit-modal-fila {
+  display: flex;
+  gap: 14px;
+}
+.cit-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+.cit-campo-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--od-label);
+}
+.cit-input {
+  border: 1.5px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+  background: var(--od-input-bg);
+  padding: 9px 12px;
+  font-size: 13.5px;
+  font-family: inherit;
+  color: var(--od-text);
+}
+.cit-input:focus {
+  outline: none;
+  border-color: var(--od-primary);
+  background: var(--od-white);
+}
+
+.cit-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+.cit-btn-secundario {
+  border: 1.5px solid var(--od-border);
+  background: transparent;
+  border-radius: var(--od-radius-sm);
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--od-label);
+  cursor: pointer;
+}
+.cit-btn-secundario:hover {
+  background: var(--od-input-bg);
+}
+
+/* ===== Detalle de cita ===== */
+.cit-detalle-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--od-border);
+}
+.cit-detalle-volver {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--od-subtext);
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.cit-detalle-volver:hover {
+  background: var(--od-input-bg);
+  color: var(--od-text);
+}
+.cit-detalle-titulo-fila {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cit-detalle-titulo {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--od-text);
+  margin: 0;
+}
+.cit-detalle-subtitulo {
+  font-size: 12.5px;
+  color: var(--od-subtext);
+  margin: 4px 0 0;
+}
+
+.cit-detalle-seccion {
+  border: 1px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+
+.cit-detalle-seccion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.cit-detalle-seccion-titulo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cit-detalle-seccion-titulo h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--od-text);
+  margin: 0;
+}
+.cit-detalle-icono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: #e8f0fe;
+  color: var(--od-primary);
+}
+
+.cit-detalle-vacio {
+  font-size: 13px;
+  color: var(--od-subtext);
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* ===== Tabla de tratamientos ===== */
+.cit-tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+.cit-tabla thead th {
+  text-align: left;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--od-subtext);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0 8px 10px;
+  border-bottom: 1px solid var(--od-border);
+}
+.cit-tabla tbody td {
+  padding: 12px 8px;
+  font-size: 13.5px;
+  color: var(--od-text);
+  border-bottom: 1px solid var(--od-border);
+}
+.cit-tabla-centro { text-align: center; }
+.cit-tabla-derecha { text-align: right; }
+.cit-tabla-subtotal { font-weight: 700; }
+.cit-tabla-accion { text-align: right; width: 32px; }
+
+.cit-tabla-eliminar {
+  border: none;
+  background: transparent;
+  color: var(--od-subtext);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+}
+.cit-tabla-eliminar:hover {
+  background: #fdecec;
+  color: #c0392b;
+}
+
+.cit-tabla-total-label {
+  text-align: right;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--od-text);
+  padding: 14px 8px 0;
+}
+.cit-tabla-total-monto {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--od-text);
+  padding: 14px 8px 0;
+}
+
+/* ===== Notas clínicas ===== */
+.cit-detalle-notas-titulo {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--od-text);
+  margin: 0 0 12px;
+}
+.cit-notas-textarea {
+  width: 100%;
+  min-height: 100px;
+  border: 1.5px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+  background: var(--od-input-bg);
+  padding: 12px 14px;
+  font-size: 13.5px;
+  font-family: inherit;
+  color: var(--od-text);
+  resize: vertical;
+}
+.cit-notas-textarea:focus {
+  outline: none;
+  border-color: var(--od-primary);
+  background: var(--od-white);
+}
+
+/* ===== Pagos ===== */
+.cit-detalle-icono-verde {
+  background: #e3f7ea;
+  color: #279653;
+}
+
+.cit-btn-verde {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #279653;
+  color: white;
+  border: none;
+  border-radius: var(--od-radius-sm);
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cit-btn-verde:hover {
+  background: #21824a;
+}
+.cit-btn-verde:disabled {
+  background: #a8d9bd;
+  cursor: not-allowed;
+}
+
+.cit-badge-metodo {
+  background: #eef1f6;
+  color: var(--od-label);
+}
+
+.cit-pagos-monto {
+  display: block;
+  font-size: 16px;
+  color: var(--od-text);
+  margin-top: 2px;
+}
+.cit-pagos-verde {
+  color: #279653;
+}
+
+.cit-estado-cuenta {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.cit-estado-cuenta.al-dia {
+  background: #e3f7ea;
+  color: #279653;
+}
+.cit-estado-cuenta.pendiente {
+  background: #fdecec;
+  color: #c0392b;
+}
+
+.cit-campo-ayuda {
+  font-size: 11.5px;
+  color: var(--od-subtext);
+  margin-top: 2px;
+}
+.cit-campo-error {
+  font-size: 12.5px;
+  color: #c0392b;
+  background: #fdecec;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 0;
+}
+
+/* ===== Header del detalle con acciones ===== */
+.cit-detalle-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.cit-detalle-header-info { flex: 1; min-width: 220px; }
+.cit-detalle-header-acciones {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.cit-btn-peligro-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1.5px solid #f3b8b8;
+  background: transparent;
+  color: #c0392b;
+  border-radius: var(--od-radius-sm);
+  padding: 8px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cit-btn-peligro-outline:hover { background: #fdecec; }
+
+.cit-btn-peligro {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: #c0392b;
+  color: white;
+  border-radius: var(--od-radius-sm);
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cit-btn-peligro:hover { background: #a5301f; }
+.cit-btn-peligro:disabled { background: #e2a39c; cursor: not-allowed; }
+
+/* ===== Menú de acciones en la lista ===== */
+.cit-menu-acciones { position: relative; flex-shrink: 0; }
+.cit-menu-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: transparent;
+  border-radius: 7px;
+  color: var(--od-subtext);
+  cursor: pointer;
+}
+.cit-menu-trigger:hover { background: var(--od-input-bg); color: var(--od-text); }
+
+.cit-menu-dropdown {
+  position: absolute;
+  top: 34px;
+  right: 0;
+  background: var(--od-white);
+  border: 1px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+  box-shadow: var(--od-shadow-hover);
+  min-width: 160px;
+  z-index: 20;
+  overflow: hidden;
+}
+.cit-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--od-text);
+  cursor: pointer;
+  text-align: left;
+}
+.cit-menu-item:hover { background: var(--od-input-bg); }
+.cit-menu-item-danger { color: #c0392b; }
+.cit-menu-item-danger:hover { background: #fdecec; }
+
+/* ===== Modal de confirmación (cancelar cita) ===== */
+.cit-modal-confirmar {
+  text-align: center;
+  max-width: 340px;
+}
+.cit-modal-confirmar-icono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fdecec;
+  color: #c0392b;
+  margin: 0 auto 14px;
+}
+.cit-modal-confirmar-texto {
+  font-size: 13px;
+  color: var(--od-subtext);
+  line-height: 1.5;
+  margin: 8px 0 0;
+}
+.cit-modal-footer-centro { justify-content: center; }
