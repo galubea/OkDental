@@ -2,17 +2,15 @@ import type { Cita, NuevaCitaInput, NuevoTratamientoInput, NuevoPagoInput } from
 
 const CITAS_MOCK: Record<number, Cita[]> = {
   1: [
-    { id: "c1", fecha: "2026-07-15", hora: "20:58", motivo: "Radiografía de control", estado: "programada", tratamientos: [], pagos: [], notas: "" },
-    { id: "c2", fecha: "2026-07-10", hora: "05:00", motivo: "Prueba", estado: "programada", tratamientos: [], pagos: [], notas: "" },
+    { id: "c1", pacienteId: 1, fecha: "2026-07-15", hora: "20:58", duracionMin: 60, doctorId: "d1", motivo: "Radiografía de control", estado: "programada", tratamientos: [], pagos: [], notas: "" },
+    { id: "c2", pacienteId: 1, fecha: "2026-07-10", hora: "05:00", duracionMin: 60, doctorId: "d2", motivo: "Prueba", estado: "programada", tratamientos: [], pagos: [], notas: "" },
     {
-      id: "c3", fecha: "2026-06-08", hora: "20:58", motivo: "Revisión de control", estado: "atendida",
+      id: "c3", pacienteId: 1, fecha: "2026-06-08", hora: "20:58", duracionMin: 90, doctorId: "d1", motivo: "Revisión de control", estado: "atendida",
       tratamientos: [
         { id: "t1", nombre: "Revisión / Control", cantidad: 1, precioUnitario: 500 },
         { id: "t2", nombre: "Extracción simple", cantidad: 1, precioUnitario: 1500 },
       ],
-      pagos: [
-        { id: "p1", fecha: "2026-06-08", metodo: "efectivo", monto: 500 },
-      ],
+      pagos: [{ id: "p1", fecha: "2026-06-08", metodo: "efectivo", monto: 500 }],
       notas: "Sin complicaciones. Obturación integrada correctamente.",
     },
   ],
@@ -39,11 +37,19 @@ export async function obtenerCitas(pacienteId: number): Promise<Cita[]> {
   return delay((CITAS_MOCK[pacienteId] ?? []).map(recalcular));
 }
 
+export async function obtenerTodasLasCitas(): Promise<Cita[]> {
+  const todas = Object.values(CITAS_MOCK).flat();
+  return delay(todas.map(recalcular));
+}
+
 export async function crearCita(pacienteId: number, input: NuevaCitaInput): Promise<Cita> {
   const nueva: Cita = {
     id: crypto.randomUUID(),
+    pacienteId,
     fecha: input.fecha,
     hora: input.hora,
+    duracionMin: input.duracionMin ?? 60,
+    doctorId: input.doctorId,
     motivo: input.motivo,
     estado: "programada",
     tratamientos: [],
@@ -64,10 +70,7 @@ export async function agregarTratamiento(pacienteId: number, citaId: string, inp
 
 export async function eliminarTratamiento(pacienteId: number, citaId: string, tratamientoId: string): Promise<Cita> {
   const { lista, idx } = buscar(pacienteId, citaId);
-  const actualizada = recalcular({
-    ...lista[idx],
-    tratamientos: lista[idx].tratamientos.filter((t) => t.id !== tratamientoId),
-  });
+  const actualizada = recalcular({ ...lista[idx], tratamientos: lista[idx].tratamientos.filter((t) => t.id !== tratamientoId) });
   lista[idx] = actualizada;
   return delay(actualizada);
 }
@@ -79,11 +82,9 @@ export async function actualizarNotas(pacienteId: number, citaId: string, notas:
   return delay(actualizada);
 }
 
-// ── Pagos ──
 export async function agregarPago(pacienteId: number, citaId: string, input: NuevoPagoInput): Promise<Cita> {
   const { lista, idx } = buscar(pacienteId, citaId);
   const cita = lista[idx];
-
   const totalTratamientos = cita.tratamientos.reduce((acc, t) => acc + t.cantidad * t.precioUnitario, 0);
   const pagadoActual = cita.pagos.reduce((acc, p) => acc + p.monto, 0);
   const disponible = totalTratamientos - pagadoActual;
@@ -104,10 +105,7 @@ export async function agregarPago(pacienteId: number, citaId: string, input: Nue
 
 export async function eliminarPago(pacienteId: number, citaId: string, pagoId: string): Promise<Cita> {
   const { lista, idx } = buscar(pacienteId, citaId);
-  const actualizada = recalcular({
-    ...lista[idx],
-    pagos: lista[idx].pagos.filter((p) => p.id !== pagoId),
-  });
+  const actualizada = recalcular({ ...lista[idx], pagos: lista[idx].pagos.filter((p) => p.id !== pagoId) });
   lista[idx] = actualizada;
   return delay(actualizada);
 }

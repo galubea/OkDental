@@ -1,0 +1,142 @@
+.shell-page {
+  min-height: 100vh;
+  background: #f6f8fb;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+/* ===== Navbar ===== */
+.shell-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--od-white);
+  border-bottom: 1px solid var(--od-border);
+  padding: 12px 28px;
+  gap: 20px;
+}
+
+.shell-navbar-izquierda {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.shell-logo {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--od-text);
+  white-space: nowrap;
+}
+.shell-logo-ok {
+  color: var(--od-primary);
+}
+
+.shell-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.shell-nav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--od-subtext);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.shell-nav-item:hover {
+  background: var(--od-input-bg);
+  color: var(--od-text);
+}
+.shell-nav-item.activo {
+  background: var(--od-input-bg);
+  color: var(--od-text);
+}
+
+.shell-navbar-derecha {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.shell-buscador {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--od-input-bg);
+  border: 1px solid var(--od-border);
+  border-radius: 999px;
+  padding: 8px 16px;
+  width: 240px;
+}
+.shell-buscador-icono {
+  color: var(--od-subtext);
+  flex-shrink: 0;
+}
+.shell-buscador-input {
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  color: var(--od-text);
+  width: 100%;
+}
+.shell-buscador-input:focus {
+  outline: none;
+}
+.shell-buscador-input::placeholder {
+  color: #a3adc2;
+}
+
+.shell-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  color: var(--od-subtext);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.shell-icon-btn:hover {
+  background: var(--od-input-bg);
+  color: var(--od-text);
+}
+
+.shell-usuario {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.shell-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--od-primary);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+}
+.shell-usuario-nombre {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--od-text);
+  white-space: nowrap;
+}
+
+/* ===== Contenido ===== */
+.shell-contenido {
+  padding: 28px;
+}

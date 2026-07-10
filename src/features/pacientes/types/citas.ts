@@ -11,7 +11,7 @@ export interface Tratamiento {
 
 export interface Pago {
   id: string;
-  fecha: string; // ISO: "2026-07-07"
+  fecha: string;
   metodo: MetodoPago;
   nota?: string;
   monto: number;
@@ -19,8 +19,11 @@ export interface Pago {
 
 export interface Cita {
   id: string;
+  pacienteId: number;      
   fecha: string;
   hora: string;
+  duracionMin: number;     
+  doctorId?: string;      
   motivo: string;
   estado: EstadoCita;
   total?: number;
@@ -34,6 +37,8 @@ export interface NuevaCitaInput {
   fecha: string;
   hora: string;
   motivo: string;
+  doctorId?: string;
+  duracionMin?: number;
 }
 
 export interface NuevoTratamientoInput {
@@ -55,3 +60,5 @@ export const METODOS_PAGO: { key: MetodoPago; label: string }[] = [
   { key: "tarjeta", label: "Tarjeta" },
   { key: "transferencia", label: "Transferencia" },
 ];
+
+export const DURACIONES_CITA = [15, 30, 45, 60, 90, 120];

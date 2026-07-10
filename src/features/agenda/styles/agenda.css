@@ -1,0 +1,336 @@
+.ag-card {
+  background: var(--od-white);
+  border-radius: var(--od-radius);
+  box-shadow: var(--od-shadow);
+  padding: 28px 32px;
+}
+
+/* ===== Header ===== */
+.ag-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.ag-header-izquierda { display: flex; align-items: center; gap: 12px; }
+.ag-header-icono {
+  display: flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px; border-radius: 10px;
+  background: #e8f0fe; color: var(--od-primary); flex-shrink: 0;
+}
+.ag-titulo { font-size: 19px; font-weight: 700; color: var(--od-text); margin: 0; }
+.ag-subtitulo { font-size: 12.5px; color: var(--od-subtext); margin: 2px 0 0; }
+
+.ag-header-derecha { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.ag-vista-toggle { display: flex; background: var(--od-input-bg); border-radius: 9px; padding: 3px; }
+.ag-vista-btn {
+  border: none; background: transparent; border-radius: 7px;
+  padding: 7px 14px; font-size: 13px; font-weight: 600; color: var(--od-subtext); cursor: pointer;
+}
+.ag-vista-btn.activo { background: var(--od-white); color: var(--od-text); box-shadow: 0 1px 3px rgba(16,24,40,0.12); }
+
+.ag-nav-fecha { display: flex; align-items: center; gap: 4px; }
+.ag-nav-flecha {
+  width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--od-border); background: var(--od-white); border-radius: 7px;
+  color: var(--od-subtext); cursor: pointer;
+}
+.ag-nav-flecha:hover { background: var(--od-input-bg); }
+.ag-nav-hoy {
+  border: 1px solid var(--od-border); background: var(--od-white); border-radius: 7px;
+  padding: 6px 12px; font-size: 12.5px; font-weight: 600; color: var(--od-label); cursor: pointer;
+}
+.ag-nav-hoy:hover { background: var(--od-input-bg); }
+
+.ag-rango-texto { font-size: 13.5px; font-weight: 600; color: var(--od-text); white-space: nowrap; }
+
+/* ===== Filtro doctores ===== */
+.ag-filtro-doctores { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.ag-chip-todos {
+  border: none; background: var(--od-text); color: white; border-radius: 999px;
+  padding: 7px 16px; font-size: 12.5px; font-weight: 700; cursor: pointer;
+}
+.ag-chip-doctor {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1.5px solid var(--od-border); background: var(--od-white); border-radius: 999px;
+  padding: 6px 14px 6px 10px; font-size: 12.5px; font-weight: 600; color: var(--od-label); cursor: pointer;
+}
+.ag-chip-doctor.activo { background: #f7f9fc; }
+.ag-chip-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* ===== Layout contenido + panel lateral ===== */
+.ag-contenido { display: flex; gap: 20px; align-items: flex-start; }
+.ag-vista-principal { flex: 1; min-width: 0; overflow-x: auto; }
+
+.ag-panel-hoy {
+  width: 260px; flex-shrink: 0;
+  border: 1px solid var(--od-border); border-radius: var(--od-radius-sm);
+  padding: 16px;
+}
+.ag-panel-hoy-label { font-size: 10.5px; font-weight: 700; color: var(--od-subtext); text-transform: uppercase; letter-spacing: 0.03em; }
+.ag-panel-hoy-fecha { font-size: 15px; font-weight: 700; color: var(--od-text); margin: 4px 0 2px; }
+.ag-panel-hoy-conteo { font-size: 12px; color: var(--od-subtext); margin: 0 0 14px; }
+.ag-panel-hoy-vacio { font-size: 12.5px; color: var(--od-subtext); }
+
+.ag-panel-hoy-lista { display: flex; flex-direction: column; gap: 10px; }
+.ag-panel-hoy-item { display: flex; gap: 10px; cursor: pointer; border-radius: 8px; padding: 4px; }
+.ag-panel-hoy-item:hover { background: var(--od-input-bg); }
+.ag-panel-hoy-item-franja { width: 3px; border-radius: 2px; flex-shrink: 0; }
+.ag-panel-hoy-item-body { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
+.ag-panel-hoy-item-top { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.ag-panel-hoy-item-hora { font-size: 13px; font-weight: 700; color: var(--od-text); }
+.ag-panel-hoy-item-paciente { font-size: 13px; font-weight: 700; color: var(--od-text); }
+.ag-panel-hoy-item-motivo { font-size: 12px; color: var(--od-subtext); }
+.ag-panel-hoy-item-footer { margin-top: 2px; }
+.ag-panel-hoy-item-doctor { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--od-subtext); }
+
+/* ===== Vista Semana ===== */
+/* ===== Vista Semana (estilo Google Calendar) ===== */
+.ag-semana-wrap {
+  max-height: 640px;
+  overflow-y: auto;
+  overflow-x: auto;
+  border: 1px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+}
+.ag-semana { min-width: 760px; }
+
+.ag-semana-header {
+  display: grid;
+  grid-template-columns: 56px repeat(7, 1fr);
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  background: var(--od-white);
+  border-bottom: 1px solid var(--od-border);
+}
+.ag-semana-header-hueco {
+  border-right: 1px solid transparent;
+}
+.ag-semana-dia-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+  border-left: 1px solid var(--od-border);
+}
+.ag-semana-dia-header.hoy { background: #f0f6ff; }
+.ag-semana-dia-nombre {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--od-subtext);
+  letter-spacing: 0.03em;
+}
+.ag-semana-dia-numero {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--od-text);
+  margin-top: 3px;
+}
+.ag-semana-dia-numero.hoy {
+  background: #ea4335;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ag-semana-body {
+  display: grid;
+  grid-template-columns: 56px repeat(7, 1fr);
+}
+
+.ag-semana-horas {
+  display: flex;
+  flex-direction: column;
+}
+.ag-semana-hora-label {
+  height: 60px;
+  font-size: 10.5px;
+  color: var(--od-subtext);
+  transform: translateY(-7px);
+  text-align: right;
+  padding-right: 10px;
+  white-space: nowrap;
+}
+.ag-semana-hora-label:first-child { visibility: hidden; }
+
+.ag-semana-col {
+  position: relative;
+  border-left: 1px solid var(--od-border);
+  background-color: var(--od-white);
+  background-image:
+    repeating-linear-gradient(to bottom, #eef1f6 0, #eef1f6 1px, transparent 1px, transparent 30px),
+    repeating-linear-gradient(to bottom, var(--od-border) 0, var(--od-border) 1px, transparent 1px, transparent 60px);
+}
+.ag-semana-col.hoy {
+  background-color: #f8fafd;
+}
+
+/* Línea de "ahora" estilo Google Calendar */
+.ag-linea-ahora {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 2px solid #ea4335;
+  z-index: 5;
+  pointer-events: none;
+}
+.ag-linea-ahora::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: -5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ea4335;
+}
+
+/* Eventos: bloques sólidos de color por doctor */
+.ag-evento {
+  position: absolute;
+  z-index: 2;
+  border: none;
+  border-radius: 5px;
+  padding: 4px 7px;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  color: white;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.18);
+  transition: box-shadow 0.12s ease, filter 0.12s ease;
+}
+.ag-evento:hover {
+  box-shadow: 0 3px 10px rgba(16, 24, 40, 0.28);
+  filter: brightness(0.94);
+  z-index: 4;
+}
+.ag-evento.compacto {
+  flex-direction: row;
+  align-items: center;
+  padding: 2px 7px;
+}
+.ag-evento-cancelada {
+  opacity: 0.5;
+}
+.ag-evento-cancelada .ag-evento-paciente {
+  text-decoration: line-through;
+}
+
+.ag-evento-linea-principal {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  min-width: 0;
+}
+.ag-evento-paciente {
+  font-size: 11.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ag-evento-motivo {
+  font-size: 10.5px;
+  opacity: 0.9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ag-evento-hora {
+  font-size: 10px;
+  opacity: 0.85;
+}
+
+/* ===== Vista Mes ===== */
+.ag-mes-header { display: grid; grid-template-columns: repeat(7, 1fr); border-bottom: 1px solid var(--od-border); padding-bottom: 8px; margin-bottom: 4px; }
+.ag-mes-header-dia { font-size: 10.5px; font-weight: 700; color: var(--od-subtext); text-align: center; letter-spacing: 0.03em; }
+
+.ag-mes-grid { display: grid; grid-template-columns: repeat(7, 1fr); grid-auto-rows: 108px; gap: 1px; background: var(--od-border); border: 1px solid var(--od-border); }
+.ag-mes-celda { background: var(--od-white); padding: 6px; display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
+.ag-mes-celda.fuera-de-mes { background: #fafbfc; }
+.ag-mes-celda.fuera-de-mes .ag-mes-numero { color: #c2c9d6; }
+.ag-mes-numero { font-size: 12.5px; font-weight: 700; color: var(--od-text); }
+.ag-mes-numero.hoy {
+  background: var(--od-primary); color: white; width: 20px; height: 20px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px;
+}
+.ag-mes-eventos { display: flex; flex-direction: column; gap: 2px; }
+.ag-mes-chip {
+  display: flex; align-items: center; gap: 4px; border: none; background: var(--od-input-bg);
+  border-radius: 5px; padding: 2px 5px; font-size: 10px; cursor: pointer; text-align: left; overflow: hidden;
+}
+.ag-mes-chip-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+.ag-mes-chip-hora { font-weight: 700; color: var(--od-text); flex-shrink: 0; }
+.ag-mes-chip-nombre { color: var(--od-subtext); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ag-mes-mas { font-size: 10px; color: var(--od-primary); font-weight: 600; padding-left: 4px; }
+
+/* ===== Vista Lista ===== */
+.ag-lista { display: flex; flex-direction: column; gap: 24px; }
+.ag-lista-grupo { display: flex; flex-direction: column; gap: 10px; }
+.ag-lista-encabezado { font-size: 13.5px; font-weight: 700; color: var(--od-text); margin: 0; text-transform: capitalize; }
+
+.ag-lista-item {
+  display: flex; align-items: center; gap: 16px;
+  border: 1px solid var(--od-border); border-radius: var(--od-radius-sm);
+  padding: 12px 16px; cursor: pointer;
+}
+.ag-lista-item:hover { box-shadow: var(--od-shadow-hover); }
+.ag-lista-item-hora { display: flex; flex-direction: column; width: 56px; flex-shrink: 0; }
+.ag-lista-item-hora-texto { font-size: 14px; font-weight: 700; color: var(--od-text); }
+.ag-lista-item-duracion { font-size: 10.5px; color: var(--od-subtext); }
+.ag-lista-item-info { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.ag-lista-item-paciente { font-size: 13.5px; font-weight: 700; color: var(--od-text); }
+.ag-lista-item-motivo { font-size: 12px; color: var(--od-subtext); }
+.ag-lista-item-doctor { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--od-subtext); flex-shrink: 0; }
+.ag-lista-item-doctor-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.ag-lista-item-chevron { color: var(--od-subtext); flex-shrink: 0; }
+
+.ag-vacio { text-align: center; font-size: 13px; color: var(--od-subtext); padding: 32px 0; }
+
+/* ===== Modal de detalle rápido ===== */
+.ag-detalle-modal { background: var(--od-white); border-radius: var(--od-radius); padding: 24px 28px; max-width: 340px; }
+.ag-detalle-motivo { font-size: 13.5px; color: var(--od-subtext); margin: 4px 0 10px; }
+.ag-detalle-linea { font-size: 12.5px; color: var(--od-label); }
+
+.ag-semana-col { cursor: pointer; }
+.ag-semana-col:hover { background-color: #f5f8fc; }
+.ag-semana-col.hoy:hover { background-color: #eef4fc; }
+
+/* Selector de paciente */
+.ag-selector-paciente { position: relative; }
+.ag-selector-paciente-input-wrap { position: relative; display: flex; align-items: center; }
+.ag-selector-paciente-icono { position: absolute; left: 12px; color: var(--od-subtext); pointer-events: none; }
+.ag-selector-paciente-input { padding-left: 34px; }
+.ag-selector-paciente-dropdown {
+  position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+  background: var(--od-white); border: 1px solid var(--od-border);
+  border-radius: var(--od-radius-sm); box-shadow: var(--od-shadow-hover);
+  max-height: 200px; overflow-y: auto; z-index: 30;
+}
+.ag-selector-paciente-item {
+  display: block; width: 100%; text-align: left; border: none; background: transparent;
+  padding: 9px 14px; font-size: 13px; color: var(--od-text); cursor: pointer;
+}
+.ag-selector-paciente-item:hover { background: var(--od-input-bg); }
+.ag-selector-paciente-vacio { font-size: 12.5px; color: var(--od-subtext); padding: 12px 14px; margin: 0; }
+.ag-selector-paciente-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1.5px solid var(--od-border); background: var(--od-input-bg);
+  border-radius: 999px; padding: 7px 8px 7px 14px; font-size: 13px; font-weight: 600; color: var(--od-text);
+}
+.ag-selector-paciente-chip button {
+  border: none; background: var(--od-border); color: var(--od-subtext);
+  width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;
+}
