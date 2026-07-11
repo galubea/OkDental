@@ -32,7 +32,7 @@ pub fn init_db(app: &AppHandle) -> Connection {
             expira_en   TEXT NOT NULL,
             FOREIGN KEY (doctor_id) REFERENCES doctor(id) ON DELETE CASCADE
         );
-        
+
         CREATE TABLE IF NOT EXISTS paciente (
             id                    INTEGER PRIMARY KEY AUTOINCREMENT,
             nombre                TEXT NOT NULL,
@@ -47,6 +47,37 @@ pub fn init_db(app: &AppHandle) -> Connection {
             ocupacion             TEXT,
             fecha_registro        TEXT NOT NULL DEFAULT (datetime('now')),
             fecha_ultima_visita   TEXT
+        );
+
+        CREATE TABLE IF NOT EXISTS historia_clinica (
+            paciente_id        INTEGER PRIMARY KEY,
+            motivo_consulta    TEXT NOT NULL DEFAULT '',
+            ant_familiares      TEXT NOT NULL DEFAULT '',
+            ant_personales      TEXT NOT NULL DEFAULT '',
+            renal               TEXT NOT NULL DEFAULT '',
+            coagulacion         TEXT NOT NULL DEFAULT '',
+            anamnesis            TEXT NOT NULL DEFAULT '{}',
+            covid                TEXT NOT NULL DEFAULT '{}',
+            dosis_covid          TEXT NOT NULL DEFAULT '',
+            extraoral_atm        TEXT NOT NULL DEFAULT '',
+            extraoral_labios     TEXT NOT NULL DEFAULT '',
+            extraoral_ganglios   TEXT NOT NULL DEFAULT '',
+            respirador           TEXT NOT NULL DEFAULT '',
+            intraoral            TEXT NOT NULL DEFAULT '{}',
+            ultima_visita        TEXT NOT NULL DEFAULT '',
+            habitos              TEXT NOT NULL DEFAULT '',
+            habitos_otros        TEXT NOT NULL DEFAULT '',
+            protesis             TEXT NOT NULL DEFAULT '',
+            cepillo              TEXT NOT NULL DEFAULT '',
+            hilo                 TEXT NOT NULL DEFAULT '',
+            enjuague             TEXT NOT NULL DEFAULT '',
+            sangrado             TEXT NOT NULL DEFAULT '',
+            frecuencia           TEXT NOT NULL DEFAULT '',
+            higiene_dental       TEXT NOT NULL DEFAULT '',
+            problema_anterior    TEXT NOT NULL DEFAULT '',
+            observaciones        TEXT NOT NULL DEFAULT '',
+
+            FOREIGN KEY (paciente_id) REFERENCES paciente(id) ON DELETE CASCADE
         );
         ",
     )

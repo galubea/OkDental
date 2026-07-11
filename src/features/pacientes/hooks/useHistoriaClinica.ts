@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { HistoriaClinica } from "../types/historiaClinica";
-import { obtenerHistoriaClinica, guardarHistoriaClinica } from "../api";
+import { obtenerHistoriaClinica, guardarHistoriaClinica } from "../api/historiaClinicaApi";
 
 type Mensaje = { texto: string; tipo: "ok" | "error" | "info" } | null;
 
