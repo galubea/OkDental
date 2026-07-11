@@ -1,6 +1,26 @@
-// Prevents additional console window on Windows in release, DO NOT REMOVE!!
-#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+mod db;
+mod auth {
+    pub mod commands;
+    pub mod models;
+}
+
+use db::{init_db, DbConnection};
+use std::sync::Mutex;
+use tauri::Manager;
 
 fn main() {
-    okdental_lib::run()
+    tauri::Builder::default()
+        .setup(|app| {
+            let conn = init_db(&app.handle());
+            app.manage(DbConnection(Mutex::new(conn)));
+            Ok(())
+        })
+        .invoke_handler(tauri::generate_handler![
+            auth::commands::login,
+            auth::commands::registrar_doctor,
+            auth::commands::sesion_activa,
+            auth::commands::cerrar_sesion,
+        ])
+        .run(tauri::generate_context!())
+        .expect("error al iniciar la aplicación");
 }
