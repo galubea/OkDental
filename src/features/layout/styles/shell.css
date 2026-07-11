@@ -140,3 +140,68 @@
 .shell-contenido {
   padding: 28px;
 }
+
+.shell-usuario-wrapper {
+  position: relative;
+}
+
+.shell-usuario {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: var(--od-radius-sm, 8px);
+}
+
+.shell-usuario:hover {
+  background: var(--od-bg-hover, #f3f4f6);
+}
+
+.shell-usuario-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+}
+
+.shell-usuario-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 180px;
+  background: var(--od-white, #fff);
+  border-radius: var(--od-radius-sm, 8px);
+  box-shadow: var(--od-shadow-hover, 0 8px 24px rgba(0,0,0,0.12));
+  padding: 6px;
+  z-index: 20;
+}
+
+.shell-usuario-menu-especialidad {
+  padding: 8px 10px;
+  font-size: 12px;
+  color: var(--od-subtext, #6b7280);
+  border-bottom: 1px solid var(--od-border, #e5e7eb);
+  margin-bottom: 4px;
+}
+
+.shell-usuario-menu-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px 10px;
+  font-size: 13.5px;
+  color: var(--od-text, #1f2937);
+  border-radius: 6px;
+  text-align: left;
+}
+
+.shell-usuario-menu-item:hover {
+  background: var(--od-bg-hover, #f3f4f6);
+  color: #dc2626;
+}

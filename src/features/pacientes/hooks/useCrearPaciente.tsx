@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { NuevoPacienteInput } from "../types";
-import { crearPaciente } from "../api";
+import type { NuevoPacienteInput } from "../types/paciente";
+import { crearPaciente } from "../api/pacienteApi";
 
 export function useCrearPaciente(onCreated: () => void) {
   const [nombre, setNombre] = useState("");

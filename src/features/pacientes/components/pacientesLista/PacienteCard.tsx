@@ -1,5 +1,5 @@
 import { Phone, Clock, ChevronRight } from "lucide-react";
-import type { Paciente } from "../../types";
+import type { Paciente } from "../../types/paciente";
 import { iniciales, formatFecha } from "../../utils/utils";
 
 interface Props {
@@ -8,12 +8,14 @@ interface Props {
 }
 
 export function PacienteCard({ paciente, onClick }: Props) {
+  const nombreCompleto = `${paciente.nombre} ${paciente.apellido}`;
+
   return (
     <div className="od-card" onClick={() => onClick(paciente.id)}>
       <div className="od-card-top">
-        <div className="od-avatar">{iniciales(paciente.nombre)}</div>
+        <div className="od-avatar">{iniciales(nombreCompleto)}</div>
         <div>
-          <p className="od-card-name">{paciente.nombre}</p>
+          <p className="od-card-name">{nombreCompleto}</p>
           <span className="od-badge">Activo</span>
         </div>
       </div>

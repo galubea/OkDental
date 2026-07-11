@@ -20,7 +20,7 @@ export default function PacienteDetalle({ pacienteId, onVolver }: Props) {
   const [tab, setTab] = useState<TabDetalle>("info");
 
   async function handleGuardar(cambios: Parameters<typeof guardar>[0]) {
-    const ok = await guardar(cambios as any);
+    const ok = await guardar(cambios);
     if (ok) setEditando(false);
     return ok;
   }

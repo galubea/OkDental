@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import type { NuevoRegistroClinicoInput, RegistroClinico } from "../types";
+import type { NuevoRegistroClinicoInput, RegistroClinico } from "../types/registroClinico";
 import { listarRegistrosClinicos, crearRegistroClinico } from "../api";
 
 export function useRegistrosClinicos(pacienteId: number) {

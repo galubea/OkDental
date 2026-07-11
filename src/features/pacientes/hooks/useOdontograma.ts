@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { Avance, DienteData, EstadoDental, ModoOdontograma, SuperficieDental } from "../types";
+import type { Avance, DienteData, EstadoDental, ModoOdontograma, SuperficieDental } from "../types/odontograma";
 import { obtenerOdontograma, guardarOdontograma } from "../api";
 import { ESTADOS_DENTALES } from "../utils/odontogramaConstants";
 

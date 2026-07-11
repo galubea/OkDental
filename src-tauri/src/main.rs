@@ -3,6 +3,10 @@ mod auth {
     pub mod commands;
     pub mod models;
 }
+mod pacientes {
+    pub mod commands;
+    pub mod models;
+}
 
 use db::{init_db, DbConnection};
 use std::sync::Mutex;
@@ -20,6 +24,10 @@ fn main() {
             auth::commands::registrar_doctor,
             auth::commands::sesion_activa,
             auth::commands::cerrar_sesion,
+            pacientes::commands::crear_paciente,
+            pacientes::commands::listar_pacientes,
+            pacientes::commands::obtener_paciente_por_id,
+            pacientes::commands::actualizar_paciente,
         ])
         .run(tauri::generate_context!())
         .expect("error al iniciar la aplicación");

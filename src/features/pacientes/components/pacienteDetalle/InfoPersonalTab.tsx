@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Save, X, SquarePen } from "lucide-react";
-import type { Paciente } from "../../types";
+import type { Paciente } from "../../types/paciente";
 
 interface Props {
   paciente: Paciente;
@@ -13,23 +13,37 @@ interface Props {
 
 const FILAS: { label: string; key: keyof Paciente; type?: string }[][] = [
   [
-    { label: "Nombre completo", key: "nombre" },
+    { label: "Nombre", key: "nombre" },
+    { label: "Apellido", key: "apellido" },
+  ],
+  [
     { label: "CI / Identificación", key: "ci" },
-  ],
-  [
     { label: "Edad", key: "edad", type: "number" },
+  ],
+  [
     { label: "Fecha de nacimiento", key: "fecha_nacimiento", type: "date" },
-  ],
-  [
     { label: "Género", key: "genero" },
-    { label: "Teléfono", key: "telefono" },
   ],
   [
+    { label: "Teléfono", key: "telefono" },
     { label: "Correo electrónico", key: "email" },
-    { label: "Dirección", key: "direccion" },
   ],
-  [{ label: "Ocupación", key: "ocupacion" }],
+  [
+    { label: "Dirección", key: "direccion" },
+    { label: "Ocupación", key: "ocupacion" },
+  ],
 ];
+
+function normalizarCambios(form: Paciente): Partial<Omit<Paciente, "id">> {
+  const { id, ...resto } = form;
+  const edadTexto = String(form.edad ?? "").trim();
+  const edadNum = edadTexto === "" ? null : Number(edadTexto);
+
+  return {
+    ...resto,
+    edad: edadNum !== null && Number.isNaN(edadNum) ? null : edadNum,
+  };
+}
 
 export function InfoPersonalTab({
   paciente,
@@ -82,7 +96,11 @@ export function InfoPersonalTab({
               <X size={15} strokeWidth={2} />
               Cancelar
             </button>
-            <button className="od-btn-primary" onClick={() => onGuardar(form)} disabled={guardando}>
+            <button
+              className="od-btn-primary"
+              onClick={() => onGuardar(normalizarCambios(form))}
+              disabled={guardando}
+            >
               <Save size={15} strokeWidth={2} />
               {guardando ? "Guardando..." : "Guardar cambios"}
             </button>

@@ -1,6 +1,7 @@
 export interface Paciente {
   id: number;
   nombre: string;
+  apellido: string;
   ci: string;
   edad?: number | null;
   fecha_nacimiento?: string | null;
@@ -9,8 +10,6 @@ export interface Paciente {
   email?: string | null;
   direccion?: string | null;
   ocupacion?: string | null;
-  alergias?: string | null;
-  antecedentes_medicos?: string | null;
   fecha_registro?: string;
   fecha_ultima_visita?: string | null;
 }
