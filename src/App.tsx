@@ -3,10 +3,16 @@ import { AppShell } from "./features/layout/AppShell";
 import PacienteLista from "./features/pacientes/PacientesLista";
 import PacienteDetalle from "./features/pacientes/PacienteDetalle";
 import AgendaTab from "./features/agenda/AgendaTab";
+import { LoginPage } from "./features/autentificacion/LoginPage";
+import { RegisterPage } from "./features/autentificacion/RegisterPage";
+import { useAuth } from "./features/autentificacion/hooks/useAuth";
 import type { VistaApp, SeccionNav } from "./types/navegacion";
 
 function App() {
   const [vista, setVista] = useState<VistaApp>({ tipo: "pacientes" });
+  const [pantallaAuth, setPantallaAuth] = useState<"login" | "registro">("login");
+
+  const { status, logout } = useAuth();
 
   function seccionDeVista(v: VistaApp): SeccionNav {
     if (v.tipo === "paciente-detalle") return "pacientes";
@@ -19,8 +25,26 @@ function App() {
     else setVista({ tipo: "inicio" });
   }
 
+  // Mientras se revisa si hay sesión activa guardada
+  if (status === "checking") {
+    return <p className="hc-estado">Cargando sesión...</p>;
+  }
+
+  // Sin sesión -> login o registro
+  if (status !== "authenticated") {
+    return pantallaAuth === "login" ? (
+      <LoginPage onIrARegistro={() => setPantallaAuth("registro")} />
+    ) : (
+      <RegisterPage onIrALogin={() => setPantallaAuth("login")} />
+    );
+  }
+
+  // Doctor autenticado -> app normal
   return (
-    <AppShell seccionActiva={seccionDeVista(vista)} onNavegar={navegar}>
+    <AppShell
+      seccionActiva={seccionDeVista(vista)}
+      onNavegar={navegar}
+    >
       {vista.tipo === "inicio" && (
         <p className="hc-estado">Inicio (pendiente de construir)</p>
       )}

@@ -1,0 +1,78 @@
+.od-login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--od-bg);
+  font-family: "Segoe UI", system-ui, sans-serif;
+  padding: 24px;
+}
+
+.od-login-card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--od-white);
+  border-radius: var(--od-radius);
+  box-shadow: var(--od-shadow-hover);
+  padding: 40px 36px 36px;
+}
+
+.od-login-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.od-login-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--od-radius-sm);
+  background: var(--od-primary);
+  color: white;
+  font-weight: 700;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.od-login-brand h1 { font-size: 18px; font-weight: 700; margin: 0; color: var(--od-text); }
+.od-login-brand p { font-size: 13px; color: var(--od-subtext); margin: 2px 0 0 0; }
+
+.od-login-password-wrap { position: relative; display: flex; align-items: center; }
+.od-login-password-wrap input { width: 100%; padding-right: 68px; }
+
+.od-login-toggle-eye {
+  position: absolute;
+  right: 12px;
+  border: none;
+  background: transparent;
+  color: var(--od-primary);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+.od-login-toggle-eye:hover { color: var(--od-primary-hover); }
+
+.od-login-submit { width: 100%; justify-content: center; margin-top: 12px; }
+
+.od-login-switch {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--od-subtext);
+}
+
+.od-login-link {
+  border: none;
+  background: transparent;
+  color: var(--od-primary);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+}
+.od-login-link:hover { color: var(--od-primary-hover); }
