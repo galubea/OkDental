@@ -88,6 +88,40 @@ pub fn init_db(app: &AppHandle) -> Connection {
             creado_en    TEXT NOT NULL DEFAULT (datetime('now')),
             FOREIGN KEY (paciente_id) REFERENCES paciente(id) ON DELETE CASCADE
         );
+        CREATE TABLE IF NOT EXISTS cita (
+            id            TEXT PRIMARY KEY,
+            paciente_id   INTEGER NOT NULL,
+            doctor_id     INTEGER NOT NULL,
+            fecha         TEXT NOT NULL,
+            hora          TEXT NOT NULL,
+            duracion_min  INTEGER NOT NULL DEFAULT 30,
+            motivo        TEXT NOT NULL DEFAULT '',
+            estado        TEXT NOT NULL DEFAULT 'programada',
+            notas         TEXT NOT NULL DEFAULT '',
+            creado_en     TEXT NOT NULL DEFAULT (datetime('now')),
+            FOREIGN KEY (paciente_id) REFERENCES paciente(id) ON DELETE CASCADE,
+            FOREIGN KEY (doctor_id) REFERENCES doctor(id)
+        );
+
+        CREATE TABLE IF NOT EXISTS tratamiento (
+            id               TEXT PRIMARY KEY,
+            cita_id          TEXT NOT NULL,
+            nombre           TEXT NOT NULL,
+    diente           TEXT,
+    cantidad         INTEGER NOT NULL,
+    precio_unitario  REAL NOT NULL,
+    FOREIGN KEY (cita_id) REFERENCES cita(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS pago (
+    id       TEXT PRIMARY KEY,
+    cita_id  TEXT NOT NULL,
+    fecha    TEXT NOT NULL,
+    metodo   TEXT NOT NULL,
+    nota     TEXT,
+    monto    REAL NOT NULL,
+    FOREIGN KEY (cita_id) REFERENCES cita(id) ON DELETE CASCADE
+);
         ",
     )
     .expect("no se pudo inicializar el esquema");

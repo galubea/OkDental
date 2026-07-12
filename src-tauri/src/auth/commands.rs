@@ -7,6 +7,7 @@ use rand::rngs::OsRng;
 use rusqlite::{params, OptionalExtension};
 use tauri::{command, Manager, State};
 use uuid::Uuid;
+use serde::Serialize;
 
 use crate::db::DbConnection;
 use super::models::{Doctor, LoginCredentials, RegisterDoctorInput};
@@ -201,4 +202,35 @@ fn borrar_token(app: &tauri::AppHandle) -> Result<(), String> {
         std::fs::remove_file(ruta).map_err(|e| e.to_string())?;
     }
     Ok(())
+}
+
+#[derive(Debug, Serialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct DoctorResumen {
+    pub id: i64,
+    pub nombre_completo: String,
+    pub especialidad: Option<String>,
+}
+
+#[tauri::command]
+pub fn listar_doctores(db: tauri::State<crate::db::DbConnection>) -> Result<Vec<DoctorResumen>, String> {
+    let conn = db.0.lock().map_err(|e| e.to_string())?;
+
+    let mut stmt = conn
+        .prepare("SELECT id, nombre_completo, especialidad FROM doctor ORDER BY nombre_completo")
+        .map_err(|e| e.to_string())?;
+
+    let doctores = stmt
+        .query_map([], |row| {
+            Ok(DoctorResumen {
+                id: row.get(0)?,
+                nombre_completo: row.get(1)?,
+                especialidad: row.get(2)?,
+            })
+        })
+        .map_err(|e| e.to_string())?
+        .collect::<Result<Vec<_>, _>>()
+        .map_err(|e| e.to_string())?;
+
+    Ok(doctores)
 }

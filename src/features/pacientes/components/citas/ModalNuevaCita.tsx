@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { X } from "lucide-react";
-import type { NuevaCitaInput } from "../../types/citas";
+import type { NuevaCitaInput, DoctorResumen } from "../../types/citas";
+import { listarDoctores } from "../../api/citasApi";
 
 interface Props {
   guardando: boolean;
@@ -12,12 +13,26 @@ export function ModalNuevaCita({ guardando, onCancelar, onAgendar }: Props) {
   const [fecha, setFecha] = useState("");
   const [hora, setHora] = useState("09:00");
   const [motivo, setMotivo] = useState("");
+  const [doctorId, setDoctorId] = useState("");
+  const [doctores, setDoctores] = useState<DoctorResumen[]>([]);
+  const [cargandoDoctores, setCargandoDoctores] = useState(true);
+  const [errorDoctores, setErrorDoctores] = useState("");
 
-  const puedeAgendar = fecha.trim() !== "" && hora.trim() !== "";
+  useEffect(() => {
+    listarDoctores()
+      .then((data) => {
+        setDoctores(data);
+        if (data.length === 1) setDoctorId(String(data[0].id));
+      })
+      .catch(() => setErrorDoctores("No se pudieron cargar los doctores."))
+      .finally(() => setCargandoDoctores(false));
+  }, []);
+
+  const puedeAgendar = fecha.trim() !== "" && hora.trim() !== "" && doctorId !== "";
 
   function handleAgendar() {
     if (!puedeAgendar) return;
-    onAgendar({ fecha, hora, motivo: motivo.trim() });
+    onAgendar({ fecha, hora, motivo: motivo.trim(), doctorId });
   }
 
   return (
@@ -50,6 +65,27 @@ export function ModalNuevaCita({ guardando, onCancelar, onAgendar }: Props) {
                 onChange={(e) => setHora(e.target.value)}
               />
             </div>
+          </div>
+
+          <div className="cit-campo">
+            <label className="cit-campo-label">Doctor que atenderá</label>
+            <select
+              className="cit-input"
+              value={doctorId}
+              onChange={(e) => setDoctorId(e.target.value)}
+              disabled={cargandoDoctores}
+            >
+              <option value="" disabled>
+                {cargandoDoctores ? "Cargando doctores..." : "Selecciona un doctor"}
+              </option>
+              {doctores.map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.nombreCompleto}
+                  {d.especialidad ? ` · ${d.especialidad}` : ""}
+                </option>
+              ))}
+            </select>
+            {errorDoctores && <p className="cit-campo-error">{errorDoctores}</p>}
           </div>
 
           <div className="cit-campo">

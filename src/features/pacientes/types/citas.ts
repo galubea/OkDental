@@ -19,15 +19,16 @@ export interface Pago {
 
 export interface Cita {
   id: string;
-  pacienteId: number;      
+  pacienteId: number;
   fecha: string;
   hora: string;
-  duracionMin: number;     
-  doctorId?: string;      
+  duracionMin: number;
+  doctorId: number;        
+  doctorNombre: string;   
   motivo: string;
   estado: EstadoCita;
-  total?: number;
-  pagado?: number;
+  total: number;           
+  pagado: number;         
   tratamientos: Tratamiento[];
   pagos: Pago[];
   notas: string;
@@ -37,8 +38,14 @@ export interface NuevaCitaInput {
   fecha: string;
   hora: string;
   motivo: string;
-  doctorId?: string;
+  doctorId: string;  
   duracionMin?: number;
+}
+
+export interface DoctorResumen {
+  id: number;
+  nombreCompleto: string;
+  especialidad?: string;
 }
 
 export interface NuevoTratamientoInput {
