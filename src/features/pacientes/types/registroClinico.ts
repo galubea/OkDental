@@ -1,9 +1,10 @@
 export interface RegistroClinico {
   id: number;
-  paciente_id: number;
-  fecha: string;     
-  titulo: string;     
-  descripcion: string; 
+  pacienteId: number;
+  fecha: string;
+  titulo: string;
+  descripcion: string;
+  creadoEn: string;
 }
 
 export interface NuevoRegistroClinicoInput {

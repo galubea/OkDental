@@ -79,6 +79,15 @@ pub fn init_db(app: &AppHandle) -> Connection {
 
             FOREIGN KEY (paciente_id) REFERENCES paciente(id) ON DELETE CASCADE
         );
+        CREATE TABLE IF NOT EXISTS registro_clinico (
+            id           INTEGER PRIMARY KEY AUTOINCREMENT,
+            paciente_id  INTEGER NOT NULL,
+            fecha        TEXT NOT NULL,
+            titulo       TEXT NOT NULL,
+            descripcion  TEXT NOT NULL DEFAULT '',
+            creado_en    TEXT NOT NULL DEFAULT (datetime('now')),
+            FOREIGN KEY (paciente_id) REFERENCES paciente(id) ON DELETE CASCADE
+        );
         ",
     )
     .expect("no se pudo inicializar el esquema");

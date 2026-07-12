@@ -139,3 +139,36 @@
   border-color: var(--od-primary);
   background: var(--od-white);
 }
+
+.rc-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rc-item-acciones {
+  display: flex;
+  gap: 6px;
+}
+
+.rc-btn-icono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  color: #6b7280;
+}
+
+.rc-btn-icono:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.rc-btn-icono:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

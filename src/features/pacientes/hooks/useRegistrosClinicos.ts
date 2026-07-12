@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import type { NuevoRegistroClinicoInput, RegistroClinico } from "../types/registroClinico";
-import { listarRegistrosClinicos, crearRegistroClinico } from "../api";
+import {
+  listarRegistrosClinicos,
+  crearRegistroClinico,
+  actualizarRegistroClinico,
+  eliminarRegistroClinico,
+} from "../api/registroClinicoApi";
 
 export function useRegistrosClinicos(pacienteId: number) {
   const [registros, setRegistros] = useState<RegistroClinico[]>([]);
@@ -39,5 +44,30 @@ export function useRegistrosClinicos(pacienteId: number) {
     }
   }
 
-  return { registros, cargando, error, guardando, agregar };
+  async function editar(id: number, input: NuevoRegistroClinicoInput): Promise<boolean> {
+    setGuardando(true);
+    try {
+      const actualizado = await actualizarRegistroClinico(id, input);
+      setRegistros((r) => r.map((reg) => (reg.id === id ? actualizado : reg)));
+      return true;
+    } catch {
+      setError("No se pudo actualizar el registro.");
+      return false;
+    } finally {
+      setGuardando(false);
+    }
+  }
+
+  async function eliminar(id: number): Promise<boolean> {
+    try {
+      await eliminarRegistroClinico(id);
+      setRegistros((r) => r.filter((reg) => reg.id !== id));
+      return true;
+    } catch {
+      setError("No se pudo eliminar el registro.");
+      return false;
+    }
+  }
+
+  return { registros, cargando, error, guardando, agregar, editar, eliminar };
 }

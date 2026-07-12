@@ -11,6 +11,10 @@ mod historia_clinica {
     pub mod commands;
     pub mod models;
 }
+mod registro_clinico {
+    pub mod commands;
+    pub mod models;
+}
 use db::{init_db, DbConnection};
 use std::sync::Mutex;
 use tauri::Manager;
@@ -33,6 +37,10 @@ fn main() {
             pacientes::commands::actualizar_paciente,
             historia_clinica::commands::obtener_historia_clinica,
             historia_clinica::commands::guardar_historia_clinica,
+            registro_clinico::commands::listar_registros_clinicos,
+            registro_clinico::commands::crear_registro_clinico,
+            registro_clinico::commands::actualizar_registro_clinico,
+            registro_clinico::commands::eliminar_registro_clinico,
         ])
         .run(tauri::generate_context!())
         .expect("error al iniciar la aplicación");

@@ -1,17 +1,20 @@
 import { useState } from "react";
 import { X, TriangleAlert } from "lucide-react";
-import type { NuevoRegistroClinicoInput } from "../../types";
+import type { NuevoRegistroClinicoInput, RegistroClinico } from "../../types/registroClinico";
 
 interface Props {
   onClose: () => void;
   onGuardar: (input: NuevoRegistroClinicoInput) => Promise<boolean>;
   guardando: boolean;
+  registroEditando?: RegistroClinico | null;
 }
 
-export function NuevoRegistroModal({ onClose, onGuardar, guardando }: Props) {
-  const [fecha, setFecha] = useState(() => new Date().toISOString().slice(0, 10));
-  const [titulo, setTitulo] = useState("");
-  const [descripcion, setDescripcion] = useState("");
+export function NuevoRegistroModal({ onClose, onGuardar, guardando, registroEditando }: Props) {
+  const esEdicion = !!registroEditando;
+
+  const [fecha, setFecha] = useState(() => registroEditando?.fecha ?? new Date().toISOString().slice(0, 10));
+  const [titulo, setTitulo] = useState(registroEditando?.titulo ?? "");
+  const [descripcion, setDescripcion] = useState(registroEditando?.descripcion ?? "");
   const [error, setError] = useState("");
 
   async function handleGuardar() {
@@ -31,7 +34,7 @@ export function NuevoRegistroModal({ onClose, onGuardar, guardando }: Props) {
           <X size={18} strokeWidth={2} />
         </button>
 
-        <h2>Agregar Registro</h2>
+        <h2>{esEdicion ? "Editar Registro" : "Agregar Registro"}</h2>
         <p className="od-subtitle">Anota lo que se hizo o se observó en esta visita.</p>
         <hr className="od-divider" />
 
@@ -81,7 +84,7 @@ export function NuevoRegistroModal({ onClose, onGuardar, guardando }: Props) {
             Cancelar
           </button>
           <button className="od-btn-primary" onClick={handleGuardar} disabled={guardando}>
-            {guardando ? "Guardando..." : "Guardar Registro"}
+            {guardando ? "Guardando..." : esEdicion ? "Guardar Cambios" : "Guardar Registro"}
           </button>
         </div>
       </div>

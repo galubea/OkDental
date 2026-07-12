@@ -1,8 +1,9 @@
-export function formatFecha(fecha?: string | null): string {
+export function formatFecha(fecha: string | null | undefined): string {
   if (!fecha) return "Sin visitas registradas";
-  const d = new Date(fecha);
-  if (isNaN(d.getTime())) return fecha;
-  return d.toLocaleDateString("es-BO", { day: "numeric", month: "short", year: "numeric" });
+
+  const [anio, mes, dia] = fecha.split("-").map(Number);
+  const d = new Date(anio, mes - 1, dia);
+  return d.toLocaleDateString("es-BO", { day: "2-digit", month: "short", year: "numeric" });
 }
 
 export function iniciales(nombre: string): string {
