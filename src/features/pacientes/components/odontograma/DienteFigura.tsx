@@ -1,4 +1,4 @@
-import type { DienteData, EstadoDental, SuperficieDental } from "../../types";
+import type { DienteData, EstadoDental, SuperficieDental } from "../../types/odontograma";
 import { ESTADOS_DENTALES } from "../../utils/odontogramaConstants";
 import { FORMAS_DENTALES, tipoDeDiente, tipoDeDienteInfantil } from "../../utils/formasDentales";
 

@@ -27,6 +27,22 @@ export interface DienteData {
 }
 
 export interface OdontogramaCompleto {
+  id: string;
+  titulo: string;
+  fecha: string;
   adulto: Record<string, DienteData>;
   infantil: Record<string, DienteData>;
+  observacionGeneral: string;
+}
+
+export interface OdontogramaResumen {
+  id: string;
+  titulo: string;
+  fecha: string;
+  actualizadoEn: string;
+}
+
+export interface NuevoOdontogramaInput {
+  titulo: string;
+  fecha: string;
 }

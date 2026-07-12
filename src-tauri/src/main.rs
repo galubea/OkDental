@@ -19,6 +19,10 @@ mod citas {
     pub mod commands;
     pub mod models;
 }
+mod odontograma {
+    pub mod commands;
+    pub mod models;
+}
 use db::{init_db, DbConnection};
 use std::sync::Mutex;
 use tauri::Manager;
@@ -57,6 +61,12 @@ fn main() {
             citas::commands::marcar_atendida,
             auth::commands::listar_doctores,
             citas::commands::obtener_todas_las_citas,
+            odontograma::commands::listar_odontogramas,
+            odontograma::commands::obtener_odontograma,
+            odontograma::commands::crear_odontograma,
+            odontograma::commands::guardar_odontograma,
+            odontograma::commands::guardar_observacion_general,
+            odontograma::commands::eliminar_odontograma,
         ])
         .run(tauri::generate_context!())
         .expect("error al iniciar la aplicación");

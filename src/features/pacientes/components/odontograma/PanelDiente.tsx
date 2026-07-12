@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { ChevronDown, ChevronUp, X, Plus } from "lucide-react";
-import type { DienteData, EstadoDental, SuperficieDental } from "../../types";
+import { ChevronDown, ChevronUp, X, Save } from "lucide-react";
+import type { DienteData, EstadoDental, SuperficieDental } from "../../types/odontograma";
 import { ESTADOS_DENTALES } from "../../utils/odontogramaConstants";
 import { FORMAS_DENTALES, tipoDeDiente, tipoDeDienteInfantil } from "../../utils/formasDentales";
 
@@ -8,13 +8,14 @@ interface Props {
   numero: string;
   diente: DienteData;
   colapsado: boolean;
+  guardando: boolean;
   onToggleColapsar: () => void;
   onEstadoGeneral: (estado: EstadoDental) => void;
   onEstadoCara: (cara: SuperficieDental, estado: EstadoDental) => void;
   onReactivar: () => void;
   onResetear: () => void;
   onObservacionChange: (texto: string) => void;
-  onAgregarAvance: (texto: string) => void;
+  onGuardar: (textoAvanceNuevo: string) => Promise<boolean>;
   onCerrar: () => void;
   esInfantil?: boolean;
 }
@@ -58,7 +59,7 @@ function DientePreview({ diente, esInfantil = false }: { diente: DienteData; esI
         />
       ))}
       {ausente && (
-        <line // línea diagonal simple, funciona en cualquier viewBox porque usa %
+        <line
           x1="10%" y1="10%" x2="90%" y2="90%"
           stroke="#4a5568" strokeWidth="2%" strokeLinecap="round"
         />
@@ -66,7 +67,7 @@ function DientePreview({ diente, esInfantil = false }: { diente: DienteData; esI
     </svg>
   );
 }
-// Agrupa las caras afectadas por estado, para el resumen de texto.
+
 function calcularResumen(diente: DienteData) {
   if (diente.ausente) return [{ label: "Diente ausente", color: "#CBD2D9", caras: [] as string[] }];
 
@@ -85,17 +86,16 @@ function calcularResumen(diente: DienteData) {
 }
 
 export function PanelDiente({
-  numero, diente, colapsado, onToggleColapsar,
+  numero, diente, colapsado, guardando, onToggleColapsar,
   onReactivar, onResetear,
-  onObservacionChange, onAgregarAvance, onCerrar,
+  onObservacionChange, onGuardar, onCerrar,
   esInfantil
 }: Props) {
   const [textoNuevo, setTextoNuevo] = useState("");
 
-  function handleAgregar() {
-    if (!textoNuevo.trim()) return;
-    onAgregarAvance(textoNuevo.trim());
-    setTextoNuevo("");
+  async function handleGuardar() {
+    const ok = await onGuardar(textoNuevo.trim());
+    if (ok) setTextoNuevo("");
   }
 
   const avancesOrdenados = [...diente.avances].sort((a, b) => (a.fecha < b.fecha ? 1 : -1));
@@ -145,13 +145,10 @@ export function PanelDiente({
             )}
           </div>
 
-          {diente.ausente ? (
+          {diente.ausente && (
             <div className="odo-panel-ausente">
               <button className="odo-panel-reactivar" onClick={onReactivar}>Reactivar diente</button>
             </div>
-          ) : (
-            <>
-            </>
           )}
 
           {/* ---------- Observación ---------- */}
@@ -183,20 +180,20 @@ export function PanelDiente({
               )}
             </div>
 
-            <div className="odo-panel-avance-nuevo">
-              <textarea
-                className="odo-panel-textarea"
-                value={textoNuevo}
-                onChange={(e) => setTextoNuevo(e.target.value)}
-                placeholder="Ej: Se realizó obturación, próxima revisión en 3 meses…"
-                rows={2}
-              />
-              <button className="odo-panel-agregar-avance" onClick={handleAgregar}>
-                <Plus size={14} strokeWidth={2.4} />
-                Agregar avance
-              </button>
-            </div>
+            <textarea
+              className="odo-panel-textarea"
+              value={textoNuevo}
+              onChange={(e) => setTextoNuevo(e.target.value)}
+              placeholder="Ej: Se realizó obturación, próxima revisión en 3 meses… (opcional)"
+              rows={2}
+            />
           </div>
+
+          {/* ---------- Guardar (observación + avance nuevo, si hay) ---------- */}
+          <button className="od-btn-primary odo-panel-guardar" onClick={handleGuardar} disabled={guardando}>
+            <Save size={15} strokeWidth={2} />
+            {guardando ? "Guardando..." : "Guardar cambios"}
+          </button>
 
           <button className="odo-panel-resetear" onClick={onResetear}>↺ Restablecer diente</button>
         </div>

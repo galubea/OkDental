@@ -580,3 +580,131 @@
 .odo-layout-panel-abierto .odo-linea-media {
   display: none; 
 }
+
+.odo-observacion-general {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--od-border, #e5e7eb);
+}
+
+.odo-observacion-general-titulo {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--od-text, #1f2937);
+  margin-bottom: 8px;
+}
+
+.odo-observacion-general-textarea {
+  width: 100%;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 13.5px;
+  padding: 10px 12px;
+  border: 1px solid var(--od-border, #e5e7eb);
+  border-radius: var(--od-radius-sm, 8px);
+}
+
+.odo-historial {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--od-border, #e5e7eb);
+}
+
+.odo-historial-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.odo-historial-titulo {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--od-text, #1f2937);
+}
+
+.odo-nuevo-form {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  background: var(--od-bg-hover, #f9fafb);
+  padding: 12px;
+  border-radius: var(--od-radius-sm, 8px);
+  margin-bottom: 12px;
+}
+
+.odo-nuevo-form-acciones {
+  display: flex;
+  gap: 8px;
+}
+
+.odo-historial-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.odo-historial-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--od-border, #e5e7eb);
+  border-radius: var(--od-radius-sm, 8px);
+  background: var(--od-white, #fff);
+}
+
+.odo-historial-item.activo {
+  border-color: var(--od-primary, #4f46e5);
+  background: var(--od-primary-bg, #eef2ff);
+}
+
+.odo-historial-item-contenido {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  color: var(--od-text, #1f2937);
+  flex: 1;
+}
+
+.odo-historial-item-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.odo-historial-item-titulo {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.odo-historial-item-fecha {
+  font-size: 12px;
+  color: var(--od-subtext, #6b7280);
+}
+
+.odo-historial-item-eliminar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--od-subtext, #6b7280);
+}
+
+.odo-historial-item-eliminar:hover {
+  color: #dc2626;
+}
+
+.odo-panel-guardar {
+  width: 100%;
+  justify-content: center;
+  margin: 8px 0;
+}

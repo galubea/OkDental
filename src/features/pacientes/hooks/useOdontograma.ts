@@ -1,39 +1,90 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { Avance, DienteData, EstadoDental, ModoOdontograma, SuperficieDental } from "../types/odontograma";
-import { obtenerOdontograma, guardarOdontograma } from "../api";
+import type {
+  Avance,
+  DienteData,
+  EstadoDental,
+  ModoOdontograma,
+  OdontogramaResumen,
+  SuperficieDental,
+} from "../types/odontograma";
+import {
+  listarOdontogramas,
+  obtenerOdontogramaPorId,
+  crearOdontograma,
+  guardarDientes,
+  guardarObservacionGeneral,
+  eliminarOdontograma,
+} from "../api/odontogramaApi";
 import { ESTADOS_DENTALES } from "../utils/odontogramaConstants";
 
+function fechaHoy(): string {
+  return new Date().toISOString().slice(0, 10);
+}
+
 export function useOdontograma(pacienteId: number) {
+  const [odontogramas, setOdontogramas] = useState<OdontogramaResumen[]>([]);
+  const [odontogramaId, setOdontogramaId] = useState<string | null>(null);
   const [modo, setModo] = useState<ModoOdontograma>("adulto");
   const [dientesAdulto, setDientesAdulto] = useState<Record<string, DienteData>>({});
   const [dientesInfantil, setDientesInfantil] = useState<Record<string, DienteData>>({});
+  const [observacionGeneral, setObservacionGeneral] = useState("");
   const [pincelActivo, setPincelActivo] = useState<EstadoDental | null>(null);
   const [dienteSeleccionado, setDienteSeleccionado] = useState<string | null>(null);
   const [cargando, setCargando] = useState(true);
   const [guardando, setGuardando] = useState(false);
+  const [creando, setCreando] = useState(false);
   const [mensaje, setMensaje] = useState("");
 
-  const cargar = useCallback(async () => {
+  function mostrarMensaje(texto: string) {
+    setMensaje(texto);
+    setTimeout(() => setMensaje(""), 3000);
+  }
+
+  // Trae un odontograma específico y lo pone como "activo" en pantalla
+  const cargarOdontograma = useCallback(async (id: string) => {
+    const data = await obtenerOdontogramaPorId(id);
+    setOdontogramaId(data.id);
+    setDientesAdulto(data.adulto);
+    setDientesInfantil(data.infantil);
+    setObservacionGeneral(data.observacionGeneral ?? "");
+    setDienteSeleccionado(null);
+  }, []);
+
+  // Trae la lista de odontogramas del paciente. Si no hay ninguno, crea uno inicial.
+  const cargarTodo = useCallback(async () => {
     setCargando(true);
     try {
-      const data = await obtenerOdontograma(pacienteId);
-      setDientesAdulto(data.adulto);
-      setDientesInfantil(data.infantil);
+      const lista = await listarOdontogramas(pacienteId);
+
+      if (lista.length === 0) {
+        const nuevo = await crearOdontograma(pacienteId, {
+          titulo: "Odontograma inicial",
+          fecha: fechaHoy(),
+        });
+        const listaActualizada = await listarOdontogramas(pacienteId);
+        setOdontogramas(listaActualizada);
+        setOdontogramaId(nuevo.id);
+        setDientesAdulto(nuevo.adulto);
+        setDientesInfantil(nuevo.infantil);
+        setObservacionGeneral(nuevo.observacionGeneral ?? "");
+      } else {
+        setOdontogramas(lista);
+        await cargarOdontograma(lista[0].id);
+      }
+    } catch (e) {
+      mostrarMensaje(e instanceof Error ? e.message : "No se pudo cargar el odontograma.");
     } finally {
       setCargando(false);
     }
-  }, [pacienteId]);
+  }, [pacienteId, cargarOdontograma]);
 
   useEffect(() => {
-    cargar();
-  }, [cargar]);
+    cargarTodo();
+  }, [cargarTodo]);
 
   const dientes = modo === "adulto" ? dientesAdulto : dientesInfantil;
   const setDientes = modo === "adulto" ? setDientesAdulto : setDientesInfantil;
 
-  // ── Selección: clic en el diente completo ──
-  // Si hay pincel activo, pinta TODAS las caras (estado general) y NO abre panel.
-  // Si no hay pincel activo, abre/cierra el panel de detalle.
   function seleccionarDiente(numero: string) {
     if (pincelActivo) {
       aplicarEstadoGeneral(numero, pincelActivo);
@@ -42,9 +93,6 @@ export function useOdontograma(pacienteId: number) {
     setDienteSeleccionado((actual) => (actual === numero ? null : numero));
   }
 
-  // ── Selección: clic en UNA cara del círculo ──
-  // Si hay pincel activo, pinta SOLO esa cara.
-  // Si no hay pincel activo, abre el panel igual que un clic normal (sin pintar).
   function seleccionarCara(numero: string, cara: SuperficieDental) {
     if (pincelActivo) {
       aplicarEstadoCara(numero, cara, pincelActivo);
@@ -131,19 +179,130 @@ export function useOdontograma(pacienteId: number) {
   }
 
   async function guardar() {
+    if (!odontogramaId) {
+      mostrarMensaje("No se pudo guardar: odontograma no identificado.");
+      return;
+    }
     setGuardando(true);
     try {
-      await guardarOdontograma(pacienteId, modo, dientes);
-      setMensaje("Odontograma guardado correctamente.");
-    } catch {
-      setMensaje("No se pudo guardar el odontograma.");
+      await guardarDientes(odontogramaId, modo, dientes);
+      await guardarObservacionGeneral(odontogramaId, observacionGeneral);
+      const listaActualizada = await listarOdontogramas(pacienteId);
+      setOdontogramas(listaActualizada);
+      mostrarMensaje("Odontograma guardado correctamente.");
+    } catch (e) {
+      mostrarMensaje(e instanceof Error ? e.message : "No se pudo guardar el odontograma.");
     } finally {
       setGuardando(false);
-      setTimeout(() => setMensaje(""), 3000);
     }
   }
 
-  // Resumen: cuántos dientes tienen cada estado (mirando la superficie vestibular como referencia rápida)
+  // Cambia de odontograma activo (sin perder los otros)
+  async function seleccionarOdontograma(id: string) {
+    if (id === odontogramaId) return;
+    setCargando(true);
+    try {
+      await cargarOdontograma(id);
+    } catch (e) {
+      mostrarMensaje(e instanceof Error ? e.message : "No se pudo cargar ese odontograma.");
+    } finally {
+      setCargando(false);
+    }
+  }
+  const [eliminando, setEliminando] = useState(false);
+
+  async function eliminar(id: string) {
+    setEliminando(true);
+    try {
+      await eliminarOdontograma(id);
+      const listaActualizada = await listarOdontogramas(pacienteId);
+      setOdontogramas(listaActualizada);
+
+      // Si el que borraste era el que estabas viendo, cambia al primero de la lista (o crea uno nuevo si ya no queda ninguno)
+      if (id === odontogramaId) {
+        if (listaActualizada.length > 0) {
+          await cargarOdontograma(listaActualizada[0].id);
+        } else {
+          const nuevo = await crearOdontograma(pacienteId, {
+            titulo: "Odontograma inicial",
+            fecha: fechaHoy(),
+          });
+          const listaFinal = await listarOdontogramas(pacienteId);
+          setOdontogramas(listaFinal);
+          setOdontogramaId(nuevo.id);
+          setDientesAdulto(nuevo.adulto);
+          setDientesInfantil(nuevo.infantil);
+          setObservacionGeneral(nuevo.observacionGeneral ?? "");
+        }
+      }
+
+      mostrarMensaje("Odontograma eliminado.");
+      return true;
+    } catch (e) {
+      mostrarMensaje(e instanceof Error ? e.message : "No se pudo eliminar el odontograma.");
+      return false;
+    } finally {
+      setEliminando(false);
+    }
+  }
+  async function guardarDiente(numero: string, textoAvanceNuevo: string) {
+    if (!odontogramaId) {
+      mostrarMensaje("No se pudo guardar: odontograma no identificado.");
+      return false;
+    }
+
+    setGuardando(true);
+    try {
+      let dientesActualizados = dientes;
+
+      if (textoAvanceNuevo.trim()) {
+        const nuevo: Avance = {
+          id: crypto.randomUUID(),
+          fecha: new Date().toISOString().slice(0, 10),
+          texto: textoAvanceNuevo.trim(),
+        };
+        dientesActualizados = {
+          ...dientes,
+          [numero]: { ...dientes[numero], avances: [...dientes[numero].avances, nuevo] },
+        };
+        setDientes(dientesActualizados);
+      }
+
+      await guardarDientes(odontogramaId, modo, dientesActualizados);
+      await guardarObservacionGeneral(odontogramaId, observacionGeneral);
+      mostrarMensaje("Cambios del diente guardados.");
+      return true;
+    } catch (e) {
+      mostrarMensaje(e instanceof Error ? e.message : "No se pudo guardar los cambios.");
+      return false;
+    } finally {
+      setGuardando(false);
+    }
+  }
+
+  // Crea un odontograma nuevo, vacío, y lo deja seleccionado
+  async function crearNuevoOdontograma(titulo: string, fecha: string) {
+    setCreando(true);
+    try {
+      const nuevo = await crearOdontograma(pacienteId, { titulo, fecha });
+      const listaActualizada = await listarOdontogramas(pacienteId);
+      setOdontogramas(listaActualizada);
+      setOdontogramaId(nuevo.id);
+      setDientesAdulto(nuevo.adulto);
+      setDientesInfantil(nuevo.infantil);
+      setObservacionGeneral(nuevo.observacionGeneral ?? "");
+      setDienteSeleccionado(null);
+      mostrarMensaje("Odontograma creado.");
+      return true;
+    } catch (e) {
+      mostrarMensaje(e instanceof Error ? e.message : "No se pudo crear el odontograma.");
+      return false;
+    } finally {
+      setCreando(false);
+    }
+  }
+  
+
   const resumen = useMemo(() => {
     const conteo: Record<string, number> = {};
     Object.values(dientes).forEach((d) => {
@@ -159,12 +318,17 @@ export function useOdontograma(pacienteId: number) {
   }, [dientes]);
 
   return {
+    odontogramas, odontogramaId, seleccionarOdontograma,
+    crearNuevoOdontograma, creando,
+    eliminar, eliminando,
     modo, setModo,
     dientes,
+    observacionGeneral, setObservacionGeneral,
     pincelActivo, setPincelActivo,
     dienteSeleccionado, seleccionarDiente, seleccionarCara, cerrarPanel,
     aplicarEstadoCara, aplicarEstadoGeneral, reactivarDiente, resetearDiente,
     agregarAvance, actualizarObservacion,
+    guardarDiente,
     cargando, guardando, guardar, mensaje,
     resumen,
   };

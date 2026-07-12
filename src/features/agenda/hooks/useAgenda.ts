@@ -47,7 +47,7 @@ export function useAgenda() {
             fecha: c.fecha,
             horaInicio: c.hora,
             duracionMin: c.duracionMin ?? 60,
-            doctorId: c.doctorId ?? null,
+            doctorId: c.doctorId ? String(c.doctorId) : null,
             estado: c.estado,
           } as CitaAgendaVista;
         })

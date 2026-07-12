@@ -1,4 +1,4 @@
-import type { DienteData, SuperficieDental } from "../../types";
+import type { DienteData, SuperficieDental } from "../../types/odontograma";
 import { getDienteSvgUrl } from "../../utils/dientesAssets";
 import { DienteFigura } from "./DienteFigura";
 

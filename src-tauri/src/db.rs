@@ -107,21 +107,55 @@ pub fn init_db(app: &AppHandle) -> Connection {
             id               TEXT PRIMARY KEY,
             cita_id          TEXT NOT NULL,
             nombre           TEXT NOT NULL,
-    diente           TEXT,
-    cantidad         INTEGER NOT NULL,
-    precio_unitario  REAL NOT NULL,
-    FOREIGN KEY (cita_id) REFERENCES cita(id) ON DELETE CASCADE
-);
+            diente           TEXT,
+            cantidad         INTEGER NOT NULL,
+            precio_unitario  REAL NOT NULL,
+            FOREIGN KEY (cita_id) REFERENCES cita(id) ON DELETE CASCADE
+        );
 
-CREATE TABLE IF NOT EXISTS pago (
-    id       TEXT PRIMARY KEY,
-    cita_id  TEXT NOT NULL,
-    fecha    TEXT NOT NULL,
-    metodo   TEXT NOT NULL,
-    nota     TEXT,
-    monto    REAL NOT NULL,
-    FOREIGN KEY (cita_id) REFERENCES cita(id) ON DELETE CASCADE
-);
+        CREATE TABLE IF NOT EXISTS pago (
+            id       TEXT PRIMARY KEY,
+            cita_id  TEXT NOT NULL,
+            fecha    TEXT NOT NULL,
+            metodo   TEXT NOT NULL,
+            nota     TEXT,
+            monto    REAL NOT NULL,
+            FOREIGN KEY (cita_id) REFERENCES cita(id) ON DELETE CASCADE
+        );
+        CREATE TABLE IF NOT EXISTS odontograma (
+            id                    TEXT PRIMARY KEY,
+            paciente_id           INTEGER NOT NULL,
+            titulo                TEXT NOT NULL DEFAULT '',
+            fecha                 TEXT NOT NULL,
+            observacion_general   TEXT NOT NULL DEFAULT '',
+            creado_en             TEXT NOT NULL DEFAULT (datetime('now')),
+            actualizado_en        TEXT NOT NULL DEFAULT (datetime('now')),
+            FOREIGN KEY (paciente_id) REFERENCES paciente(id) ON DELETE CASCADE
+        );
+
+        CREATE TABLE IF NOT EXISTS diente (
+            id                     TEXT PRIMARY KEY,
+            odontograma_id         TEXT NOT NULL,
+            modo                   TEXT NOT NULL CHECK (modo IN ('adulto', 'infantil')),
+            numero                 TEXT NOT NULL,
+            ausente                INTEGER NOT NULL DEFAULT 0,
+            superficie_vestibular  TEXT NOT NULL DEFAULT 'sano',
+            superficie_lingual     TEXT NOT NULL DEFAULT 'sano',
+            superficie_mesial      TEXT NOT NULL DEFAULT 'sano',
+            superficie_distal      TEXT NOT NULL DEFAULT 'sano',
+            superficie_oclusal     TEXT NOT NULL DEFAULT 'sano',
+            observacion            TEXT NOT NULL DEFAULT '',
+            FOREIGN KEY (odontograma_id) REFERENCES odontograma(id) ON DELETE CASCADE,
+            UNIQUE (odontograma_id, modo, numero)
+        );
+
+        CREATE TABLE IF NOT EXISTS avance (
+            id         TEXT PRIMARY KEY,
+            diente_id  TEXT NOT NULL,
+            fecha      TEXT NOT NULL,
+            texto      TEXT NOT NULL,
+            FOREIGN KEY (diente_id) REFERENCES diente(id) ON DELETE CASCADE
+        );
         ",
     )
     .expect("no se pudo inicializar el esquema");

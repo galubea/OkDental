@@ -1,4 +1,4 @@
-import type { EstadoDental } from "../../types";
+import type { EstadoDental } from "../../types/odontograma";
 import { ESTADOS_DENTALES } from "../../utils/odontogramaConstants";
 
 interface Props {
