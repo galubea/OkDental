@@ -5,6 +5,7 @@ import HistoriaClinicaTab from "./HistoriaClinicaTab";
 import ResumenClinicoTab from "./ResumenClinicoTab";
 import OdontogramaTab from "./OdontogramaTab";
 import CitasTab from "./CitasTab"; 
+import FotosTab from "./FotosTab";
 import "./styles/Pacientes.css";
 
 interface Props {
@@ -12,7 +13,7 @@ interface Props {
   onVolver: () => void;
 }
 
-type TabDetalle = "info" | "historia" | "resumen" | "citas" | "odontograma"; 
+type TabDetalle = "info" | "historia" | "resumen" | "citas" | "odontograma" | "fotos";
 
 export default function PacienteDetalle({ pacienteId, onVolver }: Props) {
   const { paciente, cargando, error, guardando, guardar } = usePacienteDetalle(pacienteId);
@@ -65,6 +66,12 @@ export default function PacienteDetalle({ pacienteId, onVolver }: Props) {
         >
           Odontograma
         </span>
+        <span
+          className={`od-detalle-tab ${tab === "fotos" ? "activo" : ""}`}
+          onClick={() => setTab("fotos")}
+        >
+          Fotos
+        </span>
       </div>
 
       {tab === "info" && (
@@ -82,6 +89,7 @@ export default function PacienteDetalle({ pacienteId, onVolver }: Props) {
       {tab === "resumen" && <ResumenClinicoTab pacienteId={pacienteId} />}
       {tab === "citas" && <CitasTab pacienteId={pacienteId} pacienteNombre={paciente.nombre} />}
       {tab === "odontograma" && <OdontogramaTab pacienteId={pacienteId} />}
+      {tab === "fotos" && <FotosTab pacienteId={pacienteId} />}
     </div>
   );
 }

@@ -27,7 +27,7 @@ export default function OdontogramaTab({ pacienteId }: Props) {
     pincelActivo, setPincelActivo,
     dienteSeleccionado, seleccionarDiente, seleccionarCara, cerrarPanel,
     aplicarEstadoCara, aplicarEstadoGeneral, reactivarDiente, resetearDiente,
-    agregarAvance, actualizarObservacion, resumen, guardarDiente,
+    actualizarObservacion, resumen, guardarDiente,
   } = useOdontograma(pacienteId);
 
   const [panelColapsado, setPanelColapsado] = useState(false);
