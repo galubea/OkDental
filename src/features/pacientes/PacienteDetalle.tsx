@@ -6,7 +6,9 @@ import ResumenClinicoTab from "./ResumenClinicoTab";
 import OdontogramaTab from "./OdontogramaTab";
 import CitasTab from "./CitasTab"; 
 import FotosTab from "./FotosTab";
+import { Toast, type ToastTipo } from "./components/common/Toast";
 import "./styles/Pacientes.css";
+import "./styles/modal.css";
 
 interface Props {
   pacienteId: number;
@@ -19,10 +21,24 @@ export default function PacienteDetalle({ pacienteId, onVolver }: Props) {
   const { paciente, cargando, error, guardando, guardar } = usePacienteDetalle(pacienteId);
   const [editando, setEditando] = useState(false);
   const [tab, setTab] = useState<TabDetalle>("info");
+  const [toast, setToast] = useState<{ titulo: string; mensaje: string; tipo: ToastTipo } | null>(null);
 
   async function handleGuardar(cambios: Parameters<typeof guardar>[0]) {
     const ok = await guardar(cambios);
-    if (ok) setEditando(false);
+    if (ok) {
+      setEditando(false);
+      setToast({
+        titulo: "¡Éxito!",
+        mensaje: "La información se ha guardado correctamente.",
+        tipo: "exito",
+      });
+    } else {
+      setToast({
+        titulo: "Error",
+        mensaje: "Ocurrió un problema al guardar los cambios.",
+        tipo: "error",
+      });
+    }
     return ok;
   }
 
@@ -90,6 +106,15 @@ export default function PacienteDetalle({ pacienteId, onVolver }: Props) {
       {tab === "citas" && <CitasTab pacienteId={pacienteId} pacienteNombre={paciente.nombre} />}
       {tab === "odontograma" && <OdontogramaTab pacienteId={pacienteId} />}
       {tab === "fotos" && <FotosTab pacienteId={pacienteId} />}
+
+      {toast && (
+        <Toast
+          titulo={toast.titulo}
+          mensaje={toast.mensaje}
+          tipo={toast.tipo}
+          onCerrar={() => setToast(null)}
+        />
+      )}
     </div>
   );
 }

@@ -1,5 +1,20 @@
 import { useEffect, useState } from "react";
-import { Save, X, SquarePen } from "lucide-react";
+import {
+  Save,
+  X,
+  SquarePen,
+  User,
+  IdCard,
+  Calendar,
+  Cake,
+  UserRound,
+  Phone,
+  Mail,
+  MapPin,
+  Briefcase,
+  UserRoundCog,
+  type LucideIcon,
+} from "lucide-react";
 import type { Paciente } from "../../types/paciente";
 
 interface Props {
@@ -11,27 +26,31 @@ interface Props {
   onCancelar: () => void;
 }
 
-const FILAS: { label: string; key: keyof Paciente; type?: string }[][] = [
-  [
-    { label: "Nombre", key: "nombre" },
-    { label: "Apellido", key: "apellido" },
-  ],
-  [
-    { label: "CI / Identificación", key: "ci" },
-    { label: "Edad", key: "edad", type: "number" },
-  ],
-  [
-    { label: "Fecha de nacimiento", key: "fecha_nacimiento", type: "date" },
-    { label: "Género", key: "genero" },
-  ],
-  [
-    { label: "Teléfono", key: "telefono" },
-    { label: "Correo electrónico", key: "email" },
-  ],
-  [
-    { label: "Dirección", key: "direccion" },
-    { label: "Ocupación", key: "ocupacion" },
-  ],
+type Color = "azul" | "verde" | "morado" | "naranja";
+
+const FILAS: {
+  label: string;
+  key: keyof Paciente;
+  type?: string;
+  icon: LucideIcon;
+  color: Color;
+}[] = [
+  { label: "Nombre", key: "nombre", icon: User, color: "azul" },
+  { label: "Apellido", key: "apellido", icon: User, color: "azul" },
+  { label: "CI / Identificación", key: "ci", icon: IdCard, color: "verde" },
+  { label: "Edad", key: "edad", type: "number", icon: Calendar, color: "morado" },
+  {
+    label: "Fecha de nacimiento",
+    key: "fecha_nacimiento",
+    type: "date",
+    icon: Cake,
+    color: "morado",
+  },
+  { label: "Género", key: "genero", icon: UserRound, color: "morado" },
+  { label: "Teléfono", key: "telefono", icon: Phone, color: "naranja" },
+  { label: "Correo electrónico", key: "email", icon: Mail, color: "naranja" },
+  { label: "Dirección", key: "direccion", icon: MapPin, color: "azul" },
+  { label: "Ocupación", key: "ocupacion", icon: Briefcase, color: "azul" },
 ];
 
 function normalizarCambios(form: Paciente): Partial<Omit<Paciente, "id">> {
@@ -65,15 +84,25 @@ export function InfoPersonalTab({
 
   return (
     <div className="od-info-card">
-      <h2 className="od-info-titulo">Información Personal</h2>
+      <div className="od-info-header">
+        <div className="od-info-header-icono">
+          <UserRoundCog size={20} strokeWidth={2} />
+        </div>
+        <div className="od-info-header-texto">
+          <h2 className="od-info-titulo">Información Personal</h2>
+          <p className="od-info-subtitulo">
+            Datos personales del paciente registrados en el sistema.
+          </p>
+        </div>
+      </div>
 
-      {FILAS.map((fila, i) => (
-        <div
-          className={`od-info-fila ${i === FILAS.length - 1 ? "od-info-fila-ultima" : ""}`}
-          key={i}
-        >
-          {fila.map(({ label, key, type }) => (
-            <div className="od-field" key={key}>
+      <div className="od-info-grid">
+        {FILAS.map(({ label, key, type, icon: Icon, color }) => (
+          <div className={`od-campo-card ${editando ? "editando" : ""}`} key={key}>
+            <div className={`od-campo-icono ${color}`}>
+              <Icon size={19} strokeWidth={2} />
+            </div>
+            <div className="od-campo-texto">
               <label>{label}</label>
               {editando ? (
                 <input
@@ -85,9 +114,9 @@ export function InfoPersonalTab({
                 <p className="od-info-value">{(paciente[key] as string) || "—"}</p>
               )}
             </div>
-          ))}
-        </div>
-      ))}
+          </div>
+        ))}
+      </div>
 
       <div className="od-info-footer">
         {editando ? (
