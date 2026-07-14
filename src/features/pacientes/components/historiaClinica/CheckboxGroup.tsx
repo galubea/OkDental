@@ -1,7 +1,7 @@
 interface Props {
   opciones: string[];
   seleccion: string[];
-  onChange: (seleccion: string[]) => void;
+  onChange: (sel: string[]) => void;
 }
 
 export function CheckboxGroup({ opciones, seleccion, onChange }: Props) {
@@ -17,7 +17,11 @@ export function CheckboxGroup({ opciones, seleccion, onChange }: Props) {
     <div className="hc-checkbox-grid">
       {opciones.map((op) => (
         <label className="hc-checkbox" key={op}>
-          <input type="checkbox" checked={seleccion.includes(op)} onChange={() => toggle(op)} />
+          <input
+            type="checkbox"
+            checked={seleccion.includes(op)}
+            onChange={() => toggle(op)}
+          />
           {op}
         </label>
       ))}

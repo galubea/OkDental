@@ -1,155 +1,369 @@
-/* ---------- Detalle: Historia Clínica ---------- */
-.hc-card {
-  background: var(--od-white);
-  border-radius: var(--od-radius);
-  box-shadow: var(--od-shadow);
-  padding: 32px 40px 28px;
+/* ---------- Historia Clínica: Header ---------- */
+.hc-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--od-border);
 }
 
-.hc-titulo {
+.hc-header-icono {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #e8f0fe;
+  color: var(--od-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hc-header-texto h2 {
   font-size: 19px;
   font-weight: 700;
   color: var(--od-text);
-  margin: 0 0 24px 0;
+  margin: 0;
+  line-height: 1.2;
 }
 
-.hc-section-title {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+.hc-header-texto p {
+  margin: 2px 0 0 0;
+  font-size: 13px;
   color: var(--od-subtext);
-  margin: 0 0 14px 0;
 }
 
-.hc-fila {
-  display: flex;
-  gap: 32px;
+/* ---------- Secciones (cards con borde de color) ---------- */
+.hc-seccion {
+  background: var(--od-white);
+  border-radius: var(--od-radius);
+  box-shadow: var(--od-shadow);
+  border: 1px solid var(--od-border);
+  border-left: 4px solid var(--sec-color, var(--od-primary));
+  padding: 24px 28px 28px;
   margin-bottom: 20px;
 }
 
-.hc-campo {
-  flex: 1;
+.hc-seccion-header {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
 }
 
-.hc-campo label {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--od-label);
+.hc-seccion-icono {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--sec-color, var(--od-primary));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-.hc-valor {
+.hc-seccion-titulo {
   margin: 0;
-  font-size: 15px;
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--od-text);
+}
+
+.hc-seccion-subtitulo {
+  margin: 2px 0 0 0;
+  font-size: 12.5px;
+  color: var(--od-subtext);
+}
+
+/* Paletas por sección */
+.hc-seccion--azul   { --sec-color: var(--od-primary); }
+.hc-seccion--morado { --sec-color: #7c4fe0; }
+.hc-seccion--verde  { --sec-color: #1e8e5a; }
+.hc-seccion--naranja{ --sec-color: #e07f28; }
+.hc-seccion--rosado { --sec-color: #e0507c; }
+
+/* ---------- Filas y campos agrupados dentro de una sección ---------- */
+.hc-fila {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+.hc-fila:last-child {
+  margin-bottom: 0;
+}
+
+.hc-campo-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--od-white);
+  border: 1px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+  padding: 12px 16px;
+  min-width: 180px;
+  flex: 1;
+}
+
+.hc-campo-card-icono {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--od-white);
+  color: var(--sec-color, var(--od-primary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hc-campo-card-texto {
+  flex: 1;
+  min-width: 0;
+}
+
+.hc-campo-card-texto > label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--od-subtext);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.hc-campo-card-texto .hc-valor {
+  margin: 0;
+  font-size: 14.5px;
   font-weight: 600;
   color: var(--od-text);
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
-.hc-campo textarea {
-  min-height: 72px;
+.hc-campo-card-fila-doble {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Inputs/textareas dentro de campo-card, modo edición */
+.hc-campo-card:has(textarea),
+.hc-campo-card:has(input) {
+  background: var(--od-white);
   border: 1.5px solid var(--od-border);
-  border-radius: var(--od-radius-sm);
-  background: var(--od-input-bg);
-  padding: 10px 14px;
+  align-items: flex-start;
+}
+.hc-campo-card:has(textarea:focus),
+.hc-campo-card:has(input:focus) {
+  border-color: var(--sec-color, var(--od-primary));
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.08);
+}
+.hc-campo-card textarea,
+.hc-campo-card input[type="text"] {
+  border: none;
+  background: transparent;
+  padding: 0;
   font-size: 14px;
   font-family: inherit;
   color: var(--od-text);
+  width: 100%;
+}
+.hc-campo-card textarea {
+  min-height: 60px;
   resize: vertical;
 }
-.hc-campo textarea:focus {
+.hc-campo-card textarea:focus,
+.hc-campo-card input[type="text"]:focus {
+  outline: none;
+}
+
+/* Badge Sí/No pill (modo vista) */
+.hc-badge-sn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+.hc-badge-sn--si {
+  background: #fdecea;
+  color: var(--od-required);
+}
+.hc-badge-sn--no {
+  background: var(--od-success-bg);
+  color: var(--od-success-text);
+}
+.hc-badge-sn--neutro {
+  background: var(--od-input-bg);
+  color: var(--od-subtext);
+}
+
+/* ---------- Tabla de preguntas (Anamnesis / COVID) ---------- */
+.hc-tabla-preguntas {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--od-white);
+  border-radius: var(--od-radius-sm);
+  overflow: hidden;
+}
+.hc-tabla-preguntas thead th {
+  text-align: left;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--od-subtext);
+  padding: 12px 12px 10px 12px;
+}
+
+.hc-tabla-preguntas tbody tr {
+  border-top: 1px solid var(--od-border);
+}
+
+.hc-tabla-preguntas td {
+  padding: 12px;
+  vertical-align: middle;
+  font-size: 13.5px;
+  color: var(--od-text);
+}
+
+.hc-pregunta-celda {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hc-pregunta-icono {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--od-field-bg, #f5f6f8);
+  color: var(--sec-color, var(--od-primary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hc-detalle-celda {
+  color: var(--od-subtext);
+}
+
+/* Fila de tabla en modo edición: radios + input */
+.hc-tabla-preguntas .hc-radio-group {
+  display: flex;
+  gap: 6px;
+}
+.hc-tabla-preguntas .hc-radio {
+  padding: 6px 14px;
+  gap: 8px;
+  font-size: 12.5px;
+}
+.hc-tabla-preguntas input[type="text"] {
+  height: 34px;
+  border: 1.5px solid var(--od-border);
+  border-radius: 8px;
+  background: var(--od-input-bg);
+  padding: 0 10px;
+  font-size: 13px;
+  width: 100%;
+  min-width: 120px;
+}
+.hc-tabla-preguntas input[type="text"]:focus {
   outline: none;
   border-color: var(--od-primary);
   background: var(--od-white);
 }
 
-.hc-radio-group {
-  display: flex;
-  gap: 20px;
-}
+/* ---------- Radios y checkboxes tipo pill ---------- */
+.hc-radio-group { display: flex; gap: 8px; flex-wrap: wrap; }
 .hc-radio {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  color: var(--od-text);
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--od-label);
   cursor: pointer;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1.5px solid var(--od-border);
+  background: var(--od-white);
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.hc-radio:has(input:checked) {
+  border-color: var(--sec-color, var(--od-primary));
+  background: color-mix(in srgb, var(--sec-color, var(--od-primary)) 10%, white);
+  color: var(--sec-color, var(--od-primary));
 }
 .hc-radio input {
-  accent-color: var(--od-primary);
-  width: 16px;
-  height: 16px;
+  accent-color: var(--sec-color, var(--od-primary));
+  width: 13px;
+  height: 13px;
+  margin: 0;
+  flex-shrink: 0;
+  position: relative;
+  top: 0.5px;
 }
 
-.hc-checkbox-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px 16px;
-}
+.hc-checkbox-grid { display: flex; flex-wrap: wrap; gap: 8px; }
 .hc-checkbox {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
-  color: var(--od-text);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--od-label);
   cursor: pointer;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1.5px solid var(--od-border);
+  background: var(--od-white);
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.hc-checkbox:has(input:checked) {
+  border-color: var(--sec-color, var(--od-primary));
+  background: color-mix(in srgb, var(--sec-color, var(--od-primary)) 10%, white);
+  color: var(--sec-color, var(--od-primary));
 }
 .hc-checkbox input {
-  accent-color: var(--od-primary);
-  width: 16px;
-  height: 16px;
+  accent-color: var(--sec-color, var(--od-primary));
+  width: 13px;
+  height: 13px;
+  margin: 0;
+  flex-shrink: 0;
+  position: relative;
+  top: 0.5px;
 }
 
-.hc-divider {
-  border: none;
-  border-top: 1px solid var(--od-border);
-  margin: 4px 0 24px 0;
-}
-
+/* ---------- Footer ---------- */
 .hc-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-top: 24px;
-  padding-top: 20px;
-  border-top: 1px solid var(--od-border);
+  margin-top: 8px;
 }
-
-.hc-footer-botones {
-  display: flex;
-  gap: 12px;
-}
-
+.hc-footer-botones { display: flex; gap: 12px; margin-left: auto; }
 .hc-mensaje {
-  font-size: 12.5px;
-  font-weight: 600;
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12.5px; font-weight: 600; padding: 6px 12px; border-radius: 999px;
 }
-.hc-mensaje-ok { color: var(--od-success-text); }
-.hc-mensaje-error { color: var(--od-required); }
-.hc-mensaje-info { color: #b7791f; }
+.hc-mensaje-ok { color: var(--od-success-text); background: var(--od-success-bg); }
+.hc-mensaje-error { color: var(--od-required); background: #fdecea; }
+.hc-mensaje-info { color: #b7791f; background: #fef6e7; }
 
-.hc-estado {
-  padding: 60px 0;
-  text-align: center;
-  color: var(--od-subtext);
-  font-size: 14px;
-}
+.hc-estado { padding: 60px 0; text-align: center; color: var(--od-subtext); font-size: 14px; }
 
-.hc-campo input[type="text"] {
-  height: 42px;
-  border: 1.5px solid var(--od-border);
-  border-radius: var(--od-radius-sm);
-  background: var(--od-input-bg);
-  padding: 0 14px;
-  font-size: 14px;
-  color: var(--od-text);
-}
-.hc-campo input[type="text"]:focus {
-  outline: none;
-  border-color: var(--od-primary);
+.hc-wrapper {
   background: var(--od-white);
+  border-radius: var(--od-radius);
+  box-shadow: var(--od-shadow);
+  border: 1px solid var(--od-border);
+  padding: 32px 40px 28px;
 }

@@ -2,7 +2,7 @@ interface Props {
   name: string;
   opciones: string[];
   valor: string;
-  onChange: (valor: string) => void;
+  onChange: (v: string) => void;
 }
 
 export function RadioGroup({ name, opciones, valor, onChange }: Props) {
