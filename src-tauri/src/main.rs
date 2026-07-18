@@ -23,6 +23,10 @@ mod odontograma {
     pub mod commands;
     pub mod models;
 }
+mod catalogo_tratamientos {
+    pub mod commands;
+    pub mod models;
+}
 use db::{init_db, DbConnection};
 use std::sync::Mutex;
 use tauri::Manager;
@@ -67,6 +71,11 @@ fn main() {
             odontograma::commands::guardar_odontograma,
             odontograma::commands::guardar_observacion_general,
             odontograma::commands::eliminar_odontograma,
+            catalogo_tratamientos::commands::catalogo_get_categorias,
+            catalogo_tratamientos::commands::catalogo_get_tratamientos,
+            catalogo_tratamientos::commands::catalogo_crear_tratamiento,
+            catalogo_tratamientos::commands::catalogo_actualizar_tratamiento,
+            catalogo_tratamientos::commands::catalogo_eliminar_tratamiento,
         ])
         .run(tauri::generate_context!())
         .expect("error al iniciar la aplicación");

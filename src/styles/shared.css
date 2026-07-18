@@ -1,0 +1,112 @@
+.od-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.od-dropdown.od-select-filtro {
+  width: 220px;
+  flex-shrink: 0;
+}
+
+.od-dropdown-trigger {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--od-white);
+  border: 1.5px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+  padding: 0 14px;
+  font-size: 14px;
+  color: var(--od-text);
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+.od-dropdown-trigger:hover {
+  border-color: #cbd5e1;
+}
+
+.od-dropdown-icon {
+  color: var(--od-subtext);
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+.od-dropdown-icon.abierto {
+  transform: rotate(180deg);
+}
+
+.od-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: var(--od-white);
+  border: 1px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+  box-shadow: var(--od-shadow-hover);
+  padding: 6px;
+  z-index: 30;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.od-dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--od-text);
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+.od-dropdown-item:hover {
+  background: var(--od-input-bg);
+}
+.od-dropdown-item.activo {
+  background: #e8f0fe;
+  color: var(--od-primary);
+  font-weight: 600;
+}
+
+/*search*/
+
+.od-search-wrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.od-search-icon {
+  position: absolute;
+  left: 16px;
+  color: var(--od-subtext);
+  pointer-events: none;
+}
+
+.od-search-input {
+  width: 100%;
+  height: 48px;
+  border: 1.5px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+  background: var(--od-white);
+  padding: 0 16px 0 44px;
+  font-size: 14px;
+  color: var(--od-text);
+}
+.od-search-input:focus {
+  outline: none;
+  border-color: var(--od-primary);
+}
+
+/*Categorias*/
+.od-badge-categoria {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 700;
+}

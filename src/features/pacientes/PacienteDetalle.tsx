@@ -6,6 +6,7 @@ import ResumenClinicoTab from "./ResumenClinicoTab";
 import OdontogramaTab from "./OdontogramaTab";
 import CitasTab from "./CitasTab"; 
 import FotosTab from "./FotosTab";
+import CasosClinicosTab from "./casoClinicoTab";
 import { Toast, type ToastTipo } from "./components/common/Toast";
 import "./styles/Pacientes.css";
 import "./styles/modal.css";
@@ -15,7 +16,7 @@ interface Props {
   onVolver: () => void;
 }
 
-type TabDetalle = "info" | "historia" | "resumen" | "citas" | "odontograma" | "fotos";
+type TabDetalle = "info" | "historia" | "resumen" | "citas" | "odontograma" | "fotos" | "casos";
 
 export default function PacienteDetalle({ pacienteId, onVolver }: Props) {
   const { paciente, cargando, error, guardando, guardar } = usePacienteDetalle(pacienteId);
@@ -88,6 +89,12 @@ export default function PacienteDetalle({ pacienteId, onVolver }: Props) {
         >
           Fotos
         </span>
+        <span
+          className={`od-detalle-tab ${tab === "casos" ? "activo" : ""}`}
+          onClick={() => setTab("casos")}
+        >
+          Casos Clínicos
+        </span>
       </div>
 
       {tab === "info" && (
@@ -106,6 +113,7 @@ export default function PacienteDetalle({ pacienteId, onVolver }: Props) {
       {tab === "citas" && <CitasTab pacienteId={pacienteId} pacienteNombre={paciente.nombre} />}
       {tab === "odontograma" && <OdontogramaTab pacienteId={pacienteId} />}
       {tab === "fotos" && <FotosTab pacienteId={pacienteId} />}
+      {tab === "casos" && <CasosClinicosTab pacienteId={pacienteId} />}
 
       {toast && (
         <Toast

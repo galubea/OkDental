@@ -1,10 +1,12 @@
 import { Pencil, X, Save, ClipboardList, Users, Syringe, Stethoscope, Sparkles,
   Pill, ShieldAlert, MessageCircleWarning, Droplets, Smile, AlertTriangle, Settings2,
-  Wind, Radar, ScanFace, User2, ThermometerSun, HeartPulse, Waves, Vault, Component, Grid2x2 } from "lucide-react";
+  Radar, ThermometerSun, HeartPulse } from "lucide-react";
 import { useHistoriaClinica } from "./hooks/useHistoriaClinica";
+import { useToast } from "./hooks/useToast";
 import { CampoFila, RadioGroup, CheckboxGroup } from "./components";
 import { Seccion } from "./components/historiaClinica/Seccion";
 import { TablaPreguntas } from "./components/historiaClinica/TablaPreguntas";
+import { Toast, type ToastTipo } from "./components/common/Toast";
 import "./styles/historiaClinica.css";
 
 const ANTECEDENTES_PERSONALES = [
@@ -44,15 +46,25 @@ const CAMPOS_INTRAORALES: [string, string][] = [
 
 const HABITOS_OPCIONES = ["Fuma", "Bebe"];
 
+const TITULOS_TOAST: Record<ToastTipo, string> = {
+  exito: "Guardado",
+  error: "Error al guardar",
+  info: "Información",
+  atencion: "Atención",
+  recordatorio: "Recordatorio",
+};
+
 interface Props {
   pacienteId: number;
 }
 
 export default function HistoriaClinicaTab({ pacienteId }: Props) {
   const {
-    datos, cargando, guardando, editando, mensaje,
+    datos, cargando, guardando, editando,
     entrarEdicion, cancelarEdicion, guardar, actualizarCampo,
   } = useHistoriaClinica(pacienteId);
+
+  const { toast, mostrarToast, cerrarToast } = useToast();
 
   if (cargando || !datos) {
     return <p className="hc-estado">Cargando historia clínica...</p>;
@@ -63,6 +75,15 @@ export default function HistoriaClinicaTab({ pacienteId }: Props) {
     : [];
 
   const habitosArr = datos.habitos ? datos.habitos.split(",").map((s) => s.trim()) : [];
+
+  async function handleGuardar() {
+    try {
+      await guardar();
+      mostrarToast("La historia clínica se actualizó correctamente.", "exito");
+    } catch {
+      mostrarToast("No se pudieron guardar los cambios. Intentá de nuevo.", "error");
+    }
+  }
 
   return (
     <div>
@@ -364,7 +385,6 @@ export default function HistoriaClinicaTab({ pacienteId }: Props) {
       </Seccion>
 
       <div className="hc-footer">
-        {mensaje && <span className={`hc-mensaje hc-mensaje-${mensaje.tipo}`}>{mensaje.texto}</span>}
         <div className="hc-footer-botones">
           {editando ? (
             <>
@@ -372,7 +392,7 @@ export default function HistoriaClinicaTab({ pacienteId }: Props) {
                 <X size={15} strokeWidth={2} />
                 Cancelar
               </button>
-              <button className="od-btn-primary" onClick={guardar} disabled={guardando}>
+              <button className="od-btn-primary" onClick={handleGuardar} disabled={guardando}>
                 <Save size={15} strokeWidth={2} />
                 {guardando ? "Guardando..." : "Guardar cambios"}
               </button>
@@ -385,7 +405,17 @@ export default function HistoriaClinicaTab({ pacienteId }: Props) {
           )}
         </div>
       </div>
-    </div>
+      </div>
+
+      {toast && (
+        <Toast
+          key={toast.key}
+          titulo={TITULOS_TOAST[toast.tipo]}
+          mensaje={toast.mensaje}
+          tipo={toast.tipo}
+          onCerrar={cerrarToast}
+        />
+      )}
     </div>
   );
 }

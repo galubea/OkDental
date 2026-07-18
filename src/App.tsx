@@ -6,6 +6,7 @@ import AgendaTab from "./features/agenda/AgendaTab";
 import { LoginPage } from "./features/autentificacion/LoginPage";
 import { RegisterPage } from "./features/autentificacion/RegisterPage";
 import { useAuth } from "./features/autentificacion/hooks/useAuth";
+import CatalogoTratamientos from "./features/administracion/components/catalogo/CatalogoTratamientos";
 import type { VistaApp, SeccionNav } from "./types/navegacion";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
   function navegar(seccion: SeccionNav) {
     if (seccion === "pacientes") setVista({ tipo: "pacientes" });
     else if (seccion === "agenda") setVista({ tipo: "agenda" });
+    else if (seccion === "catalogo") setVista({ tipo: "catalogo" });
     else setVista({ tipo: "inicio" });
   }
 
@@ -63,6 +65,7 @@ function App() {
       )}
 
       {vista.tipo === "agenda" && <AgendaTab />}
+      {vista.tipo === "catalogo" && <CatalogoTratamientos />}
     </AppShell>
   );
 }

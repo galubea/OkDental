@@ -135,7 +135,15 @@ export default function ResumenClinicoTab({ pacienteId }: Props) {
         />
       )}
 
-      {toast && <Toast key={toast.key} mensaje={toast.mensaje} tipo={toast.tipo} onCerrar={cerrarToast} />}
+      {toast && (
+        <Toast
+          key={toast.key}
+          titulo={toast.tipo === "error" ? "Error" : "Éxito"}
+          mensaje={toast.mensaje}
+          tipo={toast.tipo}
+          onCerrar={cerrarToast}
+        />
+      )}
     </div>
   );
 }

@@ -156,6 +156,36 @@ pub fn init_db(app: &AppHandle) -> Connection {
             texto      TEXT NOT NULL,
             FOREIGN KEY (diente_id) REFERENCES diente(id) ON DELETE CASCADE
         );
+
+        CREATE TABLE IF NOT EXISTS categoria_tratamiento (
+            id      TEXT PRIMARY KEY,
+            nombre  TEXT NOT NULL UNIQUE
+        );
+
+        CREATE TABLE IF NOT EXISTS catalogo_tratamiento (
+            id                       TEXT PRIMARY KEY,
+            codigo                   TEXT NOT NULL,
+            nombre                   TEXT NOT NULL,
+            categoria_id             TEXT NOT NULL,
+            precio_base              REAL NOT NULL,
+            descripcion              TEXT NOT NULL DEFAULT '',
+            duracion_min             INTEGER,
+            requiere_consentimiento  INTEGER NOT NULL DEFAULT 0,
+            activo                   INTEGER NOT NULL DEFAULT 1,
+            creado_en                TEXT NOT NULL DEFAULT (datetime('now')),
+            actualizado_en           TEXT NOT NULL DEFAULT (datetime('now')),
+            FOREIGN KEY (categoria_id) REFERENCES categoria_tratamiento(id)
+        );
+
+        INSERT OR IGNORE INTO categoria_tratamiento (id, nombre) VALUES
+            ('cat-operatoria',     'Operatoria'),
+            ('cat-cirugia',        'Cirugía'),
+            ('cat-endodoncia',     'Endodoncia'),
+            ('cat-periodoncia',    'Periodoncia'),
+            ('cat-odontopediatria','Odontopediatría'),
+            ('cat-estetica',       'Estética'),
+            ('cat-prevencion',     'Prevención'),
+            ('cat-protesis',       'Prótesis');
         ",
     )
     .expect("no se pudo inicializar el esquema");

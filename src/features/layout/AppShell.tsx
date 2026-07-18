@@ -14,6 +14,7 @@ const NAV_ITEMS: { key: SeccionNav; label: string; icono: React.ReactNode }[] = 
   { key: "inicio", label: "Inicio", icono: <Home size={17} strokeWidth={2} /> },
   { key: "pacientes", label: "Pacientes", icono: <Users size={17} strokeWidth={2} /> },
   { key: "agenda", label: "Agenda", icono: <Calendar size={17} strokeWidth={2} /> },
+  { key: "catalogo", label: "Catálogo", icono: <Search size={17} strokeWidth={2} /> },
 ];
 
 function iniciales(nombre: string): string {

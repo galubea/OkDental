@@ -1,0 +1,167 @@
+.od-check-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--od-label);
+  white-space: nowrap;
+  padding: 0 4px;
+}
+.od-check-inline input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--od-primary);
+}
+
+.od-textarea {
+  border: 1.5px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+  background: var(--od-input-bg);
+  padding: 10px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--od-text);
+  resize: vertical;
+  width: 100%;
+  box-sizing: border-box; 
+}
+.od-textarea:focus {
+  outline: none;
+  border-color: var(--od-primary);
+  background: var(--od-white);
+}
+
+.od-switch {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 24px;
+  margin-top: 8px;
+  flex-shrink: 0;
+}
+.od-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.od-switch-slider {
+  position: absolute;
+  inset: 0;
+  background: var(--od-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.od-switch-slider::before {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 3px;
+  top: 3px;
+  background: var(--od-white);
+  border-radius: 50%;
+  transition: transform 0.15s ease;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.25);
+}
+.od-switch input:checked + .od-switch-slider {
+  background: var(--od-primary);
+}
+.od-switch input:checked + .od-switch-slider::before {
+  transform: translateX(18px);
+}
+
+.od-toggle-opciones {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: var(--od-primary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 0;
+  margin-bottom: 4px;
+}
+
+.od-opciones-avanzadas {
+  background: var(--od-input-bg);
+  border: 1px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+  padding: 16px 16px 20px;
+  margin-bottom: 16px;
+}
+
+.od-opciones-avanzadas .od-field:last-child {
+  margin-bottom: 4px;
+}
+
+.od-tabla-tratamientos.od-tabla-wrap {
+  box-shadow: none;
+  border: 1px solid var(--od-border);
+}
+
+.od-tabla-tratamientos .od-tabla thead th {
+  background: var(--od-white);
+  text-transform: uppercase;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  padding: 16px 24px;
+}
+
+.od-tabla-tratamientos .od-tabla td {
+  padding: 20px 24px;
+}
+
+.od-th-right {
+  text-align: right;
+}
+
+.od-td-right {
+  text-align: right;
+}
+
+.od-tabla-precio {
+  font-weight: 700;
+}
+
+.od-tabla-acciones {
+  display: flex;
+  gap: 14px;
+  justify-content: flex-end;
+}
+
+.od-tabla-icono-btn {
+  background: none;
+  border: none;
+  color: var(--od-subtext);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+}
+.od-tabla-icono-btn:hover {
+  color: var(--od-primary);
+}
+.od-tabla-icono-btn.eliminar:hover {
+  color: var(--od-required);
+}
+
+.od-badge-inactivo {
+  color: #9a3412;
+  background: #ffedd5;
+  margin-left: 6px;
+}
+
+.od-tabla-tratamientos .od-tabla thead th {
+  background: var(--od-white);
+  text-transform: uppercase;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  padding: 16px 24px;
+  text-align: left; /* default para todas */
+}
+
+.od-tabla-tratamientos .od-tabla thead th.od-th-right {
+  text-align: right;
+}

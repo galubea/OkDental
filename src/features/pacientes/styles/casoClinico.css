@@ -1,0 +1,950 @@
+.cc-panel {
+  padding: 4px 0;
+}
+
+.cc-card-contenedor {
+  background: var(--od-white);
+  border-radius: var(--od-radius);
+  box-shadow: var(--od-shadow);
+  padding: 32px 40px;
+}
+
+.cc-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.cc-card-header-titulo {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--od-text);
+  margin: 0;
+}
+
+.cc-btn-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #e8f0fe;
+  color: var(--od-primary);
+  border: none;
+  border-radius: var(--od-radius-sm);
+  padding: 9px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.cc-btn-add:hover {
+  background: #d7e6fd;
+}
+
+/* ---------- Toolbar: tabs ---------- */
+.cc-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.cc-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--od-input-bg, #f5f6f8);
+  padding: 4px;
+  border-radius: 999px;
+}
+
+.cc-tab {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border: none;
+  background: transparent;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--od-subtext);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.cc-tab.is-active {
+  background: var(--od-white);
+  color: var(--od-text);
+  box-shadow: var(--od-shadow);
+}
+
+.cc-tab-count {
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--od-border);
+  color: var(--od-subtext);
+  padding: 1px 7px;
+  border-radius: 999px;
+}
+
+.cc-tab.is-active .cc-tab-count {
+  background: var(--od-primary);
+  color: #fff;
+}
+
+.cc-btn-nuevo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--od-primary);
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: var(--od-radius-sm);
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ---------- Grid de tarjetas (una por fila) ---------- */
+.cc-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* ---------- Tarjeta de caso clínico ---------- */
+.cc-card {
+  background: var(--od-white);
+  border-radius: var(--od-radius);
+  box-shadow: var(--od-shadow);
+  border: 1px solid var(--od-border);
+  border-left: 4px solid var(--sec-color, var(--od-primary));
+  padding: 20px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  cursor: pointer;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.cc-card:hover {
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.08);
+  transform: translateY(-1px);
+}
+
+/* Paleta reutilizada de hc-seccion */
+/* Color de la tarjeta derivado del estado del caso */
+.cc-card--activo { --sec-color: #10b981; }
+.cc-card--en_tratamiento { --sec-color: var(--od-primary); }
+.cc-card--resuelto { --sec-color: var(--od-subtext, #9aa1ab); }
+
+/* Header interno de cada tarjeta (título + pill de estado) */
+.cc-card-item-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cc-card-titulo {
+  margin: 0;
+  font-size: 16.5px;
+  font-weight: 700;
+  color: var(--od-text);
+}
+
+.cc-card-descripcion {
+  margin: 4px 0 0 0;
+  font-size: 13.5px;
+  font-style: italic;
+  color: var(--od-subtext);
+  line-height: 1.4;
+}
+
+/* Pill de estado (Activo / En tratamiento / Resuelto) */
+.cc-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.cc-status-pill::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.cc-status-pill--activo { background: #d1fae5; color: #10b981; }
+.cc-status-pill--tratamiento { background: #eaf1fd; color: var(--od-primary); }
+.cc-status-pill--resuelto { background: var(--od-input-bg, #f5f6f8); color: var(--od-subtext); }
+
+/* Fila de especialidad / doctor / severidad */
+.cc-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cc-meta-izq {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cc-pill-especialidad {
+  background: var(--od-input-bg, #f5f6f8);
+  color: var(--od-label);
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.cc-doctor {
+  font-size: 12.5px;
+  color: var(--od-subtext);
+}
+
+.cc-severidad {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+.cc-severidad--bajo { background: var(--od-success-bg); color: var(--od-success-text); }
+.cc-severidad--medio { background: #fef6e7; color: #b7791f; }
+.cc-severidad--alto { background: #fdecea; color: var(--od-required); }
+
+/* Chips de piezas dentales involucradas */
+.cc-piezas {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cc-pieza-chip {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid var(--od-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--od-text);
+  background: var(--od-white);
+  flex-shrink: 0;
+}
+
+.cc-piezas-mas {
+  font-size: 12.5px;
+  color: var(--od-subtext);
+  font-weight: 600;
+}
+
+/* Barra de progreso */
+.cc-progreso-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cc-progreso-track {
+  flex: 1;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--od-border);
+  overflow: hidden;
+}
+
+.cc-progreso-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--sec-color, var(--od-primary));
+}
+
+.cc-progreso-pct {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--od-subtext);
+  min-width: 34px;
+  text-align: right;
+}
+
+/* Footer: fecha objetivo / fecha de creación */
+.cc-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12.5px;
+  color: var(--od-subtext);
+  border-top: 1px solid var(--od-border);
+  padding-top: 12px;
+}
+
+.cc-footer-fecha {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ---------- Estado vacío ---------- */
+.cc-vacio {
+  grid-column: 1 / -1;
+}
+
+/* ---------- Modal: nuevo caso clínico ---------- */
+.cc-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 32, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+  z-index: 50;
+}
+
+.cc-modal {
+  background: var(--od-white);
+  border-radius: var(--od-radius);
+  box-shadow: var(--od-shadow);
+  width: 100%;
+  max-width: 640px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  padding: 28px 32px 24px;
+}
+
+.cc-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.cc-modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--od-text);
+}
+
+.cc-modal-cerrar {
+  background: none;
+  border: none;
+  color: var(--od-subtext);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+}
+
+.cc-form-grupo {
+  margin-bottom: 16px;
+}
+
+.cc-form-grupo label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--od-subtext);
+  margin-bottom: 6px;
+}
+
+.cc-form-input,
+.cc-form-textarea,
+.cc-form-select {
+  width: 100%;
+  border: 1.5px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+  padding: 10px 12px;
+  font-size: 13.5px;
+  font-family: inherit;
+  color: var(--od-text);
+  background: var(--od-white);
+  box-sizing: border-box;
+}
+
+.cc-form-input:focus,
+.cc-form-textarea:focus,
+.cc-form-select:focus {
+  outline: none;
+  border-color: var(--od-primary);
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.08);
+}
+
+.cc-form-textarea {
+  resize: vertical;
+  min-height: 64px;
+}
+
+.cc-form-fila {
+  display: flex;
+  gap: 12px;
+}
+
+.cc-form-fila > * {
+  flex: 1;
+  min-width: 0;
+}
+
+.cc-color-swatches {
+  display: flex;
+  gap: 8px;
+  padding-top: 2px;
+}
+
+.cc-color-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.cc-color-swatch.is-selected {
+  border-color: var(--od-text);
+}
+
+.cc-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.cc-btn-secundario {
+  background: var(--od-input-bg, #f5f6f8);
+  color: var(--od-text);
+  border: none;
+  padding: 10px 18px;
+  border-radius: var(--od-radius-sm);
+  font-weight: 700;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+
+.cc-btn-primario {
+  background: var(--od-primary);
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: var(--od-radius-sm);
+  font-weight: 700;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+
+/* ---------- Header del panel (ícono + título + descripción) ---------- */
+.cc-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--od-border);
+  flex-wrap: wrap;
+}
+
+.cc-panel-header-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.cc-panel-header-icono {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #e8f0fe;
+  color: var(--od-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cc-panel-header-texto h2 {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--od-text);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.cc-panel-header-texto p {
+  margin: 2px 0 0 0;
+  font-size: 13px;
+  color: var(--od-subtext);
+}
+
+/* ========================================================================
+   DETALLE DE CASO CLÍNICO
+   ======================================================================== */
+
+.ccd-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--od-border);
+  flex-wrap: wrap;
+}
+
+.ccd-header-izq {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.ccd-btn-volver {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid var(--od-border);
+  background: var(--od-white);
+  color: var(--od-subtext);
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.ccd-btn-volver:hover {
+  background: var(--od-input-bg, #f5f6f8);
+  color: var(--od-text);
+}
+
+.ccd-header-texto h2 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--od-text);
+}
+
+.ccd-header-texto p {
+  margin: 4px 0 0 0;
+  font-size: 13.5px;
+  font-style: italic;
+  color: var(--od-subtext);
+}
+
+.ccd-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.ccd-header-der {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* Tabs internos del detalle (mismo estilo que .cc-tabs) */
+.ccd-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--od-input-bg, #f5f6f8);
+  padding: 4px;
+  border-radius: 999px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  width: fit-content;
+}
+
+.ccd-tab {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border: none;
+  background: transparent;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--od-subtext);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.ccd-tab.is-active {
+  background: var(--od-white);
+  color: var(--od-text);
+  box-shadow: var(--od-shadow);
+}
+
+/* ---------- Diagnóstico ---------- */
+.ccd-diagnostico-textarea {
+  width: 100%;
+  min-height: 140px;
+  border: 1.5px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+  padding: 14px 16px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--od-text);
+  background: var(--od-input-bg, #f5f6f8);
+  resize: vertical;
+  box-sizing: border-box;
+}
+.ccd-diagnostico-textarea:focus {
+  outline: none;
+  border-color: var(--od-primary);
+  background: var(--od-white);
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.08);
+}
+
+.ccd-seccion-titulo {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--od-text);
+  margin: 24px 0 10px 0;
+}
+
+.ccd-piezas-editor {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ccd-pieza-chip-x {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 10px 0 14px;
+  border-radius: 999px;
+  border: 1.5px solid var(--od-border);
+  background: var(--od-white);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--od-text);
+}
+.ccd-pieza-chip-x button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: var(--od-input-bg, #f5f6f8);
+  color: var(--od-subtext);
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.ccd-pieza-chip-x button:hover {
+  background: #fdecea;
+  color: var(--od-required);
+}
+
+.ccd-pieza-input {
+  width: 90px;
+  height: 34px;
+  border: 1.5px dashed var(--od-border);
+  border-radius: 999px;
+  padding: 0 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--od-text);
+  background: transparent;
+}
+.ccd-pieza-input:focus {
+  outline: none;
+  border-color: var(--od-primary);
+  border-style: solid;
+}
+
+.ccd-form-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+/* ---------- Plan de tratamiento ---------- */
+.ccd-plan-resumen {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--od-input-bg, #f5f6f8);
+  border-radius: var(--od-radius-sm);
+  padding: 14px 18px;
+  margin-bottom: 18px;
+}
+
+.ccd-plan-resumen-pct {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--od-primary);
+  min-width: 56px;
+}
+
+.ccd-plan-resumen-track {
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--od-border);
+  overflow: hidden;
+}
+.ccd-plan-resumen-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--od-primary);
+  transition: width 0.2s ease;
+}
+
+.ccd-plan-resumen-texto {
+  font-size: 12.5px;
+  color: var(--od-subtext);
+  white-space: nowrap;
+}
+
+.ccd-paso {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 4px;
+  border-top: 1px solid var(--od-border);
+}
+.ccd-paso:first-of-type {
+  border-top: none;
+}
+
+.ccd-paso-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 1.5px solid var(--od-border);
+  background: var(--od-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: transparent;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.ccd-paso-check.is-checked {
+  background: var(--od-primary);
+  border-color: var(--od-primary);
+  color: #fff;
+}
+
+.ccd-paso-texto {
+  flex: 1;
+  font-size: 14px;
+  color: var(--od-text);
+  line-height: 1.4;
+}
+.ccd-paso-texto.is-checked {
+  color: var(--od-subtext);
+  text-decoration: line-through;
+}
+
+.ccd-paso-borrar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--od-subtext);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.ccd-paso-borrar:hover {
+  background: #fdecea;
+  color: var(--od-required);
+}
+
+.ccd-agregar-paso {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+.ccd-agregar-paso input {
+  flex: 1;
+}
+
+/* ---------- Evolución / Observaciones (timeline) ---------- */
+.ccd-timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.ccd-timeline-item {
+  display: flex;
+  gap: 20px;
+}
+
+.ccd-timeline-punto-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 12px;
+}
+
+.ccd-timeline-punto {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--od-primary);
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.ccd-timeline-linea {
+  flex: 1;
+  width: 1.5px;
+  background: var(--od-border);
+  margin-top: 4px;
+}
+
+.ccd-timeline-item:last-child .ccd-timeline-linea {
+  display: none;
+}
+
+.ccd-timeline-contenido {
+  flex: 1;
+  background: var(--od-input-bg);
+  border-radius: var(--od-radius-sm);
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ccd-timeline-fecha {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--od-primary);
+}
+
+.ccd-timeline-titulo {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--od-text);
+}
+
+.ccd-timeline-texto {
+  margin: 2px 0 0 0;
+  font-size: 13.5px;
+  color: var(--od-subtext);
+  line-height: 1.5;
+}
+
+.ccd-nuevo-registro {
+  background: var(--od-white);
+  border: 1.5px dashed var(--od-border);
+  border-radius: var(--od-radius-sm);
+  padding: 16px 20px;
+}
+
+/* ---------- Evidencias / fotos ---------- */
+.ccd-evidencias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+}
+
+.ccd-evidencia-card {
+  position: relative;
+  border-radius: var(--od-radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--od-border);
+  background: var(--od-input-bg, #f5f6f8);
+  aspect-ratio: 1;
+}
+
+.ccd-evidencia-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ccd-evidencia-etiqueta {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent);
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 18px 10px 8px;
+}
+
+.ccd-evidencia-borrar {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(15, 23, 32, 0.55);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.ccd-evidencia-borrar:hover {
+  background: rgba(15, 23, 32, 0.8);
+}
+
+.ccd-evidencia-subir {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  aspect-ratio: 1;
+  border-radius: var(--od-radius-sm);
+  border: 1.5px dashed var(--od-border);
+  background: transparent;
+  color: var(--od-subtext);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.ccd-evidencia-subir:hover {
+  border-color: var(--od-primary);
+  color: var(--od-primary);
+}
