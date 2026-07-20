@@ -27,6 +27,10 @@ mod catalogo_tratamientos {
     pub mod commands;
     pub mod models;
 }
+mod gestion_usuarios {
+    pub mod commands;
+    pub mod models;
+}
 use db::{init_db, DbConnection};
 use std::sync::Mutex;
 use tauri::Manager;
@@ -76,6 +80,11 @@ fn main() {
             catalogo_tratamientos::commands::catalogo_crear_tratamiento,
             catalogo_tratamientos::commands::catalogo_actualizar_tratamiento,
             catalogo_tratamientos::commands::catalogo_eliminar_tratamiento,
+            gestion_usuarios::commands::listar_usuarios,
+            gestion_usuarios::commands::crear_usuario,
+            gestion_usuarios::commands::actualizar_usuario,
+            gestion_usuarios::commands::cambiar_estado_usuario,
+            gestion_usuarios::commands::regenerar_password_usuario,
         ])
         .run(tauri::generate_context!())
         .expect("error al iniciar la aplicación");

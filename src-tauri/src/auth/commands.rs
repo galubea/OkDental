@@ -14,7 +14,7 @@ use super::models::{Doctor, LoginCredentials, RegisterDoctorInput};
 
 const DIAS_SESION: i64 = 30;
 
-fn hash_password(password: &str) -> Result<String, String> {
+pub(crate) fn hash_password(password: &str) -> Result<String, String> {
     let salt = SaltString::generate(&mut OsRng);
     let argon2 = Argon2::default();
     argon2
@@ -42,7 +42,8 @@ pub fn login(
 
     let resultado = conn
         .query_row(
-            "SELECT id, nombre_completo, email, password_hash, especialidad FROM doctor WHERE email = ?1",
+            "SELECT id, nombre_completo, email, password_hash, especialidad, rol, activo, debe_cambiar_password
+             FROM doctor WHERE email = ?1",
             params![email],
             |row| {
                 Ok((
@@ -51,18 +52,28 @@ pub fn login(
                     row.get::<_, String>(2)?,
                     row.get::<_, String>(3)?,
                     row.get::<_, Option<String>>(4)?,
+                    row.get::<_, String>(5)?,
+                    row.get::<_, i64>(6)?,
+                    row.get::<_, i64>(7)?,
                 ))
             },
         )
         .optional()
         .map_err(|e| e.to_string())?;
 
-    let (id, nombre_completo, email, password_hash, especialidad) =
+    let (id, nombre_completo, email, password_hash, especialidad, rol, activo, debe_cambiar_password) =
         resultado.ok_or("Correo o contraseña incorrectos.")?;
 
     if !verificar_password(&input.password, &password_hash)? {
         return Err("Correo o contraseña incorrectos.".into());
     }
+
+    let ahora = Utc::now().to_rfc3339();
+    conn.execute(
+        "UPDATE doctor SET ultimo_acceso = ?1 WHERE id = ?2",
+        params![ahora, id],
+    )
+    .map_err(|e| e.to_string())?;
 
     let token = Uuid::new_v4().to_string();
     let expira_en = (Utc::now() + Duration::days(DIAS_SESION)).to_rfc3339();
@@ -75,7 +86,16 @@ pub fn login(
 
     guardar_token(&app, &token)?;
 
-    Ok(Doctor { id, nombre_completo, email, especialidad })
+    Ok(Doctor {
+        id,
+        nombre_completo,
+        email,
+        especialidad,
+        rol,
+        activo: activo != 0,
+        debe_cambiar_password: debe_cambiar_password != 0,
+        ultimo_acceso: Some(ahora),
+    })
 }
 
 // invoke("registrar_doctor", { input: { nombre_completo, email, password, especialidad } })
@@ -130,7 +150,7 @@ pub fn sesion_activa(
 
     let resultado = conn
         .query_row(
-            "SELECT d.id, d.nombre_completo, d.email, d.especialidad, s.expira_en
+            "SELECT d.id, d.nombre_completo, d.email, d.especialidad, s.expira_en, d.rol, d.activo, d.debe_cambiar_password, d.ultimo_acceso
              FROM sesion s JOIN doctor d ON d.id = s.doctor_id
              WHERE s.token = ?1",
             params![token],
@@ -141,16 +161,21 @@ pub fn sesion_activa(
                     row.get::<_, String>(2)?,
                     row.get::<_, Option<String>>(3)?,
                     row.get::<_, String>(4)?,
+                    row.get::<_, String>(5)?,
+                    row.get::<_, i64>(6)?,
+                    row.get::<_, i64>(7)?,
+                    row.get::<_, Option<String>>(8)?,
                 ))
             },
         )
         .optional()
         .map_err(|e| e.to_string())?;
 
-    let (id, nombre_completo, email, especialidad, expira_en) = match resultado {
-        Some(r) => r,
-        None => return Ok(None),
-    };
+    let (id, nombre_completo, email, especialidad, expira_en, rol, activo, debe_cambiar_password, ultimo_acceso) =
+        match resultado {
+            Some(r) => r,
+            None => return Ok(None),
+        };
 
     let expira: chrono::DateTime<Utc> =
         expira_en.parse().map_err(|e: chrono::ParseError| e.to_string())?;
@@ -162,7 +187,16 @@ pub fn sesion_activa(
         return Ok(None);
     }
 
-    Ok(Some(Doctor { id, nombre_completo, email, especialidad }))
+    Ok(Some(Doctor {
+        id,
+        nombre_completo,
+        email,
+        especialidad,
+        rol,
+        activo: activo != 0,
+        debe_cambiar_password: debe_cambiar_password != 0,
+        ultimo_acceso,
+    }))
 }
 
 // invoke("cerrar_sesion")

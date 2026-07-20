@@ -189,6 +189,13 @@ pub fn init_db(app: &AppHandle) -> Connection {
         ",
     )
     .expect("no se pudo inicializar el esquema");
+    let _ = conn.execute("ALTER TABLE doctor ADD COLUMN rol TEXT NOT NULL DEFAULT 'doctor'", []);
+    let _ = conn.execute("ALTER TABLE doctor ADD COLUMN activo INTEGER NOT NULL DEFAULT 1", []);
+    let _ = conn.execute(
+        "ALTER TABLE doctor ADD COLUMN debe_cambiar_password INTEGER NOT NULL DEFAULT 0",
+        [],
+    );
+    let _ = conn.execute("ALTER TABLE doctor ADD COLUMN ultimo_acceso TEXT", []);
 
     conn
 }

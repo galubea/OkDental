@@ -6,7 +6,8 @@ import AgendaTab from "./features/agenda/AgendaTab";
 import { LoginPage } from "./features/autentificacion/LoginPage";
 import { RegisterPage } from "./features/autentificacion/RegisterPage";
 import { useAuth } from "./features/autentificacion/hooks/useAuth";
-import CatalogoTratamientos from "./features/administracion/components/catalogo/CatalogoTratamientos";
+import CatalogoTratamientos from "./features/catalogo/components/catalogo/CatalogoTratamientos";
+import { AdministracionTab } from "./features/administracion/AdministracionTab";
 import type { VistaApp, SeccionNav } from "./types/navegacion";
 
 function App() {
@@ -24,15 +25,14 @@ function App() {
     if (seccion === "pacientes") setVista({ tipo: "pacientes" });
     else if (seccion === "agenda") setVista({ tipo: "agenda" });
     else if (seccion === "catalogo") setVista({ tipo: "catalogo" });
+    else if (seccion === "administracion") setVista({ tipo: "administracion" });
     else setVista({ tipo: "inicio" });
   }
 
-  // Mientras se revisa si hay sesión activa guardada
   if (status === "checking") {
     return <p className="hc-estado">Cargando sesión...</p>;
   }
 
-  // Sin sesión -> login o registro
   if (status !== "authenticated") {
     return pantallaAuth === "login" ? (
       <LoginPage onIrARegistro={() => setPantallaAuth("registro")} />
@@ -41,31 +41,23 @@ function App() {
     );
   }
 
-  // Doctor autenticado -> app normal
   return (
-    <AppShell
-      seccionActiva={seccionDeVista(vista)}
-      onNavegar={navegar}
-    >
+    <AppShell seccionActiva={seccionDeVista(vista)} onNavegar={navegar}>
       {vista.tipo === "inicio" && (
         <p className="hc-estado">Inicio (pendiente de construir)</p>
       )}
 
       {vista.tipo === "pacientes" && (
-        <PacienteLista
-          onAbrirPaciente={(id) => setVista({ tipo: "paciente-detalle", id })}
-        />
+        <PacienteLista onAbrirPaciente={(id) => setVista({ tipo: "paciente-detalle", id })} />
       )}
 
       {vista.tipo === "paciente-detalle" && (
-        <PacienteDetalle
-          pacienteId={vista.id}
-          onVolver={() => setVista({ tipo: "pacientes" })}
-        />
+        <PacienteDetalle pacienteId={vista.id} onVolver={() => setVista({ tipo: "pacientes" })} />
       )}
 
       {vista.tipo === "agenda" && <AgendaTab />}
       {vista.tipo === "catalogo" && <CatalogoTratamientos />}
+      {vista.tipo === "administracion" && <AdministracionTab />}
     </AppShell>
   );
 }

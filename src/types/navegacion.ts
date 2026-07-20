@@ -3,6 +3,7 @@ export type VistaApp =
   | { tipo: "pacientes" }
   | { tipo: "paciente-detalle"; id: number }
   | { tipo: "agenda" }
-  | { tipo: "catalogo" };
+  | { tipo: "catalogo" }
+  | { tipo: "administracion" };
 
-export type SeccionNav = "inicio" | "pacientes" | "agenda" | "catalogo";
+export type SeccionNav = "inicio" | "pacientes" | "agenda" | "catalogo" | "administracion";

@@ -1,4 +1,3 @@
-// components/RegisterForm.tsx
 import { useRegisterForm } from "../hooks/useRegisterForm";
 import { PasswordField } from "./PasswordField";
 

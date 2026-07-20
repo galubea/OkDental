@@ -7,6 +7,12 @@ pub struct Doctor {
     pub nombre_completo: String,
     pub email: String,
     pub especialidad: Option<String>,
+    pub rol: String,
+    pub activo: bool,
+    #[serde(rename = "debeCambiarPassword")]
+    pub debe_cambiar_password: bool,
+    #[serde(rename = "ultimoAcceso")]
+    pub ultimo_acceso: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
