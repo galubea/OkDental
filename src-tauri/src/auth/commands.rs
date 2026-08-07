@@ -43,7 +43,7 @@ pub fn login(
     let resultado = conn
         .query_row(
             "SELECT id, nombre_completo, email, password_hash, especialidad, rol, activo, debe_cambiar_password
-             FROM doctor WHERE email = ?1",
+             FROM doctor WHERE email = ?1 OR username = ?1",
             params![email],
             |row| {
                 Ok((
@@ -64,8 +64,14 @@ pub fn login(
     let (id, nombre_completo, email, password_hash, especialidad, rol, activo, debe_cambiar_password) =
         resultado.ok_or("Correo o contraseña incorrectos.")?;
 
+    // Verificar contraseña primero, para no revelar si la cuenta existe/está suspendida
+    // a alguien que no tiene la contraseña correcta.
     if !verificar_password(&input.password, &password_hash)? {
         return Err("Correo o contraseña incorrectos.".into());
+    }
+
+    if activo == 0 {
+        return Err("Esta cuenta está suspendida. Contacta a un administrador.".into());
     }
 
     let ahora = Utc::now().to_rfc3339();
@@ -176,6 +182,14 @@ pub fn sesion_activa(
             Some(r) => r,
             None => return Ok(None),
         };
+
+    // Cuenta suspendida: invalidar la sesión inmediatamente, igual que si hubiera expirado.
+    if activo == 0 {
+        conn.execute("DELETE FROM sesion WHERE token = ?1", params![token])
+            .map_err(|e| e.to_string())?;
+        borrar_token(&app)?;
+        return Ok(None);
+    }
 
     let expira: chrono::DateTime<Utc> =
         expira_en.parse().map_err(|e: chrono::ParseError| e.to_string())?;

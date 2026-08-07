@@ -196,6 +196,16 @@ pub fn init_db(app: &AppHandle) -> Connection {
         [],
     );
     let _ = conn.execute("ALTER TABLE doctor ADD COLUMN ultimo_acceso TEXT", []);
+    let _ = conn.execute("ALTER TABLE doctor ADD COLUMN nombre TEXT", []);
+    let _ = conn.execute("ALTER TABLE doctor ADD COLUMN apellido TEXT", []);
+    let _ = conn.execute("ALTER TABLE doctor ADD COLUMN telefono TEXT", []);
+    let _ = conn.execute("ALTER TABLE doctor ADD COLUMN ci TEXT", []);
+    let _ = conn.execute("ALTER TABLE doctor ADD COLUMN sucursal TEXT", []);
+    let _ = conn.execute("ALTER TABLE doctor ADD COLUMN username TEXT", []);
+    let _ = conn.execute(
+        "CREATE UNIQUE INDEX IF NOT EXISTS idx_doctor_username ON doctor(username)",
+        [],
+    );
 
     conn
 }

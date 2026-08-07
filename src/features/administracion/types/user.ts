@@ -3,6 +3,12 @@ import type { Doctor } from "../../autentificacion/types/doctor";
 export type RolUsuario = "admin" | "doctor";
 
 export interface Usuario extends Doctor {
+  nombre: string | null;
+  apellido: string | null;
+  username: string | null;
+  telefono: string | null;
+  ci: string | null;
+  sucursal: string | null;
   rol: RolUsuario;
   activo: boolean;
   debeCambiarPassword: boolean;
@@ -11,15 +17,20 @@ export interface Usuario extends Doctor {
 }
 
 export interface UsuarioFormValues {
-  nombreCompleto: string;
+  nombre: string;
+  apellido: string;
   email: string;
+  telefono?: string | null;
+  ci?: string | null;
   especialidad?: string | null;
+  sucursal?: string | null;
   rol: RolUsuario;
 }
 
-export interface CrearUsuarioResultado {
-  usuario: Usuario;
+export interface CrearUsuarioInput extends UsuarioFormValues {
   passwordTemporal: string;
+  activo: boolean;
+  debeCambiarPassword: boolean;
 }
 
 export interface FiltrosUsuarios {

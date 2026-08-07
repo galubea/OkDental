@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { Usuario, UsuarioFormValues, FiltrosUsuarios } from "../types/user";
+import type { Usuario, UsuarioFormValues, CrearUsuarioInput, FiltrosUsuarios } from "../types/user";
 import {
   listarUsuarios,
   crearUsuario,
@@ -25,14 +25,12 @@ export function useUsuarios() {
     }
   }, []);
 
-  useEffect(() => {
-    cargar();
-  }, [cargar]);
+  useEffect(() => { cargar(); }, [cargar]);
 
-  const crear = useCallback(async (values: UsuarioFormValues) => {
-    const { usuario, passwordTemporal } = await crearUsuario(values);
+  const crear = useCallback(async (input: CrearUsuarioInput) => {
+    const usuario = await crearUsuario(input);
     setUsuarios((prev) => [...prev, usuario]);
-    return { usuario, passwordTemporal };
+    return usuario;
   }, []);
 
   const actualizar = useCallback(async (id: number, values: UsuarioFormValues) => {
@@ -47,20 +45,9 @@ export function useUsuarios() {
     return actualizado;
   }, []);
 
-  const regenerarPassword = useCallback(async (id: number) => {
-    return regenerarPasswordUsuario(id);
-  }, []);
+  const regenerarPassword = useCallback(async (id: number) => regenerarPasswordUsuario(id), []);
 
-  return {
-    usuarios,
-    cargando,
-    error,
-    crear,
-    actualizar,
-    cambiarEstado,
-    regenerarPassword,
-    recargar: cargar,
-  };
+  return { usuarios, cargando, error, crear, actualizar, cambiarEstado, regenerarPassword, recargar: cargar };
 }
 
 export function useFiltrosUsuarios(usuarios: Usuario[], filtros: FiltrosUsuarios) {
@@ -72,12 +59,7 @@ export function useFiltrosUsuarios(usuarios: Usuario[], filtros: FiltrosUsuarios
         if (filtros.rol !== "todos" && u.rol !== filtros.rol) return false;
         if (filtros.busqueda) {
           const q = filtros.busqueda.toLowerCase();
-          if (
-            !u.nombreCompleto.toLowerCase().includes(q) &&
-            !u.email.toLowerCase().includes(q)
-          ) {
-            return false;
-          }
+          if (!u.nombreCompleto.toLowerCase().includes(q) && !u.email.toLowerCase().includes(q)) return false;
         }
         return true;
       }),

@@ -18,7 +18,9 @@ import { useUsuarios, useFiltrosUsuarios } from "../../hooks/useUsuarios";
 import UsuarioModal from "./UsuarioModal";
 import CredencialesModal from "./CredencialesModal";
 import Select from "../../../../components/ui/Select";
-import type { Usuario, FiltrosUsuarios as FiltrosUsuariosType } from "../../types/user";
+import AccionesMenu from "./AccionesMenu";
+import ConfirmModal from "./ConfirmModal";
+import type { Usuario, FiltrosUsuarios as FiltrosUsuariosType, UsuarioFormValues, CrearUsuarioInput } from "../../types/user";
 import "../../styles/gestionUsuarios.css";
 import "../../../catalogo/styles/catalogo.css";
 
@@ -45,6 +47,11 @@ export default function GestionUsuarios() {
   const [usuarioEdit, setUsuarioEdit] = useState<Usuario | null>(null);
   const [credenciales, setCredenciales] = useState<{ usuario: Usuario; password: string } | null>(null);
   const [menuAbiertoId, setMenuAbiertoId] = useState<number | null>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [confirmarRegenerar, setConfirmarRegenerar] = useState<Usuario | null>(null);
+  const [regenerando, setRegenerando] = useState(false);
+  const [confirmarEstado, setConfirmarEstado] = useState<Usuario | null>(null);
+  const [cambiandoEstado, setCambiandoEstado] = useState(false);
 
   const filtrados = useFiltrosUsuarios(usuarios, filtros);
 
@@ -71,20 +78,25 @@ export default function GestionUsuarios() {
   const abrirNuevo = () => { setUsuarioEdit(null); setModalAbierto(true); };
   const abrirEdicion = (u: Usuario) => { setUsuarioEdit(u); setMenuAbiertoId(null); setModalAbierto(true); };
 
-  const guardar = async (values: Parameters<typeof crear>[0]) => {
+  const guardar = async (values: UsuarioFormValues | CrearUsuarioInput) => {
     if (usuarioEdit) {
-      await actualizar(usuarioEdit.id, values);
+      await actualizar(usuarioEdit.id, values as UsuarioFormValues);
     } else {
-      const { usuario, passwordTemporal } = await crear(values);
-      setCredenciales({ usuario, password: passwordTemporal });
+      const input = values as CrearUsuarioInput;
+      const usuario = await crear(input);
+      setCredenciales({ usuario, password: input.passwordTemporal });
     }
   };
 
-  const toggleEstado = async (u: Usuario) => { setMenuAbiertoId(null); await cambiarEstado(u.id, !u.activo); };
-  const handleRegenerar = async (u: Usuario) => {
-    setMenuAbiertoId(null);
-    const password = await regenerarPassword(u.id);
-    setCredenciales({ usuario: u, password });
+  const confirmarYCambiarEstado = async () => {
+    if (!confirmarEstado) return;
+    setCambiandoEstado(true);
+    try {
+      await cambiarEstado(confirmarEstado.id, !confirmarEstado.activo);
+    } finally {
+      setCambiandoEstado(false);
+      setConfirmarEstado(null);
+    }
   };
 
   const exportarCsv = () => {
@@ -211,23 +223,40 @@ export default function GestionUsuarios() {
                     <div className="od-acciones-menu-wrap">
                       <button
                         className="od-tabla-icono-btn"
-                        onClick={() => setMenuAbiertoId(menuAbiertoId === u.id ? null : u.id)}
+                        onClick={(e) => {
+                          setAnchorEl(e.currentTarget);
+                          setMenuAbiertoId(menuAbiertoId === u.id ? null : u.id);
+                        }}
                       >
                         <MoreVertical size={16} />
                       </button>
-                      {menuAbiertoId === u.id && (
-                        <>
-                          <div className="od-acciones-overlay" onClick={() => setMenuAbiertoId(null)} />
-                          <div className="od-acciones-dropdown">
-                            <button onClick={() => abrirEdicion(u)}><Pencil size={14} /> Editar</button>
-                            <button onClick={() => handleRegenerar(u)}><KeyRound size={14} /> Regenerar contraseña</button>
-                            <button onClick={() => toggleEstado(u)} className={u.activo ? "od-accion-peligro" : ""}>
-                              {u.activo ? <Ban size={14} /> : <CheckCircle2 size={14} />}
-                              {u.activo ? "Desactivar" : "Activar"}
-                            </button>
-                          </div>
-                        </>
-                      )}
+                      <AccionesMenu
+                        abierto={menuAbiertoId === u.id}
+                        onClose={() => setMenuAbiertoId(null)}
+                        anchorEl={anchorEl}
+                      >
+                        <button onClick={() => abrirEdicion(u)} className="od-accion-item">
+                          <span className="od-accion-icono od-accion-icono-azul"><Pencil size={14} /></span>
+                          Editar usuario
+                        </button>
+                        <button
+                          onClick={() => { setMenuAbiertoId(null); setConfirmarRegenerar(u); }}
+                          className="od-accion-item"
+                        >
+                          <span className="od-accion-icono od-accion-icono-morado"><KeyRound size={14} /></span>
+                          Restablecer contraseña
+                        </button>
+                        <div className="od-accion-separador" />
+                        <button
+                          onClick={() => { setMenuAbiertoId(null); setConfirmarEstado(u); }}
+                          className={`od-accion-item ${u.activo ? "od-accion-peligro" : "od-accion-exito"}`}
+                        >
+                          <span className={`od-accion-icono ${u.activo ? "od-accion-icono-naranja" : "od-accion-icono-verde"}`}>
+                            {u.activo ? <Ban size={14} /> : <CheckCircle2 size={14} />}
+                          </span>
+                          {u.activo ? "Suspender cuenta" : "Activar cuenta"}
+                        </button>
+                      </AccionesMenu>
                     </div>
                   </td>
                 </tr>
@@ -238,6 +267,25 @@ export default function GestionUsuarios() {
       )}
 
       <UsuarioModal abierto={modalAbierto} usuario={usuarioEdit} onClose={() => setModalAbierto(false)} onGuardar={guardar} />
+      <ConfirmModal
+        abierto={!!confirmarEstado}
+        titulo={confirmarEstado?.activo ? "¿Suspender cuenta?" : "¿Activar cuenta?"}
+        mensaje={
+          confirmarEstado?.activo
+            ? `${confirmarEstado?.nombreCompleto} no podrá iniciar sesión hasta que reactives su cuenta.`
+            : `${confirmarEstado?.nombreCompleto} podrá volver a iniciar sesión normalmente.`
+        }
+        nota={
+          confirmarEstado?.activo
+            ? "Esto no elimina la cuenta ni sus datos, solo bloquea el acceso."
+            : undefined
+        }
+        textoConfirmar={confirmarEstado?.activo ? "Suspender" : "Activar"}
+        cargando={cambiandoEstado}
+        variante={confirmarEstado?.activo ? "peligro" : "normal"}
+        onConfirmar={confirmarYCambiarEstado}
+        onCancelar={() => setConfirmarEstado(null)}
+      />
       <CredencialesModal credenciales={credenciales} onClose={() => setCredenciales(null)} />
     </div>
   );

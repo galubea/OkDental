@@ -85,6 +85,7 @@ fn main() {
             gestion_usuarios::commands::actualizar_usuario,
             gestion_usuarios::commands::cambiar_estado_usuario,
             gestion_usuarios::commands::regenerar_password_usuario,
+            gestion_usuarios::commands::sugerir_username,
         ])
         .run(tauri::generate_context!())
         .expect("error al iniciar la aplicación");
