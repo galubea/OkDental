@@ -99,6 +99,19 @@ export default function GestionUsuarios() {
     }
   };
 
+  // Faltaba: nunca se ejecutaba regenerarPassword ni se abría CredencialesModal.
+  const confirmarYRegenerarPassword = async () => {
+    if (!confirmarRegenerar) return;
+    setRegenerando(true);
+    try {
+      const nuevaPassword = await regenerarPassword(confirmarRegenerar.id);
+      setCredenciales({ usuario: confirmarRegenerar, password: nuevaPassword });
+    } finally {
+      setRegenerando(false);
+      setConfirmarRegenerar(null);
+    }
+  };
+
   const exportarCsv = () => {
     const encabezados = ["Nombre", "Email", "Rol", "Especialidad", "Fecha creación", "Estado"];
     const filas = filtrados.map((u) => [
@@ -285,6 +298,17 @@ export default function GestionUsuarios() {
         variante={confirmarEstado?.activo ? "peligro" : "normal"}
         onConfirmar={confirmarYCambiarEstado}
         onCancelar={() => setConfirmarEstado(null)}
+      />
+      <ConfirmModal
+        abierto={!!confirmarRegenerar}
+        titulo="¿Restablecer contraseña?"
+        mensaje={`Se generará una nueva contraseña temporal para ${confirmarRegenerar?.nombreCompleto}.`}
+        nota="El usuario deberá usar esta nueva contraseña en su próximo inicio de sesión."
+        textoConfirmar="Restablecer"
+        cargando={regenerando}
+        variante="normal"
+        onConfirmar={confirmarYRegenerarPassword}
+        onCancelar={() => setConfirmarRegenerar(null)}
       />
       <CredencialesModal credenciales={credenciales} onClose={() => setCredenciales(null)} />
     </div>

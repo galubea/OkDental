@@ -28,6 +28,7 @@ export interface UsuarioFormValues {
 }
 
 export interface CrearUsuarioInput extends UsuarioFormValues {
+  username: string | null;
   passwordTemporal: string;
   activo: boolean;
   debeCambiarPassword: boolean;

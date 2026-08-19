@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Save, Plus, FileText, Trash2 } from "lucide-react";
+import { Save, Plus, FileText, Trash2, LayoutGrid } from "lucide-react";
 import { useOdontograma } from "./hooks/useOdontograma";
 import { DienteSVG } from "./components/odontograma/DienteSVG";
 import { PanelDiente } from "./components/odontograma/PanelDiente";
@@ -62,7 +62,15 @@ export default function OdontogramaTab({ pacienteId }: Props) {
       {/* ---------- Tarjeta del odontograma ---------- */}
       <div className="odo-card">
         <div className="odo-header">
-          <h2 className="odo-titulo">Odontograma</h2>
+          <div className="odo-header-info">
+            <span className="odo-header-icono">
+              <LayoutGrid size={20} strokeWidth={2} />
+            </span>
+            <div className="odo-header-texto">
+              <h2 className="odo-titulo">Odontograma</h2>
+              <p className="odo-subtitulo">Registra hallazgos por diente y por cara.</p>
+            </div>
+          </div>
           <div className="odo-header-derecha">
             <div className="od-vista-toggle">
               <button className={`odo-modo-btn ${modo === "adulto" ? "activo" : ""}`} onClick={() => setModo("adulto")}>Adulto</button>

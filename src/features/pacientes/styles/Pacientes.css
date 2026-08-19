@@ -20,9 +20,7 @@
 }
 
 .od-page {
-  background: var(--od-bg);
-  min-height: 100vh;
-  padding: 32px 40px;
+  padding: 0;
   font-family: "Segoe UI", system-ui, sans-serif;
   color: var(--od-text);
 }
@@ -30,23 +28,51 @@
 /* ---------- Header ---------- */
 .od-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   margin-bottom: 24px;
   gap: 16px;
   flex-wrap: wrap;
 }
 
+.od-header-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.od-header-icono {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #e8f0fe;
+  color: var(--od-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.od-header-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
 .od-header h1 {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
-  margin: 0 0 4px 0;
+  margin: 0;
+  line-height: 1.2;
 }
 
 .od-header p {
-  font-size: 14px;
+  font-size: 13.5px;
   color: var(--od-subtext);
   margin: 0;
+  line-height: 1.3;
 }
 
 .od-btn-primary {
@@ -110,6 +136,23 @@
   display: flex;
   gap: 12px;
   margin-bottom: 28px;
+}
+
+/* Gana por especificidad (0,2,0) sin importar en qué orden se carguen los CSS.
+   Hay otra .od-btn-secondary en algún otro archivo (Agenda/Catálogo/filtros)
+   pensada para ocupar 100% del ancho de su propio contenedor; como comparte
+   nombre de clase, estaba filtrándose aquí también. */
+.od-search-row .od-btn-secondary {
+  width: auto;
+  height: auto;
+  padding: 10px 20px;
+  background: var(--od-white);
+  color: var(--od-label);
+  border: 1.5px solid var(--od-border);
+}
+.od-search-row .od-btn-secondary:hover {
+  background: var(--od-input-bg);
+  border-color: #cbd5e1;
 }
 
 .od-search-wrap {
@@ -536,12 +579,21 @@
   font-size: 13px;
 }
 
-/* ---------- Detalle: Banner ---------- */
+/* ---------- Detalle: Banner + Tabs fusionados en un solo panel ---------- */
+.od-detalle-header {
+  background: var(--od-white);
+  border: 1px solid var(--od-border);
+  border-radius: var(--od-radius);
+  box-shadow: var(--od-shadow);
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
 .od-detalle-banner-top {
   display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 20px;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 26px;
 }
 
 .od-icon-btn {
@@ -551,29 +603,33 @@
   align-items: center;
   justify-content: center;
   border: none;
-  background: transparent;
-  border-radius: 18px;
+  background: var(--od-input-bg);
+  border-radius: 10px;
   color: var(--od-subtext);
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
+  flex-shrink: 0;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
 }
 .od-icon-btn:hover {
   background: var(--od-border);
   color: var(--od-text);
+  transform: translateX(-1px);
 }
 
 .od-avatar-lg {
+  position: relative;
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: var(--od-input-bg);
-  color: var(--od-label);
+  background: linear-gradient(135deg, var(--od-primary), #4f9dff);
+  color: white;
   font-weight: 700;
   font-size: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  box-shadow: 0 0 0 3px var(--od-white), 0 0 0 5px var(--od-border);
 }
 
 .od-detalle-info {
@@ -581,6 +637,7 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
 }
 
 .od-detalle-name-row {
@@ -611,29 +668,51 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-shrink: 0;
 }
 .od-detalle-actions .od-btn-primary:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
 
-/* ---------- Detalle: Tabs (una sola por ahora) ---------- */
+/* ---------- Detalle: Tabs (parte inferior del panel, mismo lenguaje del navbar) ---------- */
 .od-detalle-tabs {
   display: flex;
-  gap: 4px;
-  border-bottom: 1px solid var(--od-border);
-  margin-bottom: 24px;
+  gap: 6px;
+  padding: 0 26px;
 }
 .od-detalle-tab {
-  padding: 10px 4px;
+  position: relative;
+  padding: 13px 8px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--od-subtext);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s ease;
+}
+.od-detalle-tab::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 0;
+  height: 2.5px;
+  border-radius: 2px 2px 0 0;
+  background: var(--od-primary);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.od-detalle-tab:hover {
+  color: var(--od-text);
 }
 .od-detalle-tab.activo {
   color: var(--od-primary);
   font-weight: 700;
-  border-bottom: 2px solid var(--od-primary);
+}
+.od-detalle-tab.activo::after {
+  transform: scaleX(1);
 }
 
 /* ---------- Detalle: Info Personal (campos con ícono) ---------- */
@@ -742,7 +821,7 @@
 .od-campo-icono {
   width: 40px;
   height: 40px;
-  border-radius: 50%; 
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -6,7 +6,7 @@ import ResumenClinicoTab from "./ResumenClinicoTab";
 import OdontogramaTab from "./OdontogramaTab";
 import CitasTab from "./CitasTab"; 
 import FotosTab from "./FotosTab";
-import CasosClinicosTab from "./casoClinicoTab";
+import CasosClinicosTab from "./CasoClinicoTab";
 import { Toast, type ToastTipo } from "./components/common/Toast";
 import "./styles/Pacientes.css";
 import "./styles/modal.css";
@@ -50,51 +50,53 @@ export default function PacienteDetalle({ pacienteId, onVolver }: Props) {
 
   return (
     <div className="od-page">
-      <PacienteDetalleBanner paciente={paciente} onVolver={onVolver} />
+      <div className="od-detalle-header">
+        <PacienteDetalleBanner paciente={paciente} onVolver={onVolver} />
 
-      <div className="od-detalle-tabs">
-        <span
-          className={`od-detalle-tab ${tab === "info" ? "activo" : ""}`}
-          onClick={() => setTab("info")}
-        >
-          Info Personal
-        </span>
-        <span
-          className={`od-detalle-tab ${tab === "historia" ? "activo" : ""}`}
-          onClick={() => setTab("historia")}
-        >
-          Historia Clínica
-        </span>
-        <span
-          className={`od-detalle-tab ${tab === "resumen" ? "activo" : ""}`}
-          onClick={() => setTab("resumen")}
-        >
-          Resumen Clínico
-        </span>
-        <span
-          className={`od-detalle-tab ${tab === "citas" ? "activo" : ""}`}
-          onClick={() => setTab("citas")}
-        >
-          Citas
-        </span>
-        <span
-          className={`od-detalle-tab ${tab === "odontograma" ? "activo" : ""}`}
-          onClick={() => setTab("odontograma")}
-        >
-          Odontograma
-        </span>
-        <span
-          className={`od-detalle-tab ${tab === "fotos" ? "activo" : ""}`}
-          onClick={() => setTab("fotos")}
-        >
-          Fotos
-        </span>
-        <span
-          className={`od-detalle-tab ${tab === "casos" ? "activo" : ""}`}
-          onClick={() => setTab("casos")}
-        >
-          Casos Clínicos
-        </span>
+        <div className="od-detalle-tabs">
+          <span
+            className={`od-detalle-tab ${tab === "info" ? "activo" : ""}`}
+            onClick={() => setTab("info")}
+          >
+            Info Personal
+          </span>
+          <span
+            className={`od-detalle-tab ${tab === "historia" ? "activo" : ""}`}
+            onClick={() => setTab("historia")}
+          >
+            Historia Clínica
+          </span>
+          <span
+            className={`od-detalle-tab ${tab === "resumen" ? "activo" : ""}`}
+            onClick={() => setTab("resumen")}
+          >
+            Resumen Clínico
+          </span>
+          <span
+            className={`od-detalle-tab ${tab === "citas" ? "activo" : ""}`}
+            onClick={() => setTab("citas")}
+          >
+            Citas
+          </span>
+          <span
+            className={`od-detalle-tab ${tab === "odontograma" ? "activo" : ""}`}
+            onClick={() => setTab("odontograma")}
+          >
+            Odontograma
+          </span>
+          <span
+            className={`od-detalle-tab ${tab === "fotos" ? "activo" : ""}`}
+            onClick={() => setTab("fotos")}
+          >
+            Fotos
+          </span>
+          <span
+            className={`od-detalle-tab ${tab === "casos" ? "activo" : ""}`}
+            onClick={() => setTab("casos")}
+          >
+            Casos Clínicos
+          </span>
+        </div>
       </div>
 
       {tab === "info" && (
@@ -113,7 +115,7 @@ export default function PacienteDetalle({ pacienteId, onVolver }: Props) {
       {tab === "citas" && <CitasTab pacienteId={pacienteId} pacienteNombre={paciente.nombre} />}
       {tab === "odontograma" && <OdontogramaTab pacienteId={pacienteId} />}
       {tab === "fotos" && <FotosTab pacienteId={pacienteId} />}
-      {tab === "casos" && <CasosClinicosTab pacienteId={pacienteId} />}
+      {tab === "casos" && <CasosClinicosTab paciente={paciente} />}
 
       {toast && (
         <Toast

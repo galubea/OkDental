@@ -1,3 +1,4 @@
+import { Mail } from "lucide-react";
 import { useLoginForm } from "../hooks/useLoginForm";
 import { PasswordField } from "./PasswordField";
 
@@ -12,17 +13,20 @@ export function LoginForm({ onExito }: LoginFormProps) {
     <form onSubmit={handleSubmit} noValidate>
       <div className="od-field" style={{ marginBottom: 16 }}>
         <label htmlFor="email">Correo electrónico<span className="req">*</span></label>
-        <input
-          id="email"
-          type="email"
-          autoComplete="username"
-          placeholder="doctor@luminadental.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          disabled={enviando}
-          aria-invalid={Boolean(errors.email)}
-          aria-describedby={errors.email ? "email-error" : undefined}
-        />
+        <div className="od-login-input-wrap">
+          <Mail size={18} />
+          <input
+            id="email"
+            type="email"
+            autoComplete="username"
+            placeholder="doctor@okdental.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={enviando}
+            aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? "email-error" : undefined}
+          />
+        </div>
         {errors.email && <div id="email-error" className="od-error">{errors.email}</div>}
       </div>
 

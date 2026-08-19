@@ -31,9 +31,14 @@ export default function PacienteLista({ onAbrirPaciente }: Props) {
   return (
     <div className="od-page">
       <div className="od-header">
-        <div>
-          <h1>Directorio de Pacientes</h1>
-          <p>Administra los registros de pacientes de tu clínica</p>
+        <div className="od-header-info">
+          <span className="od-header-icono">
+            <Users size={20} strokeWidth={2} />
+          </span>
+          <div className="od-header-texto">
+            <h1>Directorio de Pacientes</h1>
+            <p>Administra los registros de pacientes de tu clínica</p>
+          </div>
         </div>
         <button className="od-btn-primary" onClick={() => setModalAbierto(true)}>
           <UserRoundPlus size={17} strokeWidth={2.2} />

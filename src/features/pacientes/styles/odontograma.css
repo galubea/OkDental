@@ -37,13 +37,49 @@
   margin-bottom: 20px;
   flex-wrap: wrap;
   gap: 12px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--od-border);
+}
+
+.odo-header-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.odo-header-icono {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #e8f0fe;
+  color: var(--od-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.odo-header-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
 }
 
 .odo-titulo {
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 700;
   color: var(--od-text);
   margin: 0;
+  line-height: 1.2;
+}
+
+.odo-subtitulo {
+  margin: 0;
+  font-size: 13px;
+  color: var(--od-subtext);
+  line-height: 1.3;
 }
 
 .odo-header-derecha {
@@ -107,7 +143,6 @@
   border-bottom: 1px solid var(--od-border);
 }
 
-/* ===== Arcadas ===== */
 /* ===== Arcadas ===== */
 .odo-arcadas {
   width: 100%;
@@ -578,7 +613,7 @@
 }
 
 .odo-layout-panel-abierto .odo-linea-media {
-  display: none; 
+  display: none;
 }
 
 .odo-observacion-general {

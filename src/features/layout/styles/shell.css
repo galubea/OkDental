@@ -1,6 +1,6 @@
 .shell-page {
   min-height: 100vh;
-  background: #f6f8fb;
+  background: var(--od-bg);
   font-family: "Segoe UI", system-ui, sans-serif;
 }
 
@@ -11,8 +11,9 @@
   justify-content: space-between;
   background: var(--od-white);
   border-bottom: 1px solid var(--od-border);
-  padding: 12px 28px;
+  padding: 10px 28px;
   gap: 20px;
+  box-shadow: 0 1px 0 rgba(16, 24, 40, 0.03);
 }
 
 .shell-navbar-izquierda {
@@ -21,63 +22,111 @@
   gap: 32px;
 }
 
+/* Logo con marca */
 .shell-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
   font-size: 18px;
   font-weight: 800;
   color: var(--od-text);
   white-space: nowrap;
 }
+
+.shell-logo::before {
+  content: "";
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, var(--od-primary), #4f9dff);
+  box-shadow: 0 3px 8px rgba(26, 115, 232, 0.35);
+  flex-shrink: 0;
+}
+
 .shell-logo-ok {
   color: var(--od-primary);
 }
 
+/* Nav con indicador animado */
 .shell-nav {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
 }
+
 .shell-nav-item {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 7px;
   border: none;
   background: transparent;
   border-radius: 8px;
-  padding: 8px 14px;
+  padding: 9px 14px;
   font-size: 13.5px;
   font-weight: 600;
   color: var(--od-subtext);
   cursor: pointer;
   white-space: nowrap;
+  transition: color 0.15s ease, background 0.15s ease;
 }
+
+.shell-nav-item::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 3px;
+  height: 2.5px;
+  border-radius: 2px;
+  background: var(--od-primary);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .shell-nav-item:hover {
-  background: var(--od-input-bg);
   color: var(--od-text);
 }
+
 .shell-nav-item.activo {
-  background: var(--od-input-bg);
-  color: var(--od-text);
+  background: transparent;
+  color: var(--od-primary);
+}
+.shell-nav-item.activo::after {
+  transform: scaleX(1);
 }
 
 .shell-navbar-derecha {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
+/* Buscador con foco vivo */
 .shell-buscador {
   display: flex;
   align-items: center;
   gap: 8px;
   background: var(--od-input-bg);
-  border: 1px solid var(--od-border);
+  border: 1.5px solid transparent;
   border-radius: 999px;
   padding: 8px 16px;
   width: 240px;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+.shell-buscador:focus-within {
+  border-color: var(--od-primary);
+  background: var(--od-white);
+  box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.10);
 }
 .shell-buscador-icono {
   color: var(--od-subtext);
   flex-shrink: 0;
+  transition: color 0.15s ease;
+}
+.shell-buscador:focus-within .shell-buscador-icono {
+  color: var(--od-primary);
 }
 .shell-buscador-input {
   border: none;
@@ -93,7 +142,9 @@
   color: #a3adc2;
 }
 
+/* Botón de notificaciones con punto */
 .shell-icon-btn {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -105,42 +156,26 @@
   color: var(--od-subtext);
   cursor: pointer;
   flex-shrink: 0;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
 }
 .shell-icon-btn:hover {
   background: var(--od-input-bg);
   color: var(--od-text);
+  transform: translateY(-1px);
 }
-
-.shell-usuario {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-.shell-avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
+.shell-icon-btn[data-tiene-alertas="true"]::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: var(--od-primary);
-  color: white;
-  font-size: 12px;
-  font-weight: 700;
-}
-.shell-usuario-nombre {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--od-text);
-  white-space: nowrap;
+  background: #e53e3e;
+  border: 1.5px solid var(--od-white);
 }
 
-/* ===== Contenido ===== */
-.shell-contenido {
-  padding: 28px;
-}
-
+/* ===== Usuario / menú ===== */
 .shell-usuario-wrapper {
   position: relative;
 }
@@ -154,10 +189,45 @@
   cursor: pointer;
   padding: 4px 6px;
   border-radius: var(--od-radius-sm, 8px);
+  flex-shrink: 0;
+  transition: background 0.15s ease;
 }
-
 .shell-usuario:hover {
   background: var(--od-bg-hover, #f3f4f6);
+}
+
+/* Avatar con anillo + estado */
+.shell-avatar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--od-primary), #4f9dff);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 0 0 2px var(--od-white), 0 0 0 3.5px var(--od-border);
+}
+.shell-avatar::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #1e7e34;
+  border: 2px solid var(--od-white);
+}
+
+.shell-usuario-nombre {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--od-text);
+  white-space: nowrap;
 }
 
 .shell-usuario-overlay {
@@ -173,7 +243,7 @@
   min-width: 180px;
   background: var(--od-white, #fff);
   border-radius: var(--od-radius-sm, 8px);
-  box-shadow: var(--od-shadow-hover, 0 8px 24px rgba(0,0,0,0.12));
+  box-shadow: var(--od-shadow-hover, 0 8px 24px rgba(0, 0, 0, 0.12));
   padding: 6px;
   z-index: 20;
 }
@@ -199,9 +269,14 @@
   color: var(--od-text, #1f2937);
   border-radius: 6px;
   text-align: left;
+  transition: background 0.15s ease, color 0.15s ease;
 }
-
 .shell-usuario-menu-item:hover {
   background: var(--od-bg-hover, #f3f4f6);
   color: #dc2626;
+}
+
+/* ===== Contenido ===== */
+.shell-contenido {
+  padding: 28px;
 }

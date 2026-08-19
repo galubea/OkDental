@@ -67,7 +67,15 @@ export default function ResumenClinicoTab({ pacienteId }: Props) {
   return (
     <div className="rc-card">
       <div className="rc-header">
-        <h2 className="rc-titulo">Resumen Clínico</h2>
+        <div className="rc-header-info">
+          <span className="rc-header-icono">
+            <FileClock size={20} strokeWidth={2} />
+          </span>
+          <div className="rc-header-texto">
+            <h2 className="rc-titulo">Resumen Clínico</h2>
+            <p className="rc-subtitulo">Historial de evoluciones y notas clínicas del paciente.</p>
+          </div>
+        </div>
         <button className="rc-btn-add" onClick={abrirCrear}>
           <Plus size={16} strokeWidth={2.4} />
           Agregar Registro

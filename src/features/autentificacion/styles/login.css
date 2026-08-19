@@ -1,34 +1,44 @@
 .od-login-page {
-  min-height: 100vh;
+  position: fixed;
+  inset: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: var(--od-bg);
   font-family: "Segoe UI", system-ui, sans-serif;
-  padding: 24px;
+  overflow: hidden;
+
+  background-image:
+    linear-gradient(135deg, rgba(59, 130, 246, 0.35) 0%, rgba(219, 234, 254, 0.55) 55%, rgba(255, 255, 255, 0.7) 100%),
+    var(--od-login-bg);
+  background-size: cover;
+  background-position: center;
 }
 
+/* ===== Card centrada ===== */
 .od-login-card {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   background: var(--od-white);
-  border-radius: var(--od-radius);
-  box-shadow: var(--od-shadow-hover);
-  padding: 40px 36px 36px;
+  border-radius: 20px;
+  padding: 40px 40px 36px;
+  box-shadow: 0 20px 60px rgba(30, 64, 175, 0.15);
 }
 
+/* ===== Marca dentro de la card ===== */
 .od-login-brand {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-bottom: 28px;
+  margin-bottom: 20px;
 }
-
 .od-login-logo {
   width: 44px;
   height: 44px;
   border-radius: var(--od-radius-sm);
-  background: var(--od-primary);
+  background: linear-gradient(135deg, var(--od-primary), #4f9dff);
   color: white;
   font-weight: 700;
   font-size: 15px;
@@ -37,42 +47,244 @@
   justify-content: center;
   flex-shrink: 0;
 }
-
-.od-login-brand h1 { font-size: 18px; font-weight: 700; margin: 0; color: var(--od-text); }
+.od-login-brand h2 { font-size: 18px; font-weight: 700; margin: 0; color: var(--od-text); }
 .od-login-brand p { font-size: 13px; color: var(--od-subtext); margin: 2px 0 0 0; }
 
-.od-login-password-wrap { position: relative; display: flex; align-items: center; }
-.od-login-password-wrap input { width: 100%; padding-right: 68px; }
+/* ===== "Bienvenido de nuevo" ===== */
+.od-login-heading {
+  margin-bottom: 24px;
+}
+.od-login-heading h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+  color: var(--od-text);
+  text-align: center;
+}
+.od-login-heading p {
+  font-size: 13.5px;
+  color: var(--od-subtext);
+  margin: 0;
+  text-align: center;
+}
+
+/* ===== Inputs con ícono (email y password) ===== */
+.od-login-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.od-login-input-wrap svg {
+  position: absolute;
+  left: 14px;
+  color: var(--od-subtext);
+  pointer-events: none;
+  transition: color 0.15s ease;
+}
+.od-login-input-wrap input {
+  width: 100%;
+  padding-left: 42px;
+}
+.od-login-input-wrap:focus-within svg {
+  color: var(--od-primary);
+}
+
+/* Anclado a .od-login-page: antes ".od-field input" era global y podía
+   afectar cualquier input con clase .od-field en OTRAS pantallas (Pacientes,
+   Usuarios, etc.) que compartan ese mismo nombre de clase. */
+.od-login-page .od-field input {
+  height: 46px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+.od-login-page .od-field input:focus {
+  box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.10);
+}
+
+.od-login-password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.od-login-password-wrap input {
+  padding-right: 46px;
+}
 
 .od-login-toggle-eye {
   position: absolute;
-  right: 12px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
   border: none;
   background: transparent;
-  color: var(--od-primary);
-  font-size: 12.5px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 4px 6px;
-}
-.od-login-toggle-eye:hover { color: var(--od-primary-hover); }
-
-.od-login-submit { width: 100%; justify-content: center; margin-top: 12px; }
-
-.od-login-switch {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 13px;
   color: var(--od-subtext);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.od-login-toggle-eye:hover {
+  color: var(--od-primary);
+  background: var(--od-input-bg);
 }
 
-.od-login-link {
-  border: none;
-  background: transparent;
+/* ===== Recordarme / olvidé contraseña =====
+   Anclados a .od-login-page: .od-field-row, .od-checkbox, .od-link-sm y
+   .od-error son nombres genéricos que también existen en Pacientes.css,
+   gestionUsuarios.css, etc. Sin este ancla, la última hoja de estilos
+   cargada gana la cascada y "contamina" el resto de la app. */
+.od-login-page .od-field-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+.od-login-page .od-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--od-text);
+  cursor: pointer;
+  user-select: none;
+}
+.od-login-page .od-checkbox input {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--od-primary);
+  cursor: pointer;
+}
+.od-link-sm {
   color: var(--od-primary);
   font-weight: 600;
-  font-size: 13px;
-  cursor: pointer;
-  padding: 0;
+  text-decoration: none;
 }
-.od-login-link:hover { color: var(--od-primary-hover); }
+.od-link-sm:hover {
+  text-decoration: underline;
+}
+
+/* ===== Botón principal =====
+   Anclado a .od-login-page: Pacientes.css / gestionUsuarios.css ya tienen
+   su propio .od-btn-primary (con gradiente azul->hover y sombra propia).
+   Sin este ancla, cualquiera de los dos podía pisar al otro según el
+   orden de imports. */
+.od-login-page .od-btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--od-primary), #1d4ed8);
+  color: white;
+  border: none;
+  border-radius: var(--od-radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+  transition: filter 0.15s ease, transform 0.05s ease;
+}
+.od-login-page .od-btn-primary:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+.od-login-page .od-btn-primary:active:not(:disabled) {
+  transform: scale(0.99);
+}
+.od-login-page .od-btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.od-login-submit {
+  width: 100%;
+  justify-content: center;
+  margin-top: 22px;
+  height: 46px;
+  font-size: 14.5px;
+}
+
+.od-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: od-spin 0.6s linear infinite;
+}
+@keyframes od-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== Divisor "o" ===== */
+.od-login-page .od-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--od-subtext);
+  font-size: 13px;
+  margin: 20px 0;
+}
+.od-login-page .od-divider::before,
+.od-login-page .od-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #e2e8f0;
+}
+.od-login-page .od-divider span {
+  padding: 0 12px;
+}
+
+/* ===== Botón secundario =====
+   Anclado a .od-login-page: este era el causante confirmado del bug del
+   botón "Buscar" en PacienteLista — .od-btn-secondary (width:100%, borde
+   #dbeafe, texto azul) le ganaba por orden de carga al .od-btn-secondary
+   de Pacientes.css (padding fijo, texto gris). */
+.od-login-page .od-btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 46px;
+  border: 1px solid #dbeafe;
+  border-radius: var(--od-radius-sm);
+  background: #fff;
+  color: var(--od-primary);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.od-login-page .od-btn-secondary:hover {
+  background: #eff6ff;
+}
+
+/* ===== Errores ===== */
+.od-login-page .od-error {
+  color: #dc2626;
+  font-size: 12.5px;
+  margin-top: 4px;
+}
+
+/* ===== Footer de ayuda ===== */
+.od-login-footer-note {
+  position: relative;
+  z-index: 1;
+  margin-top: 28px;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--od-text);
+}
+.od-login-footer-note a {
+  color: var(--od-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* ===== Responsive: en pantallas chicas, card ocupa casi todo el ancho ===== */
+@media (max-width: 480px) {
+  .od-login-card {
+    max-width: 92%;
+    padding: 32px 24px 28px;
+  }
+}
