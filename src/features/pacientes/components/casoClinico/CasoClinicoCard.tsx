@@ -45,21 +45,23 @@ export default function CasoClinicoCard({ caso, onClick }: CasoClinicoCardProps)
       <div className="cc-card-meta">
         <div className="cc-meta-izq">
           <span className="cc-pill-especialidad">{caso.especialidad}</span>
-          <span className="cc-doctor">{caso.doctor}</span>
+          <span className="cc-doctor">{caso.doctorNombre}</span>
         </div>
         <span className={`cc-severidad ${SEVERIDAD_CLASS[caso.severidad]}`}>
           {SEVERIDAD_LABEL[caso.severidad]}
         </span>
       </div>
 
-      <div className="cc-piezas">
-        {piezasVisibles.map((pieza) => (
-          <span key={pieza} className="cc-pieza-chip">
-            {pieza}
-          </span>
-        ))}
-        {piezasRestantes > 0 && <span className="cc-piezas-mas">+{piezasRestantes} más</span>}
-      </div>
+      {caso.piezas.length > 0 && (
+        <div className="cc-piezas">
+          {piezasVisibles.map((pieza) => (
+            <span key={pieza} className="cc-pieza-chip">
+              {pieza}
+            </span>
+          ))}
+          {piezasRestantes > 0 && <span className="cc-piezas-mas">+{piezasRestantes} más</span>}
+        </div>
+      )}
 
       <div className="cc-progreso-row">
         <div className="cc-progreso-track">

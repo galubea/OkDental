@@ -115,7 +115,7 @@ export default function PacienteDetalle({ pacienteId, onVolver }: Props) {
       {tab === "citas" && <CitasTab pacienteId={pacienteId} pacienteNombre={paciente.nombre} />}
       {tab === "odontograma" && <OdontogramaTab pacienteId={pacienteId} />}
       {tab === "fotos" && <FotosTab pacienteId={pacienteId} />}
-      {tab === "casos" && <CasosClinicosTab paciente={paciente} />}
+      {tab === "casos" && <CasosClinicosTab pacienteId={paciente.id} />}
 
       {toast && (
         <Toast

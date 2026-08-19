@@ -108,6 +108,12 @@
   font-size: 13.5px;
   font-weight: 700;
   cursor: pointer;
+  box-shadow: 0 2px 8px rgba(26, 115, 232, 0.28);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.cc-btn-nuevo:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(26, 115, 232, 0.34);
 }
 
 /* ---------- Grid de tarjetas (una por fila) ---------- */
@@ -242,14 +248,14 @@
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  border: 1.5px solid var(--od-border);
+  border: 1.5px solid color-mix(in srgb, var(--sec-color, var(--od-primary)) 32%, var(--od-border));
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 12.5px;
   font-weight: 700;
-  color: var(--od-text);
-  background: var(--od-white);
+  color: var(--sec-color, var(--od-primary));
+  background: color-mix(in srgb, var(--sec-color, var(--od-primary)) 10%, var(--od-white));
   flex-shrink: 0;
 }
 
@@ -452,6 +458,15 @@
   font-weight: 700;
   font-size: 13.5px;
   cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.cc-btn-primario:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(26, 115, 232, 0.25);
+}
+.cc-btn-primario:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 /* ---------- Header del panel (ícono + título + descripción) ---------- */
@@ -539,6 +554,21 @@
   color: var(--od-text);
 }
 
+/* Ícono a color junto al título del detalle, según el estado del caso */
+.ccd-icono {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.ccd-icono--activo { background: #d1fae5; color: #10b981; }
+.ccd-icono--en_tratamiento { background: #e8f0fe; color: var(--od-primary); }
+.ccd-icono--resuelto { background: var(--od-input-bg, #f5f6f8); color: var(--od-subtext); }
+
 .ccd-header-texto h2 {
   margin: 0;
   font-size: 19px;
@@ -567,6 +597,83 @@
   align-items: flex-end;
   gap: 10px;
   flex-shrink: 0;
+}
+
+/* ---------- Fila de estadísticas rápidas del caso ---------- */
+.ccd-stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.ccd-stat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--od-white);
+  border: 1px solid var(--od-border);
+  border-radius: var(--od-radius-sm);
+  padding: 14px 16px;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+.ccd-stat:hover {
+  box-shadow: 0 4px 14px rgba(16, 24, 40, 0.06);
+  transform: translateY(-1px);
+}
+
+.ccd-stat-icono {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.ccd-stat-icono--piezas { background: #e8f0fe; color: var(--od-primary); }
+.ccd-stat-icono--tratamientos { background: #f3e8fd; color: #8b5cf6; }
+.ccd-stat-icono--citas { background: #fef6e7; color: #b7791f; }
+
+.ccd-stat-ring {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.ccd-stat-ring-inner {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--od-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--od-primary);
+}
+
+.ccd-stat-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+.ccd-stat-valor {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--od-text);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.ccd-stat-label {
+  font-size: 11.5px;
+  color: var(--od-subtext);
+  font-weight: 600;
 }
 
 /* Tabs internos del detalle (mismo estilo que .cc-tabs) */
@@ -601,6 +708,13 @@
   box-shadow: var(--od-shadow);
 }
 
+/* Contenedor de la pestaña activa del detalle */
+.ccd-tab-panel {
+  background: var(--od-white);
+  border: 1px solid var(--od-border);
+  border-radius: var(--od-radius);
+  padding: 28px 32px;
+}
 /* ---------- Diagnóstico ---------- */
 .ccd-diagnostico-textarea {
   width: 100%;
@@ -643,18 +757,18 @@
   height: 34px;
   padding: 0 10px 0 14px;
   border-radius: 999px;
-  border: 1.5px solid var(--od-border);
-  background: var(--od-white);
+  border: 1.5px solid #cfe0fb;
+  background: #eaf1fd;
   font-size: 12.5px;
   font-weight: 700;
-  color: var(--od-text);
+  color: var(--od-primary);
 }
 .ccd-pieza-chip-x button {
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
-  background: var(--od-input-bg, #f5f6f8);
+  background: var(--od-white);
   color: var(--od-subtext);
   border-radius: 50%;
   width: 18px;
@@ -695,7 +809,7 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  background: var(--od-input-bg, #f5f6f8);
+  background: linear-gradient(135deg, #eaf1fd, #f3e8fd);
   border-radius: var(--od-radius-sm);
   padding: 14px 18px;
   margin-bottom: 18px;
@@ -712,7 +826,7 @@
   flex: 1;
   height: 8px;
   border-radius: 999px;
-  background: var(--od-border);
+  background: rgba(255, 255, 255, 0.7);
   overflow: hidden;
 }
 .ccd-plan-resumen-fill {
@@ -755,8 +869,8 @@
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 .ccd-paso-check.is-checked {
-  background: var(--od-primary);
-  border-color: var(--od-primary);
+  background: #10b981;
+  border-color: #10b981;
   color: #fff;
 }
 
@@ -797,7 +911,7 @@
   flex: 1;
 }
 
-/* ---------- Evolución / Observaciones (timeline) ---------- */
+/* ---------- Evolución / Observaciones / Citas (timeline) ---------- */
 .ccd-timeline {
   display: flex;
   flex-direction: column;
@@ -822,6 +936,20 @@
   background: var(--od-primary);
   flex-shrink: 0;
   margin-top: 6px;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--od-primary) 18%, transparent);
+}
+/* Variantes de color por tipo de registro, para diferenciar de un vistazo */
+.ccd-timeline-punto--evolucion {
+  background: var(--od-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--od-primary) 18%, transparent);
+}
+.ccd-timeline-punto--observacion {
+  background: #b7791f;
+  box-shadow: 0 0 0 3px rgba(183, 121, 31, 0.18);
+}
+.ccd-timeline-punto--cita {
+  background: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18);
 }
 
 .ccd-timeline-linea {
@@ -895,6 +1023,10 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.2s ease;
+}
+.ccd-evidencia-card:hover img {
+  transform: scale(1.04);
 }
 
 .ccd-evidencia-etiqueta {

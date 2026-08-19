@@ -1,31 +1,47 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import type { CasoClinico } from "../../../types/casoClinico";
 
 interface Props {
   caso: CasoClinico;
-  onUpdate: (caso: CasoClinico) => void;
+  onGuardar: (casoId: string, diagnostico: string, piezas: number[]) => Promise<void>;
 }
 
-export default function DetalleDiagnostico({ caso, onUpdate }: Props) {
+export default function DetalleDiagnostico({ caso, onGuardar }: Props) {
   const [diagnostico, setDiagnostico] = useState(caso.diagnostico);
   const [piezas, setPiezas] = useState<number[]>(caso.piezas);
   const [nuevaPieza, setNuevaPieza] = useState("");
+  const [guardando, setGuardando] = useState(false);
+  const [huboCambios, setHuboCambios] = useState(false);
+
+  useEffect(() => {
+    setDiagnostico(caso.diagnostico);
+    setPiezas(caso.piezas);
+    setHuboCambios(false);
+  }, [caso.id]);
 
   const agregarPieza = () => {
     const n = Number(nuevaPieza.trim());
     if (!Number.isNaN(n) && n > 0 && !piezas.includes(n)) {
       setPiezas((prev) => [...prev, n].sort((a, b) => a - b));
+      setHuboCambios(true);
     }
     setNuevaPieza("");
   };
 
   const quitarPieza = (pieza: number) => {
     setPiezas((prev) => prev.filter((p) => p !== pieza));
+    setHuboCambios(true);
   };
 
-  const guardar = () => {
-    onUpdate({ ...caso, diagnostico, piezas });
+  const guardar = async () => {
+    setGuardando(true);
+    try {
+      await onGuardar(caso.id, diagnostico, piezas);
+      setHuboCambios(false);
+    } finally {
+      setGuardando(false);
+    }
   };
 
   return (
@@ -37,7 +53,10 @@ export default function DetalleDiagnostico({ caso, onUpdate }: Props) {
         className="ccd-diagnostico-textarea"
         placeholder="Describe el diagnóstico del caso..."
         value={diagnostico}
-        onChange={(e) => setDiagnostico(e.target.value)}
+        onChange={(e) => {
+          setDiagnostico(e.target.value);
+          setHuboCambios(true);
+        }}
       />
 
       <p className="ccd-seccion-titulo">Piezas dentales afectadas</p>
@@ -63,8 +82,8 @@ export default function DetalleDiagnostico({ caso, onUpdate }: Props) {
       </div>
 
       <div className="ccd-form-footer">
-        <button className="cc-btn-primario" type="button" onClick={guardar}>
-          Guardar diagnóstico
+        <button className="cc-btn-primario" type="button" onClick={guardar} disabled={guardando || !huboCambios}>
+          {guardando ? "Guardando..." : "Guardar diagnóstico"}
         </button>
       </div>
     </div>

@@ -186,7 +186,66 @@ pub fn init_db(app: &AppHandle) -> Connection {
             ('cat-estetica',       'Estética'),
             ('cat-prevencion',     'Prevención'),
             ('cat-protesis',       'Prótesis');
-        ",
+        
+        CREATE TABLE IF NOT EXISTS caso_clinico (
+            id              TEXT PRIMARY KEY,
+            paciente_id     INTEGER NOT NULL,
+            doctor_id       INTEGER,
+            titulo          TEXT NOT NULL,
+            descripcion     TEXT NOT NULL DEFAULT '',
+            especialidad    TEXT NOT NULL DEFAULT '',
+            estado          TEXT NOT NULL DEFAULT 'activo',
+            severidad       TEXT NOT NULL DEFAULT 'medio',
+            diagnostico     TEXT NOT NULL DEFAULT '',
+            piezas          TEXT NOT NULL DEFAULT '[]',
+            fecha_objetivo  TEXT,
+            creado_en       TEXT NOT NULL DEFAULT (datetime('now')),
+            FOREIGN KEY (paciente_id) REFERENCES paciente(id) ON DELETE CASCADE,
+            FOREIGN KEY (doctor_id) REFERENCES doctor(id)
+        );
+
+        CREATE TABLE IF NOT EXISTS caso_plan_paso (
+            id                TEXT PRIMARY KEY,
+            caso_id           TEXT NOT NULL,
+            catalogo_trat_id  TEXT,
+            descripcion       TEXT NOT NULL,
+            diente            TEXT,
+            precio            REAL,
+            completado        INTEGER NOT NULL DEFAULT 0,
+            orden             INTEGER NOT NULL DEFAULT 0,
+            creado_en         TEXT NOT NULL DEFAULT (datetime('now')),
+            FOREIGN KEY (caso_id) REFERENCES caso_clinico(id) ON DELETE CASCADE,
+            FOREIGN KEY (catalogo_trat_id) REFERENCES catalogo_tratamiento(id)
+        );
+
+        CREATE TABLE IF NOT EXISTS caso_evolucion (
+            id          TEXT PRIMARY KEY,
+            caso_id     TEXT NOT NULL,
+            fecha       TEXT NOT NULL,
+            titulo      TEXT NOT NULL,
+            descripcion TEXT NOT NULL DEFAULT '',
+            creado_en   TEXT NOT NULL DEFAULT (datetime('now')),
+            FOREIGN KEY (caso_id) REFERENCES caso_clinico(id) ON DELETE CASCADE
+        );
+
+        CREATE TABLE IF NOT EXISTS caso_observacion (
+            id        TEXT PRIMARY KEY,
+            caso_id   TEXT NOT NULL,
+            fecha     TEXT NOT NULL,
+            texto     TEXT NOT NULL,
+            creado_en TEXT NOT NULL DEFAULT (datetime('now')),
+            FOREIGN KEY (caso_id) REFERENCES caso_clinico(id) ON DELETE CASCADE
+        );
+
+        CREATE TABLE IF NOT EXISTS caso_evidencia (
+            id        TEXT PRIMARY KEY,
+            caso_id   TEXT NOT NULL,
+            ruta      TEXT NOT NULL,
+            etiqueta  TEXT NOT NULL DEFAULT '',
+            fecha     TEXT NOT NULL,
+            FOREIGN KEY (caso_id) REFERENCES caso_clinico(id) ON DELETE CASCADE
+        );",
+
     )
     .expect("no se pudo inicializar el esquema");
     let _ = conn.execute("ALTER TABLE doctor ADD COLUMN rol TEXT NOT NULL DEFAULT 'doctor'", []);

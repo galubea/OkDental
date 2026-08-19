@@ -1,9 +1,9 @@
 import { useState } from "react";
-import type { CasoClinico, EntradaObservacion } from "../../../types/casoClinico";
+import type { CasoClinico } from "../../../types/casoClinico";
 
 interface Props {
   caso: CasoClinico;
-  onUpdate: (caso: CasoClinico) => void;
+  onAgregar: (casoId: string, texto: string) => Promise<void>;
 }
 
 function formatFecha(iso: string): string {
@@ -11,23 +11,22 @@ function formatFecha(iso: string): string {
   return d.toLocaleDateString("es-BO", { day: "2-digit", month: "short", year: "numeric" }).toUpperCase();
 }
 
-export default function DetalleObservaciones({ caso, onUpdate }: Props) {
+export default function DetalleObservaciones({ caso, onAgregar }: Props) {
   const [texto, setTexto] = useState("");
   const entradas = caso.observaciones;
 
-  const agregar = () => {
+  const agregar = async () => {
     if (!texto.trim()) return;
-    const nueva: EntradaObservacion = {
-      id: `obs_${Date.now()}`,
-      fecha: new Date().toISOString().slice(0, 10),
-      texto: texto.trim(),
-    };
-    onUpdate({ ...caso, observaciones: [nueva, ...entradas] });
+    await onAgregar(caso.id, texto.trim());
     setTexto("");
   };
 
   return (
     <div>
+      <p className="ccd-seccion-titulo" style={{ marginTop: 0 }}>
+        Observaciones
+      </p>
+
       <div className="ccd-nuevo-registro" style={{ marginBottom: 24 }}>
         <div className="cc-form-grupo" style={{ marginBottom: 10 }}>
           <textarea
@@ -51,7 +50,7 @@ export default function DetalleObservaciones({ caso, onUpdate }: Props) {
           {entradas.map((entrada, i) => (
             <div className="ccd-timeline-item" key={entrada.id}>
               <div className="ccd-timeline-punto-col">
-                <div className="ccd-timeline-punto" />
+                <div className="ccd-timeline-punto ccd-timeline-punto--observacion" />
                 {i < entradas.length - 1 && <div className="ccd-timeline-linea" />}
               </div>
               <div className="ccd-timeline-contenido">

@@ -1,39 +1,36 @@
 import { useRef } from "react";
 import { Plus, Trash2 } from "lucide-react";
-import type { CasoClinico, Evidencia } from "../../../types/casoClinico";
+import type { CasoClinico } from "../../../types/casoClinico";
 
 interface Props {
   caso: CasoClinico;
-  onUpdate: (caso: CasoClinico) => void;
+  onAgregar: (casoId: string, ruta: string, etiqueta: string) => Promise<void>;
+  onBorrar: (casoId: string, evidenciaId: string) => Promise<void>;
 }
 
-export default function DetalleEvidencias({ caso, onUpdate }: Props) {
+export default function DetalleEvidencias({ caso, onAgregar, onBorrar }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const evidencias = caso.evidencias;
 
-  const handleArchivos = (files: FileList | null) => {
+  const handleArchivos = async (files: FileList | null) => {
     if (!files || files.length === 0) return;
-    const nuevas: Evidencia[] = Array.from(files).map((file) => ({
-      id: `ev_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
-      url: URL.createObjectURL(file),
-      etiqueta: file.name,
-      fecha: new Date().toISOString().slice(0, 10),
-    }));
-    onUpdate({ ...caso, evidencias: [...nuevas, ...evidencias] });
-  };
-
-  const borrar = (id: string) => {
-    onUpdate({ ...caso, evidencias: evidencias.filter((e) => e.id !== id) });
+    // NOTA: esto guarda una URL de objeto local (solo dura la sesión).
+    // Para persistir el archivo en disco entre reinicios de la app, hay que
+    // copiarlo con el plugin `@tauri-apps/plugin-fs` a app_data_dir y guardar
+    // esa ruta absoluta aquí en vez del blob URL.
+    for (const file of Array.from(files)) {
+      const url = URL.createObjectURL(file);
+      await onAgregar(caso.id, url, file.name);
+    }
   };
 
   return (
     <div>
+      <p className="ccd-seccion-titulo" style={{ marginTop: 0 }}>
+        Evidencias
+      </p>
       <div className="ccd-evidencias-grid">
-        <button
-          type="button"
-          className="ccd-evidencia-subir"
-          onClick={() => inputRef.current?.click()}
-        >
+        <button type="button" className="ccd-evidencia-subir" onClick={() => inputRef.current?.click()}>
           <Plus size={20} />
           Subir foto
         </button>
@@ -53,7 +50,7 @@ export default function DetalleEvidencias({ caso, onUpdate }: Props) {
             <button
               type="button"
               className="ccd-evidencia-borrar"
-              onClick={() => borrar(ev.id)}
+              onClick={() => onBorrar(caso.id, ev.id)}
               aria-label="Eliminar evidencia"
             >
               <Trash2 size={13} />

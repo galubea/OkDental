@@ -31,6 +31,10 @@ mod gestion_usuarios {
     pub mod commands;
     pub mod models;
 }
+mod caso_clinico {
+    pub mod commands;
+    pub mod models;
+}
 use db::{init_db, DbConnection};
 use std::sync::Mutex;
 use tauri::Manager;
@@ -86,6 +90,17 @@ fn main() {
             gestion_usuarios::commands::cambiar_estado_usuario,
             gestion_usuarios::commands::regenerar_password_usuario,
             gestion_usuarios::commands::sugerir_username,
+            caso_clinico::commands::listar_casos_clinicos,
+            caso_clinico::commands::crear_caso_clinico,
+            caso_clinico::commands::actualizar_estado_caso,
+            caso_clinico::commands::actualizar_diagnostico_caso,
+            caso_clinico::commands::agregar_paso_plan_caso,
+            caso_clinico::commands::toggle_paso_plan_caso,
+            caso_clinico::commands::eliminar_paso_plan_caso,
+            caso_clinico::commands::agregar_evolucion_caso,
+            caso_clinico::commands::agregar_observacion_caso,
+            caso_clinico::commands::agregar_evidencia_caso,
+            caso_clinico::commands::eliminar_evidencia_caso,
         ])
         .run(tauri::generate_context!())
         .expect("error al iniciar la aplicación");

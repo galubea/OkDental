@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { X } from "lucide-react";
-import type { CasoClinico, Severidad } from "../../types/casoClinico";
+import type { NuevoCasoInput, Severidad } from "../../types/casoClinico";
+import type { DoctorResumen } from "../../types/citas";
 
 interface FormState {
   titulo: string;
   descripcion: string;
   especialidad: string;
-  doctor: string;
+  doctorId: string;
   severidad: Severidad;
 }
 
@@ -14,16 +15,18 @@ const initialForm: FormState = {
   titulo: "",
   descripcion: "",
   especialidad: "",
-  doctor: "",
+  doctorId: "",
   severidad: "medio",
 };
 
 interface CasoClinicoFormModalProps {
+  doctores: DoctorResumen[];
+  guardando: boolean;
   onClose: () => void;
-  onCreate: (caso: CasoClinico) => void;
+  onCreate: (input: NuevoCasoInput) => void;
 }
 
-export default function CasoClinicoFormModal({ onClose, onCreate }: CasoClinicoFormModalProps) {
+export default function CasoClinicoFormModal({ doctores, guardando, onClose, onCreate }: CasoClinicoFormModalProps) {
   const [form, setForm] = useState<FormState>(initialForm);
   const [error, setError] = useState("");
 
@@ -36,21 +39,13 @@ export default function CasoClinicoFormModal({ onClose, onCreate }: CasoClinicoF
       return;
     }
 
-    const nuevoCaso: CasoClinico = {
-      id: `caso_${Date.now()}`,
+    onCreate({
       titulo: form.titulo.trim(),
       descripcion: form.descripcion.trim(),
-      especialidad: form.especialidad.trim() || "Odontología General",
-      doctor: form.doctor.trim() || "Sin asignar",
+      especialidad: form.especialidad.trim(),
+      doctorId: form.doctorId ? Number(form.doctorId) : null,
       severidad: form.severidad,
-      piezas: [],
-      progreso: 0,
-      estado: "activo",
-      fechaObjetivo: null,
-      fechaCreacion: new Date().toISOString().slice(0, 10),
-    };
-
-    onCreate(nuevoCaso);
+    });
   };
 
   return (
@@ -96,14 +91,20 @@ export default function CasoClinicoFormModal({ onClose, onCreate }: CasoClinicoF
             />
           </div>
           <div className="cc-form-grupo">
-            <label>Doctor / responsable</label>
-            <input
-              className="cc-form-input"
-              type="text"
-              placeholder="Dra. Ana López Ruiz"
-              value={form.doctor}
-              onChange={(e) => setField("doctor", e.target.value)}
-            />
+            <label>Doctor responsable</label>
+            <select
+              className="cc-form-select"
+              value={form.doctorId}
+              onChange={(e) => setField("doctorId", e.target.value)}
+            >
+              <option value="">Sin asignar</option>
+              {doctores.map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.nombreCompleto}
+                  {d.especialidad ? ` · ${d.especialidad}` : ""}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
@@ -130,8 +131,8 @@ export default function CasoClinicoFormModal({ onClose, onCreate }: CasoClinicoF
           <button className="cc-btn-secundario" onClick={onClose} type="button">
             Cancelar
           </button>
-          <button className="cc-btn-primario" onClick={handleSubmit} type="button">
-            Crear caso clínico
+          <button className="cc-btn-primario" onClick={handleSubmit} type="button" disabled={guardando}>
+            {guardando ? "Creando..." : "Crear caso clínico"}
           </button>
         </div>
       </div>

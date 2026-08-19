@@ -3,20 +3,23 @@ export type Severidad = "bajo" | "medio" | "alto";
 
 export interface PasoTratamiento {
   id: string;
+  catalogoTratId: string | null;
   descripcion: string;
+  diente: string | null;
+  precio: number | null;
   completado: boolean;
 }
 
 export interface EntradaEvolucion {
   id: string;
-  fecha: string; // ISO date (YYYY-MM-DD)
+  fecha: string;
   titulo: string;
   descripcion: string;
 }
 
 export interface EntradaObservacion {
   id: string;
-  fecha: string; // ISO date (YYYY-MM-DD)
+  fecha: string;
   texto: string;
 }
 
@@ -24,27 +27,55 @@ export interface Evidencia {
   id: string;
   url: string;
   etiqueta: string;
-  fecha: string; // ISO date (YYYY-MM-DD)
+  fecha: string;
+}
+
+export interface CitaResumenCaso {
+  id: string;
+  fecha: string;
+  hora: string;
+  estado: "programada" | "atendida" | "cancelada";
+  motivo: string;
+  doctorNombre: string;
+  total: number;
+  pagado: number;
 }
 
 export interface CasoClinico {
   id: string;
+  pacienteId: number;
+  doctorId: number | null;
+  doctorNombre: string;
   titulo: string;
   descripcion: string;
   especialidad: string;
-  doctor: string;
   estado: EstadoCaso;
   severidad: Severidad;
+  diagnostico: string;
   piezas: number[];
-  /** 0–100, calculado a partir de planTratamiento cuando tiene pasos */
   progreso: number;
   fechaObjetivo: string | null;
   fechaCreacion: string;
-  diagnostico: string;
   planTratamiento: PasoTratamiento[];
   evolucion: EntradaEvolucion[];
   observaciones: EntradaObservacion[];
   evidencias: Evidencia[];
+  citas: CitaResumenCaso[];
+}
+
+export interface NuevoCasoInput {
+  titulo: string;
+  descripcion: string;
+  especialidad: string;
+  doctorId: number | null;
+  severidad: Severidad;
+}
+
+export interface NuevoPasoInput {
+  descripcion: string;
+  diente?: string;
+  catalogoTratId?: string;
+  precio?: number;
 }
 
 export interface TabDefinicion {

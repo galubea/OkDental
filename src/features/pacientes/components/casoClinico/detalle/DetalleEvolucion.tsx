@@ -1,9 +1,9 @@
 import { useState } from "react";
-import type { CasoClinico, EntradaEvolucion } from "../../../types/casoClinico";
+import type { CasoClinico } from "../../../types/casoClinico";
 
 interface Props {
   caso: CasoClinico;
-  onUpdate: (caso: CasoClinico) => void;
+  onAgregar: (casoId: string, titulo: string, descripcion: string) => Promise<void>;
 }
 
 function formatFecha(iso: string): string {
@@ -11,26 +11,24 @@ function formatFecha(iso: string): string {
   return d.toLocaleDateString("es-BO", { day: "2-digit", month: "short", year: "numeric" }).toUpperCase();
 }
 
-export default function DetalleEvolucion({ caso, onUpdate }: Props) {
+export default function DetalleEvolucion({ caso, onAgregar }: Props) {
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const entradas = caso.evolucion;
 
-  const agregar = () => {
+  const agregar = async () => {
     if (!titulo.trim()) return;
-    const nueva: EntradaEvolucion = {
-      id: `evo_${Date.now()}`,
-      fecha: new Date().toISOString().slice(0, 10),
-      titulo: titulo.trim(),
-      descripcion: descripcion.trim(),
-    };
-    onUpdate({ ...caso, evolucion: [nueva, ...entradas] });
+    await onAgregar(caso.id, titulo.trim(), descripcion.trim());
     setTitulo("");
     setDescripcion("");
   };
 
   return (
     <div>
+      <p className="ccd-seccion-titulo" style={{ marginTop: 0 }}>
+        Evolución
+      </p>
+
       <div className="ccd-nuevo-registro" style={{ marginBottom: 24 }}>
         <div className="cc-form-grupo" style={{ marginBottom: 10 }}>
           <input
@@ -63,7 +61,7 @@ export default function DetalleEvolucion({ caso, onUpdate }: Props) {
           {entradas.map((entrada, i) => (
             <div className="ccd-timeline-item" key={entrada.id}>
               <div className="ccd-timeline-punto-col">
-                <div className="ccd-timeline-punto" />
+                <div className="ccd-timeline-punto ccd-timeline-punto--evolucion" />
                 {i < entradas.length - 1 && <div className="ccd-timeline-linea" />}
               </div>
               <div className="ccd-timeline-contenido">
